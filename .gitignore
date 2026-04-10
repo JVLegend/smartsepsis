@@ -15,6 +15,9 @@ guides/
 primers/
 reports/
 
+# NCBI dataset zips
+*.zip
+
 # OS
 .DS_Store
 Thumbs.db
