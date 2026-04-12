@@ -1,38 +1,58 @@
 """
-Configuração central do pipeline de diagnóstico CRISPR-Cas12a paper-based.
-Hackathon: Detecção de resíduos fecais hospitalares.
+Configuracao central do pipeline SmartLab BacEnd.
+CRISPR-Cas12a paper-based diagnostic - IA para Medicos.
+Suporta N alvos via targets_brazil.csv.
 """
 
 import os
+import csv
 
-# === Diretórios ===
+# === Diretorios ===
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SEQUENCES_DIR = os.path.join(BASE_DIR, "sequences")
 GUIDES_DIR = os.path.join(BASE_DIR, "guides")
 PRIMERS_DIR = os.path.join(BASE_DIR, "primers")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
+TARGETS_CSV = os.path.join(BASE_DIR, "targets_brazil.csv")
+TRACKING_CSV = os.path.join(BASE_DIR, "reports", "tracking_status.csv")
 
-# === Alvos do painel ===
-TARGETS = {
-    "mecA": {
-        "name": "mecA",
-        "description": "Ceftaroline-resistant PBP2a peptidoglycan transpeptidase",
-        "organism": "Staphylococcus aureus",
-        "protein_accession": "WP_057521704.1",
-        "gene_accession": "NG_047945.1",
-        "pathogen": "MRSA",
-        "clinical_relevance": "Methicillin-resistant S. aureus - major HAI pathogen",
-    },
-    "blaKPC": {
-        "name": "blaKPC",
-        "description": "KPC family class A beta-lactamase",
-        "organism": "Acinetobacter baumannii",
-        "protein_accession": "WP_063860633.1",
-        "gene_accession": "NG_049243.1",
-        "pathogen": "CRE/CRAB",
-        "clinical_relevance": "Carbapenem-resistant - WHO critical priority",
-    },
-}
+
+# === Alvos do painel (carregados do CSV) ===
+def load_targets(csv_path: str = None, priority_filter: list = None) -> dict:
+    """Carrega alvos do CSV. Opcionalmente filtra por prioridade (P1, P2, P3)."""
+    path = csv_path or TARGETS_CSV
+    if not os.path.exists(path):
+        print(f"AVISO: {path} nao encontrado. Usando alvos padrao (mecA + blaKPC).")
+        return {
+            "mecA": {
+                "name": "mecA",
+                "organism": "Staphylococcus aureus",
+                "gene_accession": "NG_047945.1",
+                "pathogen": "MRSA",
+                "clinical_relevance": "Methicillin-resistant S. aureus - major HAI pathogen",
+                "priority": "P1",
+            },
+            "blaKPC": {
+                "name": "blaKPC",
+                "organism": "Klebsiella pneumoniae",
+                "gene_accession": "NG_049243.1",
+                "pathogen": "CRE",
+                "clinical_relevance": "Carbapenem-resistant - WHO critical priority",
+                "priority": "P1",
+            },
+        }
+
+    targets = {}
+    with open(path) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if priority_filter and row.get("priority", "") not in priority_filter:
+                continue
+            targets[row["name"]] = {k: v for k, v in row.items()}
+    return targets
+
+
+TARGETS = load_targets()
 
 # === Parâmetros Cas12a (LbCas12a / AsCas12a) ===
 CAS12A = {

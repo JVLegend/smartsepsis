@@ -1,0 +1,13 @@
+name,organism,gene_accession,pathogen,clinical_relevance,priority
+mecA,Staphylococcus aureus,NG_047945.1,MRSA,Resistencia a meticilina - principal HAI em UTIs brasileiras,P1
+blaKPC,Klebsiella pneumoniae,NG_049243.1,CRE,Carbapenemase KPC - 77% A. baumannii resistente em UTIs BR,P1
+blaNDM,Enterobacteriaceae,NG_049226.1,NDM,Metalo-beta-lactamase NDM - crescente desde 2012 no Brasil,P2
+vanA,Enterococcus faecium,NG_048300.1,VRE,Resistencia a vancomicina - surtos recorrentes em UTIs,P2
+mcr-1,Escherichia coli,NG_051170.1,Colistina-R,Resistencia a colistina mediada por plasmideo - emergente,P2
+blaCTX-M-15,Escherichia coli,NG_048935.1,ESBL,Beta-lactamase de espectro estendido - muito comum no Brasil,P2
+blaOXA-48,Klebsiella pneumoniae,NG_049609.1,OXA-48,Carbapenemase classe D - casos importados crescentes,P3
+blaVIM,Pseudomonas aeruginosa,NG_049113.1,MBL-VIM,Metalo-beta-lactamase VIM - esporadico em P. aeruginosa,P3
+blaIMP,Pseudomonas aeruginosa,NG_049165.1,MBL-IMP,Metalo-beta-lactamase IMP - esporadico,P3
+blaGES,Pseudomonas aeruginosa,NG_049095.1,GES,Carbapenemase GES - raro mas emergente,P3
+qnrS,Enterobacteriaceae,NG_048103.1,Fluoroquinolona-R,Resistencia a fluoroquinolonas mediada por plasmideo,P3
+armA,Enterobacteriaceae,NG_047955.1,Aminoglicosideo-R,16S rRNA metiltransferase - frequentemente co-localizado com NDM,P3

@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BacEnd - IA Agentica + CRISPR de Papel</title>
+    <title>SmartLab BacEnd - IA para Medicos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0f766e;
-            --primary-light: #14b8a6;
-            --primary-bg: #f0fdfa;
-            --accent: #f59e0b;
-            --accent-bg: #fffbeb;
+            --primary: #1E3A8A;
+            --primary-light: #3B82F6;
+            --secondary: #059669;
+            --secondary-light: #10B981;
+            --accent: #D97706;
+            --accent-light: #F59E0B;
             --bg: #ffffff;
             --bg-card: #f8fafc;
             --bg-section: #f1f5f9;
@@ -22,607 +23,368 @@
             --success: #16a34a;
             --success-bg: #f0fdf4;
             --danger: #dc2626;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            --radius: 12px;
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
 
-        /* BACTERIAS FLUTUANTES */
-        .bacteria-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden;
-        }
-        .bacteria {
-            position: absolute; opacity: 0.06; font-size: 2rem;
-            animation: float linear infinite;
-        }
-        .bacteria:nth-child(1) { left: 5%; animation-duration: 18s; animation-delay: 0s; font-size: 1.8rem; }
-        .bacteria:nth-child(2) { left: 15%; animation-duration: 22s; animation-delay: -3s; font-size: 2.5rem; }
-        .bacteria:nth-child(3) { left: 28%; animation-duration: 16s; animation-delay: -7s; font-size: 1.5rem; }
-        .bacteria:nth-child(4) { left: 42%; animation-duration: 25s; animation-delay: -2s; font-size: 2rem; }
-        .bacteria:nth-child(5) { left: 55%; animation-duration: 19s; animation-delay: -5s; font-size: 2.8rem; }
-        .bacteria:nth-child(6) { left: 68%; animation-duration: 21s; animation-delay: -9s; font-size: 1.6rem; }
-        .bacteria:nth-child(7) { left: 78%; animation-duration: 17s; animation-delay: -1s; font-size: 2.2rem; }
-        .bacteria:nth-child(8) { left: 88%; animation-duration: 23s; animation-delay: -6s; font-size: 1.9rem; }
-        .bacteria:nth-child(9) { left: 35%; animation-duration: 20s; animation-delay: -11s; font-size: 2.1rem; }
-        .bacteria:nth-child(10) { left: 92%; animation-duration: 15s; animation-delay: -4s; font-size: 1.7rem; }
-
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg) scale(1); }
-            25% { transform: translateY(75vh) rotate(90deg) scale(1.1); }
-            50% { transform: translateY(40vh) rotate(180deg) scale(0.9); }
-            75% { transform: translateY(10vh) rotate(270deg) scale(1.05); }
-            100% { transform: translateY(-10vh) rotate(360deg) scale(1); }
-        }
-
-        /* FADE IN ANIMATIONS */
-        .fade-in {
-            opacity: 0; transform: translateY(30px);
-            animation: fadeInUp 0.7s ease forwards;
-        }
-        .fade-in-delay-1 { animation-delay: 0.15s; }
-        .fade-in-delay-2 { animation-delay: 0.3s; }
-        .fade-in-delay-3 { animation-delay: 0.45s; }
-        .fade-in-delay-4 { animation-delay: 0.6s; }
-
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* SCROLL REVEAL */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        /* NAV */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 100;
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
-            padding: 0.8rem 2rem;
+            padding: 0.7rem 2rem;
             display: flex; justify-content: space-between; align-items: center;
         }
-        nav .logo { font-weight: 800; font-size: 1.1rem; color: var(--primary); }
-        nav .nav-links { display: flex; gap: 1.5rem; }
-        nav .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+        nav .logo { font-weight: 800; font-size: 1rem; color: var(--primary); }
+        nav .logo span { color: var(--secondary); }
+        nav .nav-links { display: flex; gap: 1.2rem; }
+        nav .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; }
         nav .nav-links a:hover { color: var(--primary); }
 
-        /* HERO */
         .hero {
-            position: relative; z-index: 1;
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 6rem 2rem 4rem;
-            background: var(--bg);
+            text-align: center; padding: 6rem 2rem 4rem; background: var(--bg);
         }
-        .hero .badge {
-            display: inline-block; padding: 0.4rem 1rem; border-radius: 100px;
-            background: var(--primary-bg); color: var(--primary);
-            font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
-            border: 1px solid rgba(20,184,166,0.2);
-        }
-        .hero h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.2rem; max-width: 800px; color: var(--text); }
-        .hero h1 span { color: var(--primary); }
-        .hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2rem; line-height: 1.8; }
-        .hero-stats { display: flex; gap: 3rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center; }
-        .hero-stats .stat { text-align: center; }
-        .hero-stats .stat-value { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        .hero-stats .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+        .badge { display: inline-block; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.2rem; border: 1px solid; }
+        .badge-blue { background: #eff6ff; color: var(--primary); border-color: #bfdbfe; }
+        .badge-green { background: #ecfdf5; color: var(--secondary); border-color: #a7f3d0; }
+        .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; max-width: 850px; }
+        .hero h1 .hl-blue { color: var(--primary); }
+        .hero h1 .hl-green { color: var(--secondary); }
+        .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2rem; }
+        .stats { display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
-        /* SECTIONS */
-        section { position: relative; z-index: 1; padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+        section { padding: 4.5rem 2rem; max-width: 1100px; margin: 0 auto; }
         .section-alt { background: var(--bg-section); max-width: 100%; }
-        .section-alt > .section-inner { max-width: 1100px; margin: 0 auto; }
-        .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
-        .section-subtitle { color: var(--text-secondary); margin-bottom: 3rem; font-size: 1.05rem; }
+        .section-alt > .inner { max-width: 1100px; margin: 0 auto; padding: 4.5rem 2rem; }
+        .stitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem; }
+        .ssub { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1rem; }
 
-        /* CARDS */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .card {
-            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg);
-            padding: 2rem; transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: var(--shadow-sm);
-        }
-        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
-        .card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; font-weight: 700; }
-        .card p { color: var(--text-secondary); font-size: 0.92rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .card h3 { font-size: 1rem; margin-bottom: 0.4rem; font-weight: 700; }
+        .card p { color: var(--text-secondary); font-size: 0.9rem; }
+        .card .icon { font-size: 2rem; margin-bottom: 0.8rem; }
 
-        /* WORKFLOW */
-        .workflow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; margin: 2rem 0; }
-        .wf-step {
-            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md);
-            padding: 1.2rem 1.4rem; text-align: center; min-width: 140px;
-            box-shadow: var(--shadow-sm);
-        }
-        .wf-step .num {
-            width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: white;
-            display: inline-flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem;
-        }
-        .wf-step h4 { font-size: 0.9rem; margin-bottom: 0.2rem; font-weight: 700; }
-        .wf-step p { font-size: 0.75rem; color: var(--text-muted); }
-        .wf-arrow { font-size: 1.5rem; color: var(--primary); padding: 0 0.4rem; }
+        .callout { border-radius: var(--radius); padding: 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .callout strong { color: var(--text); }
+        .callout-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .callout-blue strong { color: var(--primary); }
+        .callout-green { background: #ecfdf5; border: 1px solid #a7f3d0; }
+        .callout-green strong { color: var(--secondary); }
+        .callout-amber { background: #fffbeb; border: 1px solid #fde68a; }
+        .callout-amber strong { color: #92400e; }
+        .callout-red { background: #fef2f2; border: 1px solid #fecaca; }
+        .callout-red strong { color: var(--danger); }
 
-        /* DEVICE */
-        .device-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-        .device-visual {
-            background: var(--bg-section); border: 1px solid var(--border); border-radius: var(--radius-lg);
-            padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-            box-shadow: var(--shadow-md);
-        }
-        .spot {
-            aspect-ratio: 1; border-radius: var(--radius-lg); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: white;
-        }
-        .spot-label { font-size: 0.75rem; font-weight: 400; opacity: 0.85; margin-top: 0.3rem; }
-        .spot-positive { background: #16a34a; }
-        .spot-mecA { background: #ea580c; }
-        .spot-negative { background: #64748b; }
-        .spot-kpc { background: #7c3aed; }
-        .device-info h3 { font-size: 1.3rem; margin-bottom: 1rem; }
-        .device-info ul { list-style: none; }
-        .device-info li { padding: 0.6rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 0.6rem; font-size: 0.92rem; }
-        .device-info li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 0.4rem; }
+        /* DASHBOARD TABLE */
+        .dash-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: var(--bg); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .dash-table th { background: var(--primary); color: white; padding: 0.7rem 1rem; text-align: left; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .dash-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+        .dash-table tr:last-child td { border-bottom: none; }
+        .dash-table tr:hover td { background: #f8fafc; }
+        .pill { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 100px; font-size: 0.72rem; font-weight: 600; }
+        .pill-done { background: #dcfce7; color: #166534; }
+        .pill-pending { background: #f1f5f9; color: #64748b; }
+        .pill-progress { background: #dbeafe; color: #1e40af; }
 
-        /* RESULT BOX */
-        .result-box {
-            display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem;
-            background: var(--success-bg); border-radius: var(--radius-md); margin: 0.8rem 0;
-            border-left: 4px solid var(--success);
-        }
-        .result-box .badge-ok { background: rgba(22,163,74,0.12); color: var(--success); padding: 0.25rem 0.8rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
-        .result-box .rb-text { flex: 1; }
-        .result-box .rb-text strong { display: block; font-size: 0.95rem; color: var(--text); }
-        .result-box .rb-text span { color: var(--text-secondary); font-size: 0.85rem; }
+        /* TEAM */
+        .team-card { text-align: center; padding: 2rem 1.5rem; }
+        .team-card .avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--bg-section); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; border: 3px solid var(--border); }
+        .team-card h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
+        .team-card .role { color: var(--primary); font-size: 0.82rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .team-card .creds { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+        .team-card .creds strong { color: var(--text-secondary); }
 
-        /* BLAST BOX */
-        .blast-box {
-            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg);
-            padding: 1.8rem; margin: 1.2rem 0; box-shadow: var(--shadow-sm);
-        }
-        .blast-box h4 { margin-bottom: 0.5rem; }
-        .blast-box .blast-score { font-size: 1.4rem; font-weight: 800; color: var(--success); margin: 0.5rem 0; }
-        .blast-box .blast-explain { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.8rem; }
-        .blast-box .blast-hits { font-size: 0.85rem; color: var(--text-muted); }
-        .blast-box .blast-hits em { color: var(--primary); font-style: normal; font-weight: 600; }
+        /* OLIGO / SEQ */
+        .seq { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #92400e; background: #fffbeb; padding: 0.2rem 0.4rem; border-radius: 4px; }
 
-        /* OLIGO CARD */
-        .oligo-card {
-            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md);
-            padding: 1rem 1.5rem; margin: 0.6rem 0;
-            display: grid; grid-template-columns: 180px 1fr auto; align-items: center; gap: 1rem;
-            box-shadow: var(--shadow-sm);
-        }
-        .oligo-card .oligo-name { font-weight: 700; font-size: 0.9rem; }
-        .oligo-card .oligo-type { font-size: 0.75rem; color: var(--primary); font-weight: 500; }
-        .oligo-card .oligo-seq { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #b45309; word-break: break-all; background: var(--accent-bg); padding: 0.3rem 0.5rem; border-radius: 4px; }
-        .oligo-card .oligo-info { text-align: right; font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
-
-        /* COST */
-        .cost-box {
-            background: var(--primary-bg); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center;
-            border: 1px solid rgba(20,184,166,0.2); margin-top: 2.5rem;
-        }
-        .cost-box .cost-value { font-size: 3rem; font-weight: 800; color: var(--primary); }
-        .cost-box .cost-label { color: var(--text-secondary); }
-        .cost-items { display: flex; justify-content: center; gap: 3rem; margin-top: 1.5rem; flex-wrap: wrap; }
-        .cost-items .ci { text-align: center; }
-        .cost-items .ci .val { font-size: 1.2rem; font-weight: 700; color: var(--text); }
-        .cost-items .ci .lab { font-size: 0.8rem; color: var(--text-muted); }
-
-        /* PIPELINE */
-        .pipe-step { display: flex; gap: 1.5rem; margin: 1.5rem 0; align-items: flex-start; }
-        .pipe-num {
-            width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
-        }
+        /* PIPE */
+        .pipe-step { display: flex; gap: 1.2rem; margin: 1.2rem 0; align-items: flex-start; }
+        .pipe-num { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
         .pipe-content { flex: 1; }
-        .pipe-content h4 { margin-bottom: 0.3rem; font-weight: 700; }
-        .pipe-content p { color: var(--text-secondary); font-size: 0.9rem; }
-        .pipe-content code { background: var(--primary-bg); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--primary); font-weight: 500; }
+        .pipe-content h4 { margin-bottom: 0.2rem; font-weight: 700; font-size: 0.95rem; }
+        .pipe-content p { color: var(--text-secondary); font-size: 0.88rem; }
+        .pipe-content code { background: #eff6ff; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--primary); }
 
-        /* EXPLAINER */
-        .explainer {
-            background: var(--primary-bg); border: 1px solid rgba(20,184,166,0.15);
-            border-radius: var(--radius-md); padding: 1.5rem; margin: 1.5rem 0; font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-        .explainer strong { color: var(--primary); }
-        .explainer-accent {
-            background: var(--accent-bg); border: 1px solid rgba(245,158,11,0.2);
-        }
-        .explainer-accent strong { color: #b45309; }
-        .explainer-success {
-            background: var(--success-bg); border: 1px solid rgba(22,163,74,0.15);
-        }
-        .explainer-success strong { color: var(--success); }
-
-        /* AGENT FLOW */
-        .agent-box {
-            background: var(--bg); border: 2px solid var(--accent); border-radius: var(--radius-md);
-            padding: 1rem 1.2rem; text-align: center; min-width: 155px;
-            box-shadow: var(--shadow-sm); transition: transform 0.3s;
-        }
-        .agent-box:hover { transform: scale(1.05); }
-        .agent-box .agent-icon { font-size: 1.5rem; }
-        .agent-box .agent-title { font-weight: 700; font-size: 0.85rem; color: var(--text); }
-        .agent-box .agent-desc { font-size: 0.75rem; color: var(--text-muted); }
-        .agent-output { border-color: var(--success); }
-
-        /* METRIC CARD */
-        .metric-card {
-            background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md);
-            padding: 1.5rem 2.5rem; text-align: center; box-shadow: var(--shadow-sm);
-        }
-        .metric-card .metric-value { font-size: 2.2rem; font-weight: 800; color: var(--primary); }
-        .metric-card .metric-label { font-size: 0.85rem; color: var(--text-muted); }
-
-        footer {
-            position: relative; z-index: 1;
-            text-align: center; padding: 3rem 2rem; color: var(--text-muted);
-            border-top: 1px solid var(--border); font-size: 0.85rem; background: var(--bg);
-        }
+        footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); border-top: 1px solid var(--border); font-size: 0.82rem; }
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
-            .grid-2, .device-container { grid-template-columns: 1fr; }
-            .hero-stats { flex-direction: column; gap: 1rem; }
-            .workflow { flex-direction: column; }
-            .wf-arrow { transform: rotate(90deg); }
-            .oligo-card { grid-template-columns: 1fr; gap: 0.3rem; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 1rem; }
             nav .nav-links { display: none; }
-            .agent-flow { flex-direction: column !important; }
-            .agent-flow .wf-arrow { transform: rotate(90deg); }
+            .dash-table { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- BACTERIAS FLUTUANTES -->
-<div class="bacteria-container" aria-hidden="true">
-    <div class="bacteria">&#x1F9A0;</div>
-    <div class="bacteria">&#x1F9EB;</div>
-    <div class="bacteria">&#x1F9A0;</div>
-    <div class="bacteria">&#x1F9EB;</div>
-    <div class="bacteria">&#x1F9A0;</div>
-    <div class="bacteria">&#x1F9EB;</div>
-    <div class="bacteria">&#x1F9A0;</div>
-    <div class="bacteria">&#x1F9EB;</div>
-    <div class="bacteria">&#x1F9A0;</div>
-    <div class="bacteria">&#x1F9EB;</div>
-</div>
-
 <nav>
-    <div class="logo">BacEnd</div>
+    <div class="logo">IA para <span>Medicos</span> | SmartLab</div>
     <div class="nav-links">
-        <a href="#problema">Problema</a>
-        <a href="#diferencial">Diferencial IA</a>
-        <a href="#solucao">Como funciona</a>
-        <a href="#dispositivo">Dispositivo</a>
+        <a href="#diferencial">Diferencial</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#tecnologia">Tecnologia</a>
         <a href="#validacao">Validacao</a>
-        <a href="#pipeline">Tecnologia</a>
-        <a href="#oligos">Materiais</a>
+        <a href="#team">Team</a>
+        <a href="#grants">Grants</a>
     </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-    <div class="badge fade-in">Hackathon 2026</div>
-    <h1 class="fade-in fade-in-delay-1">IA agentica + CRISPR de papel contra <span>superbacterias</span></h1>
-    <p class="fade-in fade-in-delay-2">Um mini laboratorio de IA projeta testes geneticos sob medida para as bacterias do Brasil. O resultado? Um papel que brilha em 30 minutos quando encontra o inimigo. Sem laboratorio, sem equipamento caro.</p>
-    <div class="hero-stats fade-in fade-in-delay-3">
-        <div class="stat">
-            <div class="stat-value">30 min</div>
-            <div class="stat-label">Resultado rapido</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">2 bacterias</div>
-            <div class="stat-label">Detectadas ao mesmo tempo</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">~R$25</div>
-            <div class="stat-label">Por teste</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">37&#176;C</div>
-            <div class="stat-label">Temperatura do corpo</div>
-        </div>
+    <div class="badge badge-blue">SmartLab BacEnd</div>
+    <h1><span class="hl-blue">IA agentica</span> que projeta testes <span class="hl-green">CRISPR</span> para superbacterias brasileiras</h1>
+    <p>Pipeline de 5 agentes de IA que desenha diagnosticos moleculares sob medida para cepas resistentes do Brasil. Do genoma ao teste pronto em 5 minutos. Open-source, reprodutivel, ~R$25/teste.</p>
+    <div class="stats">
+        <div class="stat"><div class="stat-value">6/12</div><div class="stat-label">Genes processados</div></div>
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Alvos AMR mapeados</div></div>
+        <div class="stat"><div class="stat-value">&lt;5 min</div><div class="stat-label">Pipeline completo</div></div>
+        <div class="stat"><div class="stat-value">124M</div><div class="stat-label">Genomas validados (BLAST)</div></div>
     </div>
 </section>
-
-<!-- PROBLEMA -->
-<div class="section-alt" id="problema">
-    <section class="section-inner reveal">
-        <h2 class="section-title">O Problema</h2>
-        <p class="section-subtitle">Hospitais enfrentam uma crise silenciosa: bacterias que nao respondem mais a antibioticos.</p>
-        <div class="grid-2">
-            <div class="card">
-                <div class="icon">&#x1F3E5;</div>
-                <h3>1,7 milhao de infeccoes por ano</h3>
-                <p>Nos EUA, 1 em cada 31 pacientes pega uma infeccao dentro do hospital. Residuos contaminados ajudam a espalhar essas bacterias entre pacientes.</p>
-            </div>
-            <div class="card">
-                <div class="icon">&#x26A0;</div>
-                <h3>Superbacterias resistentes</h3>
-                <p>Bacterias como MRSA e CRE evoluiram para resistir a quase todos os antibioticos. A OMS classifica essas bacterias como <strong>ameaca critica</strong> para a saude global.</p>
-            </div>
-            <div class="card">
-                <div class="icon">&#x23F1;</div>
-                <h3>Testes atuais sao lentos e caros</h3>
-                <p>Hoje, identificar essas bacterias exige cultivar amostras em laboratorio (24-72 horas) ou usar equipamentos de PCR que custam mais de R$250 mil.</p>
-            </div>
-            <div class="card">
-                <div class="icon">&#x1F4A1;</div>
-                <h3>Nossa solucao: um papel que brilha</h3>
-                <p>Criamos um teste em papel que usa a tecnologia CRISPR, a mesma "tesoura molecular" que ganhou o Nobel, para detectar superbacterias em minutos.</p>
-            </div>
-        </div>
-    </section>
-</div>
 
 <!-- DIFERENCIAL -->
-<section id="diferencial" class="reveal">
-    <h2 class="section-title">Nosso Diferencial: Mini Lab Agentico</h2>
-    <p class="section-subtitle">PCR e CRISPR existem ha anos. O que ninguem fez foi orquestrar agentes de IA para projetar testes sob medida para o Brasil.</p>
+<section id="diferencial">
+    <h2 class="stitle">Nosso Diferencial</h2>
+    <p class="ssub">CRISPR em papel existe desde 2017 (SHERLOCK/DETECTR). Nosso diferencial nao e a biologia - e a orquestracao de IA.</p>
 
-    <div class="explainer explainer-accent" style="margin-bottom:2rem;">
-        <strong>Por que isso importa?</strong> Hoje, se um hospital brasileiro descobre uma cepa resistente nova, leva meses para ter um teste especifico. Com nosso mini lab agentico, <strong>redesenhamos o teste em horas</strong>. O pipeline de IA faz o trabalho de um time inteiro de bioinformatica.
+    <div class="callout callout-amber">
+        <strong>O que nos fazemos diferente:</strong> Redesenhar guides CRISPR para uma nova cepa leva semanas de trabalho manual de bioinformatica. Nosso pipeline agentico faz em 5 minutos. Quando surge uma cepa resistente nova no HC-FMUSP, nao precisamos esperar o Broad Institute.
     </div>
 
-    <!-- AGENTIC FLOW -->
-    <div style="background: var(--bg-section); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem;">
-        <h3 style="text-align:center; margin-bottom: 1.5rem; color: var(--primary); font-weight: 800;">Orquestracao de Agentes de IA</h3>
-        <div class="agent-flow" style="display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap;">
-            <div class="agent-box">
-                <div class="agent-icon">&#x1F9EC;</div>
-                <div class="agent-title">Agente 1</div>
-                <div class="agent-desc">Busca genomas no NCBI via API Entrez</div>
+    <div style="background: var(--bg-section); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0;">
+        <h3 style="text-align:center; margin-bottom: 1.2rem; color: var(--primary); font-weight: 800; font-size: 0.95rem;">ORQUESTRACAO DE 5 AGENTES DE IA</h3>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; font-size: 0.82rem;">
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F9EC;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 1: Fetch</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">NCBI Entrez API</div>
             </div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="agent-box">
-                <div class="agent-icon">&#x1F50D;</div>
-                <div class="agent-title">Agente 2</div>
-                <div class="agent-desc">Escaneia 127+ sites PAM e rankeia por score</div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F50D;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 2: PAM Scan</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">127+ sites analisados</div>
             </div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="agent-box">
-                <div class="agent-icon">&#x1F9EA;</div>
-                <div class="agent-title">Agente 3</div>
-                <div class="agent-desc">Desenha primers RPA com Tm balanceada</div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F9EA;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 3: Primers</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">RPA 30-35nt, Tm bal.</div>
             </div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="agent-box">
-                <div class="agent-icon">&#x1F30D;</div>
-                <div class="agent-title">Agente 4</div>
-                <div class="agent-desc">BLAST contra 124M genomas para zero off-target</div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F30D;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 4: BLAST</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">124M genomas</div>
             </div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="agent-box agent-output">
-                <div class="agent-icon">&#x2705;</div>
-                <div class="agent-title">Output</div>
-                <div class="agent-desc">Teste pronto: crRNA + primers + reporter</div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--secondary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x2705;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Output</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">crRNA + primers + report</div>
             </div>
-        </div>
-        <p style="text-align:center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
-            Cada agente e um script Python autonomo. O orquestrador executa a cadeia completa em menos de 5 minutos.
-        </p>
-    </div>
-
-    <!-- COMPARATIVO -->
-    <h3 style="margin-bottom: 1rem; font-weight: 800;">Por que somos diferentes?</h3>
-    <div class="grid-2">
-        <div class="card" style="border-color: var(--accent);">
-            <div class="icon">&#x1F1E7;&#x1F1F7;</div>
-            <h3>Focado nas bacterias do Brasil</h3>
-            <p>BioFire e Cepheid usam paineis genericos projetados para EUA/Europa. Nosso pipeline busca diretamente os genomas das cepas brasileiras no NCBI: mecA de <em>S. aureus</em> e blaKPC de <em>A. baumannii</em> prevalentes em hospitais do SUS. <strong>Se surge uma cepa nova no HC, redesenhamos o teste no mesmo dia.</strong></p>
-        </div>
-        <div class="card" style="border-color: var(--accent);">
-            <div class="icon">&#x1F916;</div>
-            <h3>IA agentica, nao IA generativa</h3>
-            <p>Nao usamos chatbot ou LLM para "sugerir" sequencias. Cada agente executa uma tarefa computacional real: scan de PAM, scoring termodinamico, BLAST contra banco global. <strong>E codigo que roda, nao prompt que adivinha.</strong> O output sao moleculas prontas para sintese.</p>
-        </div>
-        <div class="card" style="border-color: var(--success);">
-            <div class="icon">&#x26A1;</div>
-            <h3>40x mais barato, 100x mais rapido</h3>
-            <p>Um painel de PCR customizado custa US$10-50k e leva 6-12 meses de P&amp;D. Nosso pipeline gera o mesmo resultado em <strong>5 minutos por ~US$200 em oligos</strong>. O teste final custa ~R$25 para o hospital, contra R$200+ do GeneXpert.</p>
-        </div>
-        <div class="card" style="border-color: var(--success);">
-            <div class="icon">&#x1F4BB;</div>
-            <h3>Reprodutivel e open-source</h3>
-            <p>Todo o pipeline esta no GitHub. Qualquer hospital universitario pode rodar <code>python fetch_sequences.py</code> e ter um teste customizado para suas cepas locais. <strong>Democratizacao do diagnostico molecular.</strong></p>
         </div>
     </div>
 
-    <!-- METRICAS -->
-    <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2.5rem; flex-wrap: wrap;">
-        <div class="metric-card"><div class="metric-value">5 agentes</div><div class="metric-label">orquestrados em cadeia</div></div>
-        <div class="metric-card"><div class="metric-value">124M genomas</div><div class="metric-label">validados via BLAST</div></div>
-        <div class="metric-card"><div class="metric-value">100% match</div><div class="metric-label">especificidade confirmada</div></div>
-        <div class="metric-card"><div class="metric-value">&lt;5 min</div><div class="metric-label">do genoma ao teste pronto</div></div>
-    </div>
-</section>
-
-<!-- COMO FUNCIONA -->
-<div class="section-alt" id="solucao">
-    <section class="section-inner reveal">
-        <h2 class="section-title">Como Funciona</h2>
-        <p class="section-subtitle">Simples como um teste de gravidez, mas para detectar bacterias perigosas.</p>
-
-        <div class="explainer">
-            <strong>A ideia em uma frase:</strong> O papel contem uma "tesoura molecular" (CRISPR) programada para reconhecer o DNA de bacterias especificas. Quando ela encontra o DNA da bacteria, corta um corante preso no papel e libera fluorescencia. O papel brilha verde, indicando que a bacteria esta presente.
+    <div class="grid-2" style="margin-top: 1.5rem;">
+        <div class="card" style="border-left: 4px solid var(--accent);">
+            <h3>&#x1F1E7;&#x1F1F7; Focado no Brasil</h3>
+            <p>BioFire e Cepheid usam paineis genericos EUA/Europa. Nosso pipeline busca cepas brasileiras (mecA, blaKPC, blaNDM, vanA, mcr-1, blaCTX-M) prevalentes em UTIs do SUS.</p>
         </div>
-
-        <div class="workflow">
-            <div class="wf-step"><div class="num">1</div><h4>Coleta</h4><p>Funcionario coleta amostra do residuo</p></div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="wf-step"><div class="num">2</div><h4>Aplica no papel</h4><p>Coloca a amostra no dispositivo</p></div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="wf-step"><div class="num">3</div><h4>Dobra o papel</h4><p>O DNA e extraido automaticamente</p></div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="wf-step"><div class="num">4</div><h4>Espera 30 min</h4><p>Na temperatura do corpo (37&#176;C)</p></div>
-            <div class="wf-arrow">&#x27A1;</div>
-            <div class="wf-step"><div class="num">5</div><h4>Le o resultado</h4><p>Brilhou = bacteria detectada</p></div>
+        <div class="card" style="border-left: 4px solid var(--primary);">
+            <h3>&#x1F916; IA agentica, nao generativa</h3>
+            <p>Cada agente executa computacao real: scan de PAM, scoring termodinamico, BLAST. Codigo que roda, nao prompt que adivinha. Output = moleculas prontas para sintese.</p>
         </div>
-
-        <div class="explainer">
-            <strong>Por que CRISPR?</strong> O sistema CRISPR-Cas12a funciona como um "detetive molecular". Ele recebe uma "foto" (guia de RNA) da bacteria que deve procurar. Quando encontra o DNA correspondente, ele ativa uma reacao em cadeia que corta milhares de moleculas de corante ao mesmo tempo, gerando um sinal visivel. Isso garante <strong>alta sensibilidade</strong> mesmo com pouco material.
+        <div class="card" style="border-left: 4px solid var(--secondary);">
+            <h3>&#x26A1; 40x mais barato, 100x mais rapido</h3>
+            <p>PCR customizado: US$10-50k, 6-12 meses. Nosso pipeline: 5 min, ~US$200 em oligos. Teste final: ~R$25 vs R$200+ (GeneXpert).</p>
         </div>
-    </section>
-</div>
-
-<!-- DISPOSITIVO -->
-<section id="dispositivo" class="reveal">
-    <h2 class="section-title">O Dispositivo</h2>
-    <p class="section-subtitle">4 areas de teste em um unico papel: 2 bacterias + 2 controles de qualidade.</p>
-    <div class="device-container">
-        <div class="device-visual">
-            <div class="spot spot-positive">P (+)<div class="spot-label">Controle positivo</div></div>
-            <div class="spot spot-mecA">MRSA<div class="spot-label">Superbacteria 1</div></div>
-            <div class="spot spot-negative">N (-)<div class="spot-label">Controle negativo</div></div>
-            <div class="spot spot-kpc">CRE<div class="spot-label">Superbacteria 2</div></div>
-        </div>
-        <div class="device-info">
-            <h3>Como interpretar</h3>
-            <ul>
-                <li><strong>Spot P (verde):</strong> Deve sempre brilhar. Confirma que o teste funcionou e que havia DNA bacteriano na amostra.</li>
-                <li><strong>Spot N (cinza):</strong> Nunca deve brilhar. Se brilhar, indica contaminacao no teste.</li>
-                <li><strong>Spot MRSA (laranja):</strong> Brilhou = detectou <em>Staphylococcus aureus</em> resistente a meticilina. Causa infeccoes graves de pele, sangue e pulmao.</li>
-                <li><strong>Spot CRE (roxo):</strong> Brilhou = detectou bacteria resistente a carbapenems. Considerada pela OMS como a ameaca bacteriana mais critica do mundo.</li>
-            </ul>
+        <div class="card" style="border-left: 4px solid var(--secondary);">
+            <h3>&#x1F4BB; Open-source e reprodutivel</h3>
+            <p>Pipeline no GitHub. Qualquer hospital roda <code style="background:#eff6ff; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.82rem; color:var(--primary);">python run_batch.py 4</code> e processa 4 novos genes.</p>
         </div>
     </div>
 </section>
 
-<!-- O QUE DETECTAMOS -->
-<div class="section-alt" id="alvos">
-    <section class="section-inner reveal">
-        <h2 class="section-title">O Que Detectamos</h2>
-        <p class="section-subtitle">Cada bacteria possui "genes de resistencia" unicos, como uma impressao digital. Nosso teste procura exatamente esses genes.</p>
-        <div class="grid-2">
-            <div class="card" style="border-color: #ea580c;">
-                <h3 style="color:#ea580c;">MRSA - Gene mecA</h3>
-                <p><strong>O que e:</strong> <em>Staphylococcus aureus</em> resistente a meticilina. Uma das infeccoes hospitalares mais comuns.</p>
-                <p style="margin-top:0.5rem;"><strong>O gene mecA</strong> e o que torna essa bacteria resistente. Ele produz uma proteina que impede os antibioticos de funcionarem. Nosso teste procura esse gene no DNA da amostra.</p>
-                <p style="margin-top:0.5rem; font-size:0.82rem; color:var(--text-muted);">Fonte: NCBI RefSeq NG_047945.1 | 2.107 pares de bases</p>
+<!-- DASHBOARD -->
+<div class="section-alt" id="dashboard">
+    <div class="inner">
+        <h2 class="stitle">Dashboard de Progresso</h2>
+        <p class="ssub">Status em tempo real do sequenciamento de 12 genes AMR priorizados para hospitais brasileiros.</p>
+
+        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--success);">
+                <div style="font-size:2rem; font-weight:800; color:var(--success);">2</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Completos (BLAST validado)</div>
             </div>
-            <div class="card" style="border-color: #7c3aed;">
-                <h3 style="color:#7c3aed;">CRE - Gene blaKPC</h3>
-                <p><strong>O que e:</strong> Bacterias resistentes a carbapenems (os antibioticos "de ultimo recurso"). Prioridade critica da OMS.</p>
-                <p style="margin-top:0.5rem;"><strong>O gene blaKPC</strong> produz uma enzima que destroi os carbapenems. Quando uma bacteria tem esse gene, quase nenhum antibiotico funciona contra ela.</p>
-                <p style="margin-top:0.5rem; font-size:0.82rem; color:var(--text-muted);">Fonte: NCBI RefSeq NG_049243.1 | 882 pares de bases</p>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--primary-light);">
+                <div style="font-size:2rem; font-weight:800; color:var(--primary-light);">4</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Em progresso (BLAST pendente)</div>
+            </div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--border);">
+                <div style="font-size:2rem; font-weight:800; color:var(--text-muted);">6</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Na fila</div>
             </div>
         </div>
-    </section>
+
+        <table class="dash-table">
+            <thead>
+                <tr><th>Gene</th><th>Patogeno</th><th>Prioridade</th><th>Fetch</th><th>Guides</th><th>Primers</th><th>BLAST</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>mecA</strong></td><td>MRSA</td><td>P1</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">100%</span></td><td><span class="pill pill-done">Completo</span></td></tr>
+                <tr><td><strong>blaKPC</strong></td><td>CRE</td><td>P1</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">100%</span></td><td><span class="pill pill-done">Completo</span></td></tr>
+                <tr><td><strong>blaNDM</strong></td><td>NDM</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
+                <tr><td><strong>vanA</strong></td><td>VRE</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
+                <tr><td><strong>mcr-1</strong></td><td>Colistina-R</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
+                <tr><td><strong>blaCTX-M-15</strong></td><td>ESBL</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
+                <tr style="opacity:0.5;"><td>blaOXA-48</td><td>OXA-48</td><td>P3</td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">Fila</span></td></tr>
+                <tr style="opacity:0.5;"><td>blaVIM</td><td>MBL-VIM</td><td>P3</td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">Fila</span></td></tr>
+                <tr style="opacity:0.5;"><td>blaIMP</td><td>MBL-IMP</td><td>P3</td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">Fila</span></td></tr>
+                <tr style="opacity:0.5;"><td>blaGES</td><td>GES</td><td>P3</td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">Fila</span></td></tr>
+                <tr style="opacity:0.5;"><td>qnrS</td><td>Fluoroquinolona-R</td><td>P3</td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">Fila</span></td></tr>
+                <tr style="opacity:0.5;"><td>armA</td><td>Aminoglicosideo-R</td><td>P3</td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">-</span></td><td><span class="pill pill-pending">Fila</span></td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">Fonte: NCBI AMRFinderPlus Reference Gene Catalog. Priorizacao baseada em dados ANVISA de prevalencia em UTIs brasileiras.</p>
+    </div>
 </div>
+
+<!-- TECNOLOGIA -->
+<section id="tecnologia">
+    <h2 class="stitle">Como Funciona</h2>
+    <p class="ssub">Pipeline computacional de 5 etapas, cada uma executada por um agente Python autonomo.</p>
+
+    <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-content"><h4>Busca de genomas</h4><p>Agente busca sequencias DNA dos genes AMR via NCBI Entrez API. Catalogo base: AMRFinderPlus (12+ genes priorizados). <code>fetch_sequences.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-content"><h4>Design de crRNA guides</h4><p>Scan de sites PAM TTTV em ambas as fitas, scoring por GC%, homopolimeros, posicao e estabilidade. Top 5 guides por gene. <code>design_guides.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">3</div><div class="pipe-content"><h4>Design de primers RPA</h4><p>Primers 30-35nt flanqueando o crRNA, amplicon 100-200bp, Tm 54-67C. Amplificacao isotermica a 37C sem termociclador. <code>design_primers.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">4</div><div class="pipe-content"><h4>Validacao BLAST</h4><p>Amplicons completos (~150bp) submetidos ao NCBI BLAST contra 124M genomas. mecA e blaKPC: 100% match. <code>specificity_check.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">5</div><div class="pipe-content"><h4>Montagem do painel</h4><p>Gera folha de encomenda de oligos, layout do dispositivo e estimativa de custo. <code>multiplex_panel.py</code></p></div></div>
+
+    <div class="callout callout-blue" style="margin-top:1.5rem;">
+        <strong>Batch mode:</strong> <code style="background:white; padding:0.1rem 0.4rem; border-radius:3px;">python run_batch.py 4 --skip-blast</code> processa os proximos 4 genes da fila automaticamente. O tracking CSV e atualizado em tempo real.
+    </div>
+</section>
 
 <!-- VALIDACAO -->
-<section id="validacao" class="reveal">
-    <h2 class="section-title">Validacao Cientifica</h2>
-    <p class="section-subtitle">Testamos computacionalmente se nosso teste e preciso e confiavel antes de ir para o laboratorio.</p>
+<div class="section-alt" id="validacao">
+    <div class="inner">
+        <h2 class="stitle">Validacao e Posicionamento</h2>
+        <p class="ssub">Transparencia sobre o que ja validamos e o que ainda nao.</p>
 
-    <div class="explainer">
-        <strong>O que significa "validar"?</strong> Antes de fabricar o teste, precisamos garantir que ele vai reconhecer SOMENTE as bacterias corretas, sem confundir uma com a outra ou dar resultados falsos. Fizemos isso comparando nossas sequencias contra um banco de dados com mais de 124 milhoes de genomas.
-    </div>
+        <div class="grid-2">
+            <div class="callout callout-green">
+                <strong>O QUE SOMOS</strong><br>
+                Ferramenta de triagem rapida no ponto de cuidado. Complementa vigilancia ativa (culturas de admissao em UTI) com resultado em 30 min. Permite isolamento precoce de pacientes colonizados. Sensibilidade estimada: 10-100 copias/uL (baseado em literatura RPA+Cas12a, PubMed 38689239).
+            </div>
+            <div class="callout callout-red">
+                <strong>O QUE NAO SOMOS</strong><br>
+                Nao substituimos cultura microbiologica, antibiograma, nem vigilancia clonal. Detectar gene de resistencia nao identifica organismo hospedeiro. Especificidade reportada e computacional (in silico). Validacao clinica pendente.
+            </div>
+        </div>
 
-    <h3 style="margin-top:2rem; font-weight: 800;">Testes de qualidade</h3>
-    <div class="result-box"><span class="badge-ok">OK</span><div class="rb-text"><strong>Sem confusao entre as bacterias</strong><span>Os "detetives moleculares" do MRSA e do CRE sao muito diferentes entre si (apenas 35% parecidos). Nao ha risco de um acionar o resultado do outro.</span></div></div>
-    <div class="result-box"><span class="badge-ok">OK</span><div class="rb-text"><strong>Composicao quimica equilibrada</strong><span>As sequencias-guia tem proporcao ideal de bases (40-60% GC), o que garante que vao se ligar corretamente ao DNA-alvo.</span></div></div>
-    <div class="result-box"><span class="badge-ok">OK</span><div class="rb-text"><strong>Sem repeticoes problematicas</strong><span>As sequencias nao tem trechos repetitivos longos que poderiam causar erros na reacao.</span></div></div>
-    <div class="result-box"><span class="badge-ok">OK</span><div class="rb-text"><strong>Amplificacao balanceada</strong><span>Os pares de primers (iniciadores da reacao) tem temperaturas de funcionamento identicas, garantindo que ambos os testes rodem nas mesmas condicoes.</span></div></div>
-
-    <h3 style="margin-top:2.5rem; font-weight: 800;">Resultado do BLAST: busca em banco de dados global</h3>
-    <div class="explainer">
-        <strong>O que e BLAST?</strong> E como um "Google para DNA". Pegamos a regiao que nosso teste detecta (~150 letras do codigo genetico) e procuramos no maior banco de dados de genomas do mundo (NCBI, com 124 milhoes de sequencias). Se encontrar correspondencia apenas nas bacterias corretas, o teste e especifico.
+        <div class="callout callout-blue" style="margin-top:1rem;">
+            <strong>Estrategia regulatoria:</strong> Fase 1 (atual) - Ferramenta de pesquisa, uso nao-diagnostico, sem registro ANVISA. Fase 2 - Com dados clinicos, submissao IVD (RDC 830/2023).
+        </div>
     </div>
-
-    <div class="blast-box">
-        <h4 style="color:#ea580c;">MRSA (gene mecA) - Amplicon de 158 pares de bases</h4>
-        <div class="blast-score">100% de correspondencia</div>
-        <div class="blast-explain">A regiao detectada pelo nosso teste bateu com <strong>100% de identidade</strong> em genomas de <em>Staphylococcus aureus</em> e <em>S. epidermidis</em> portadores do gene mecA. Nao bateu com nenhuma bacteria que nao tenha esse gene.</div>
-        <div class="blast-hits">Organismos encontrados: <em>S. aureus</em> TCH32929, <em>S. aureus</em> AG21-0607, <em>S. aureus</em> BSN49, <em>S. epidermidis</em> KUHPSE08, entre outros.<br>E-value: 8e-73 (quanto menor, mais confiavel. Valores abaixo de 0,01 ja sao excelentes)</div>
-    </div>
-    <div class="blast-box">
-        <h4 style="color:#7c3aed;">CRE (gene blaKPC) - Amplicon de 149 pares de bases</h4>
-        <div class="blast-score">100% de correspondencia</div>
-        <div class="blast-explain">A regiao detectada bateu com <strong>100% de identidade</strong> exclusivamente em organismos que carregam o gene blaKPC. Nenhum falso positivo.</div>
-        <div class="blast-hits">Organismos encontrados: Isolados KPC de diversas especies (OQ821199.1, NG_231551.1, CP184047.1, entre outros).<br>E-value: 6e-68 (extremamente confiavel)</div>
-    </div>
-    <div class="explainer explainer-success">
-        <strong>Conclusao:</strong> Os dois testes sao altamente especificos. Eles reconhecem apenas as bacterias corretas entre 124 milhoes de sequencias no banco de dados, sem confundir com nenhum outro organismo.
-    </div>
-</section>
-
-<!-- PIPELINE -->
-<div class="section-alt" id="pipeline">
-    <section class="section-inner reveal">
-        <h2 class="section-title">Como Construimos</h2>
-        <p class="section-subtitle">Todo o design foi feito computacionalmente em 5 etapas automatizadas.</p>
-        <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-content"><h4>Buscar os genes no banco de dados</h4><p>Baixamos as sequencias de DNA dos genes mecA e blaKPC diretamente do NCBI (o maior banco de dados de genomas do mundo). Codigo: <code>fetch_sequences.py</code></p></div></div>
-        <div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-content"><h4>Desenhar os "detetives moleculares"</h4><p>Analisamos cada gene para encontrar as melhores regioes de reconhecimento. O algoritmo testou 127 candidatos para mecA e 14 para blaKPC, selecionando os 5 melhores de cada. Codigo: <code>design_guides.py</code></p></div></div>
-        <div class="pipe-step"><div class="pipe-num">3</div><div class="pipe-content"><h4>Desenhar os "amplificadores"</h4><p>Como a amostra pode ter pouco DNA, usamos primers RPA que multiplicam o trecho-alvo milhoes de vezes em 20 minutos, a 37&#176;C, sem necessidade de equipamento. Codigo: <code>design_primers.py</code></p></div></div>
-        <div class="pipe-step"><div class="pipe-num">4</div><div class="pipe-content"><h4>Validar contra o mundo inteiro</h4><p>Comparamos nossas sequencias contra 124 milhoes de genomas para garantir que nao ha falsos positivos. Resultado: 100% especifico. Codigo: <code>specificity_check.py</code></p></div></div>
-        <div class="pipe-step"><div class="pipe-num">5</div><div class="pipe-content"><h4>Montar a lista de materiais</h4><p>Geramos automaticamente a lista de moleculas que precisam ser fabricadas, com especificacoes prontas para enviar ao fornecedor. Codigo: <code>multiplex_panel.py</code></p></div></div>
-    </section>
 </div>
 
-<!-- OLIGOS -->
-<section id="oligos" class="reveal">
-    <h2 class="section-title">Lista de Materiais</h2>
-    <p class="section-subtitle">7 moleculas sinteticas necessarias para fabricar o teste. Prontas para encomendar.</p>
+<!-- TEAM -->
+<section id="team">
+    <h2 class="stitle">Time</h2>
+    <p class="ssub">Expertise combinada em IA, medicina e engenharia.</p>
 
-    <div class="explainer">
-        <strong>O que sao esses "oligos"?</strong> Sao pequenas moleculas de DNA ou RNA feitas em laboratorio. Os <strong>crRNAs</strong> sao os "detetives" que reconhecem cada bacteria. Os <strong>primers</strong> sao os "amplificadores" que multiplicam o DNA. O <strong>reporter</strong> e o "sinalizador" que brilha quando a bacteria e encontrada.
-    </div>
-
-    <h3 style="margin:1.5rem 0 1rem; font-weight: 800;">Para detectar MRSA</h3>
-    <div class="oligo-card"><div><div class="oligo-name">Detetive MRSA</div><div class="oligo-type">crRNA para Cas12a</div></div><div class="oligo-seq">AATTTCTACTAAGTGTAGATGACCGAAACAATGTGGAATT</div><div class="oligo-info">40 letras</div></div>
-    <div class="oligo-card"><div><div class="oligo-name">Amplificador FWD</div><div class="oligo-type">Primer RPA</div></div><div class="oligo-seq">TTAGATTGGGATCATAGCGTCATTATTCCAGG</div><div class="oligo-info">32 letras</div></div>
-    <div class="oligo-card"><div><div class="oligo-name">Amplificador REV</div><div class="oligo-type">Primer RPA</div></div><div class="oligo-seq">TTCTTTGGAACGATGCCTATCTCATATGCTGT</div><div class="oligo-info">32 letras</div></div>
-
-    <h3 style="margin:2rem 0 1rem; font-weight: 800;">Para detectar CRE</h3>
-    <div class="oligo-card"><div><div class="oligo-name">Detetive CRE</div><div class="oligo-type">crRNA para Cas12a</div></div><div class="oligo-seq">AATTTCTACTAAGTGTAGATTTGCTGAAGGAGTTGGGCGG</div><div class="oligo-info">40 letras</div></div>
-    <div class="oligo-card"><div><div class="oligo-name">Amplificador FWD</div><div class="oligo-type">Primer RPA</div></div><div class="oligo-seq">TATCTGACAACAGGCATGACGGTGGCGGAGCT</div><div class="oligo-info">32 letras</div></div>
-    <div class="oligo-card"><div><div class="oligo-name">Amplificador REV</div><div class="oligo-type">Primer RPA</div></div><div class="oligo-seq">CGGAACGTGGTATCGCCGATAGAGCGCATGAA</div><div class="oligo-info">32 letras</div></div>
-
-    <h3 style="margin:2rem 0 1rem; font-weight: 800;">Sinalizador (compartilhado)</h3>
-    <div class="oligo-card" style="border-color: var(--accent);"><div><div class="oligo-name">Sinalizador</div><div class="oligo-type">Reporter FAM/BHQ-1</div></div><div class="oligo-seq">/56-FAM/ TTATTATT /3BHQ_1/</div><div class="oligo-info">8 letras</div></div>
-
-    <div class="cost-box">
-        <div class="cost-label">Custo estimado dos materiais</div>
-        <div class="cost-value">~US$ 207</div>
-        <div class="cost-items">
-            <div class="ci"><div class="val">2</div><div class="lab">Detetives (crRNA)</div></div>
-            <div class="ci"><div class="val">4</div><div class="lab">Amplificadores</div></div>
-            <div class="ci"><div class="val">1</div><div class="lab">Sinalizador</div></div>
-            <div class="ci"><div class="val">~R$25</div><div class="lab">Custo por teste</div></div>
+    <div class="grid-3">
+        <div class="card team-card">
+            <div class="avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+            <h3>Joao Victor Pacheco Dias</h3>
+            <div class="role">CTO &amp; AI Architect</div>
+            <div class="creds">
+                <strong>15 anos em IA</strong><br>
+                PhD candidate HC-FMUSP (Medical AI)<br>
+                CTO WingsAI (FINEP)<br>
+                Top 46 Harvard Business Review 2018<br>
+                ITU/WHO Member - AI for Health<br>
+                Technical Advisor CBO
+            </div>
+        </div>
+        <div class="card team-card">
+            <div class="avatar">&#x1F468;&#x200D;&#x2695;&#xFE0F;</div>
+            <h3>Dr. Gustavo Sakuno</h3>
+            <div class="role">Clinical &amp; Scientific Lead</div>
+            <div class="creds">
+                <strong>Postdoc Harvard Medical School</strong><br>
+                Mass Eye and Ear / Broad Institute<br>
+                PhD USP - Ophthalmology &amp; Oculomics<br>
+                Chief Resident USP<br>
+                Published: Springer Nature, TVST, PMC
+            </div>
+        </div>
+        <div class="card team-card">
+            <div class="avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+            <h3>Raul Primo</h3>
+            <div class="role">Software Engineer</div>
+            <div class="creds">
+                <strong>Engenheiro de Software</strong><br>
+                Lattes CNPq<br>
+                Pipeline development<br>
+                Full-stack &amp; DevOps
+            </div>
         </div>
     </div>
 </section>
+
+<!-- GRANTS -->
+<div class="section-alt" id="grants">
+    <div class="inner">
+        <h2 class="stitle">Grants &amp; Proximos Passos</h2>
+        <p class="ssub">Editais em andamento e roadmap de expansao.</p>
+
+        <table class="dash-table">
+            <thead><tr><th>Edital</th><th>Valor</th><th>Deadline</th><th>Fit</th><th>Status</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Google.org AI for Science</strong></td><td>$500K - $3M</td><td>17/04/2026</td><td style="color:var(--secondary); font-weight:700;">ALTO</td><td><span class="pill pill-progress">Preparando</span></td></tr>
+                <tr><td><strong>Climate Collective</strong></td><td>$20K - $50K</td><td>Mid-Abril</td><td style="color:var(--accent); font-weight:700;">MEDIO</td><td><span class="pill pill-progress">Entrevista</span></td></tr>
+                <tr><td><strong>Wellcome Discovery Award</strong></td><td>3.5M GBP</td><td>22/09/2026</td><td style="color:var(--secondary); font-weight:700;">ALTO</td><td><span class="pill pill-pending">Aguardando</span></td></tr>
+                <tr><td><strong>Climate Change AI</strong></td><td>$150K</td><td>15/09/2026</td><td style="color:var(--accent); font-weight:700;">MEDIO</td><td><span class="pill pill-pending">Preparacao</span></td></tr>
+                <tr><td><strong>FINEP (via WingsAI)</strong></td><td>Variavel</td><td>Rolling</td><td style="color:var(--secondary); font-weight:700;">ALTO</td><td><span class="pill pill-done">Relacionamento ativo</span></td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top:2rem; font-weight:800;">Roadmap</h3>
+        <div class="grid-3" style="margin-top:1rem;">
+            <div class="card" style="border-top: 3px solid var(--primary);">
+                <h3>Agora</h3>
+                <p>12 genes AMR mapeados. Pipeline funcional para mecA + blaKPC + blaNDM + vanA + mcr-1 + blaCTX-M. Validacao BLAST in silico.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--secondary);">
+                <h3>Q3 2026</h3>
+                <p>50+ genes. Benchmark vs CRISPOR. Validacao in vitro com DNA sintetico. Pre-print bioRxiv. Parceria ancora HC-FMUSP.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--accent);">
+                <h3>2027+</h3>
+                <p>Validacao clinica. Piloto em 3 hospitais. Plataforma universal: TB, sepse, ISTs. Submissao ANVISA IVD.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
-    <p><strong>BacEnd</strong> - Hackathon 2026</p>
-    <p style="margin-top:0.5rem;">Projeto computacional completo: do gene ao dispositivo paper-based</p>
-    <p style="margin-top:0.5rem; font-size:0.75rem;">
-        Tecnologia: CRISPR-Cas12a (DETECTR) + RPA | Dados: NCBI RefSeq | Genes: mecA (NG_047945.1) &bull; blaKPC (NG_049243.1)
-    </p>
+    <p><strong>IA para Medicos</strong> | SmartLab BacEnd</p>
+    <p style="margin-top:0.4rem;">Pipeline open-source: CRISPR-Cas12a + RPA + IA agentica para diagnostico AMR</p>
+    <p style="margin-top:0.4rem; font-size:0.75rem;">Genes: mecA, blaKPC, blaNDM, vanA, mcr-1, blaCTX-M-15 | Dados: NCBI RefSeq + AMRFinderPlus | Sao Paulo, Brasil</p>
 </footer>
-
-<!-- SCROLL REVEAL -->
-<script>
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
 
 </body>
 </html>
