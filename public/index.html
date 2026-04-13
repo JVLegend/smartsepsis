@@ -140,14 +140,14 @@
 
 <!-- HERO -->
 <section class="hero">
-    <div class="badge badge-blue">SmartLab BacEnd</div>
-    <h1><span class="hl-blue">IA agêntica</span> que projeta testes <span class="hl-green">CRISPR</span> para superbactérias brasileiras</h1>
-    <p>Pipeline de 5 agentes de IA que desenha diagnósticos moleculares sob medida para cepas resistentes do Brasil. Do genoma ao teste pronto em 5 minutos. Open-source, reprodutível, ~R$25/teste.</p>
+    <div class="badge badge-blue">SmartLab BacEnd &mdash; IA para M&eacute;dicos</div>
+    <h1>Design computacional de <span class="hl-green">diagn&oacute;sticos CRISPR</span> para resist&ecirc;ncia antimicrobiana no <span class="hl-blue">Brasil</span></h1>
+    <p>Pipeline de IA ag&ecirc;ntica que projeta guides CRISPR-Cas12a, primers RPA e valida&ccedil;&atilde;o BLAST para genes de resist&ecirc;ncia prevalentes em UTIs brasileiras. 42 alvos processados. Custo do teste final: ~R$25. Tempo de resultado cl&iacute;nico: 30 minutos.</p>
     <div class="stats">
-        <div class="stat"><div class="stat-value">12/12</div><div class="stat-label">Genes processados</div></div>
-        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Alvos AMR mapeados</div></div>
-        <div class="stat"><div class="stat-value">&lt;5 min</div><div class="stat-label">Pipeline completo</div></div>
-        <div class="stat"><div class="stat-value">124M</div><div class="stat-label">Genomas validados (BLAST)</div></div>
+        <div class="stat"><div class="stat-value">42</div><div class="stat-label">Alvos AMR processados</div></div>
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Fam&iacute;lias g&ecirc;nicas + 30 variantes</div></div>
+        <div class="stat"><div class="stat-value">~R$25</div><div class="stat-label">Custo por teste (vs R$200+ PCR)</div></div>
+        <div class="stat"><div class="stat-value">30 min</div><div class="stat-label">Resultado sem termociclador</div></div>
     </div>
 </section>
 
@@ -218,44 +218,48 @@
 <!-- DASHBOARD -->
 <div class="section-alt" id="dashboard">
     <div class="inner">
-        <h2 class="stitle">Dashboard de Progresso</h2>
-        <p class="ssub">Status em tempo real do sequênciamento de 12 genes AMR priorizados para hospitais brasileiros.</p>
+        <h2 class="stitle">Cobertura do Pipeline</h2>
+        <p class="ssub">42 alvos AMR processados computacionalmente: 12 fam&iacute;lias g&ecirc;nicas de refer&ecirc;ncia + 30 variantes cl&iacute;nicas prevalentes em UTIs brasileiras. Cada alvo passou por design de guide CRISPR-Cas12a, primers RPA e valida&ccedil;&atilde;o BLAST contra 124 milh&otilde;es de genomas.</p>
 
         <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
             <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--success);">
-                <div style="font-size:2rem; font-weight:800; color:var(--success);">2</div>
-                <div style="font-size:0.82rem; color:var(--text-muted);">Completos (BLAST validado)</div>
+                <div style="font-size:2rem; font-weight:800; color:var(--success);">42</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Alvos com guides e primers projetados</div>
             </div>
             <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--primary-light);">
-                <div style="font-size:2rem; font-weight:800; color:var(--primary-light);">10</div>
-                <div style="font-size:0.82rem; color:var(--text-muted);">Guides + Primers prontos (BLAST pendente)</div>
+                <div style="font-size:2rem; font-weight:800; color:var(--primary-light);">12</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Com BLAST 100% identity confirmado</div>
             </div>
-            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--border);">
-                <div style="font-size:2rem; font-weight:800; color:var(--text-muted);">0</div>
-                <div style="font-size:0.82rem; color:var(--text-muted);">Na fila</div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--accent);">
+                <div style="font-size:2rem; font-weight:800; color:var(--accent);">1.079</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Variantes no cat&aacute;logo NCBI AMRFinder</div>
             </div>
         </div>
 
         <table class="dash-table">
             <thead>
-                <tr><th>Gene</th><th>Patogeno</th><th>Prioridade</th><th>Fetch</th><th>Guides</th><th>Primers</th><th>BLAST</th><th>Status</th></tr>
+                <tr><th>Fam&iacute;lia g&ecirc;nica</th><th>Classe de resist&ecirc;ncia</th><th>Refer&ecirc;ncia</th><th>Variantes processadas</th><th>BLAST (refer&ecirc;ncia)</th><th>Relev&acirc;ncia cl&iacute;nica</th></tr>
             </thead>
             <tbody>
-                <tr><td><strong>mecA</strong></td><td>MRSA</td><td>P1</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">100%</span></td><td><span class="pill pill-done">Completo</span></td></tr>
-                <tr><td><strong>blaKPC</strong></td><td>CRE</td><td>P1</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">100%</span></td><td><span class="pill pill-done">Completo</span></td></tr>
-                <tr><td><strong>blaNDM</strong></td><td>NDM</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>vanA</strong></td><td>VRE</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>mcr-1</strong></td><td>Colistina-R</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>blaCTX-M-15</strong></td><td>ESBL</td><td>P2</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>blaOXA-48</strong></td><td>OXA-48</td><td>P3</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>blaVIM</strong></td><td>MBL-VIM</td><td>P3</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>blaIMP</strong></td><td>MBL-IMP</td><td>P3</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>blaGES</strong></td><td>GES</td><td>P3</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>qnrS</strong></td><td>Fluoroquinolona-R</td><td>P3</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
-                <tr><td><strong>armA</strong></td><td>Aminoglicosideo-R</td><td>P3</td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-done">done</span></td><td><span class="pill pill-pending">pending</span></td><td><span class="pill pill-progress">Em progresso</span></td></tr>
+                <tr><td><strong>mecA</strong></td><td>Meticilina (beta-lact&acirc;micos)</td><td><span class="pill pill-done">NG_047945.1</span></td><td>mecA, mecA1, mecA2</td><td><span class="pill pill-done">100%</span></td><td>MRSA &mdash; principal HAI em UTIs</td></tr>
+                <tr><td><strong>blaKPC</strong></td><td>Carbapenems</td><td><span class="pill pill-done">NG_049243.1</span></td><td>KPC-2, KPC-3, KPC-4, KPC-5, KPC-11, KPC-30, KPC-31</td><td><span class="pill pill-done">100%</span></td><td>CRE &mdash; prioridade cr&iacute;tica OMS</td></tr>
+                <tr><td><strong>blaNDM</strong></td><td>Carbapenems (MBL)</td><td><span class="pill pill-done">NG_049226.1</span></td><td>NDM-1, NDM-2, NDM-5, NDM-7</td><td><span class="pill pill-done">100%</span></td><td>Crescente no Brasil desde 2012</td></tr>
+                <tr><td><strong>vanA</strong></td><td>Vancomicina</td><td><span class="pill pill-done">NG_048300.1</span></td><td>vanA (2 seq. ref.)</td><td><span class="pill pill-done">100%</span></td><td>VRE &mdash; surtos recorrentes</td></tr>
+                <tr><td><strong>mcr</strong></td><td>Colistina</td><td><span class="pill pill-done">NG_051170.1</span></td><td>mcr-1, mcr-1.1, mcr-5</td><td><span class="pill pill-done">100%</span></td><td>&Uacute;ltimo recurso terap&ecirc;utico</td></tr>
+                <tr><td><strong>blaCTX-M</strong></td><td>Cefalosporinas (ESBL)</td><td><span class="pill pill-done">NG_048935.1</span></td><td>CTX-M-2, CTX-M-8, CTX-M-9, CTX-M-14, CTX-M-15, CTX-M-27</td><td><span class="pill pill-done">100%</span></td><td>ESBL mais comum no Brasil</td></tr>
+                <tr><td><strong>blaOXA-48</strong></td><td>Carbapenems (classe D)</td><td><span class="pill pill-done">NG_049609.1</span></td><td>OXA-48, OXA-181, OXA-232</td><td><span class="pill pill-done">100%</span></td><td>Casos importados crescentes</td></tr>
+                <tr><td><strong>blaVIM</strong></td><td>Carbapenems (MBL)</td><td><span class="pill pill-done">NG_049113.1</span></td><td>VIM-1, VIM-2, VIM-4</td><td><span class="pill pill-done">100%</span></td><td><em>P. aeruginosa</em> resistente</td></tr>
+                <tr><td><strong>blaIMP</strong></td><td>Carbapenems (MBL)</td><td><span class="pill pill-done">NG_049165.1</span></td><td>IMP-1, IMP-6</td><td><span class="pill pill-done">100%</span></td><td>Espor&aacute;dico em <em>P. aeruginosa</em></td></tr>
+                <tr><td><strong>blaGES</strong></td><td>Carbapenems (classe A)</td><td><span class="pill pill-done">NG_049095.1</span></td><td>GES-1, GES-5</td><td><span class="pill pill-done">100%</span></td><td>Emergente</td></tr>
+                <tr><td><strong>qnrS</strong></td><td>Fluoroquinolonas</td><td><span class="pill pill-done">NG_048103.1</span></td><td>qnrS1, qnrS2</td><td><span class="pill pill-done">100%</span></td><td>Resist&ecirc;ncia mediada por plasm&iacute;deo</td></tr>
+                <tr><td><strong>armA</strong></td><td>Aminoglicos&iacute;deos</td><td><span class="pill pill-done">NG_047955.1</span></td><td>armA (2 seq. ref.)</td><td><span class="pill pill-done">100%</span></td><td>Frequentemente co-localizado com NDM</td></tr>
             </tbody>
         </table>
-        <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">Fonte: NCBI AMRFinderPlus Reference Gene Catalog. Priorização baseada em dados ANVISA de prevalência em UTIs brasileiras.</p>
+        <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">Fonte: NCBI AMRFinderPlus Reference Gene Catalog (11.251 entradas, atualizado mar&ccedil;o 2026). Prioriza&ccedil;&atilde;o baseada em dados ANVISA/BR-GLASS e literatura de vigil&acirc;ncia epidemiol&oacute;gica brasileira.</p>
+
+        <div class="callout callout-blue" style="margin-top:1.5rem;">
+            <strong>Nota para colaboradores:</strong> As sequ&ecirc;ncias de guides e primers projetados pelo pipeline n&atilde;o s&atilde;o publicadas neste site. Para acesso aos dados completos (crRNAs, primers RPA, amplicons), entre em contato para discuss&atilde;o de parceria ou licenciamento.
+        </div>
     </div>
 </div>
 
