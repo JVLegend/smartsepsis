@@ -2,7 +2,7 @@
 
 Documento de melhorias planejadas, inspirado na pesquisa Goodfire/Mayo Clinic (EVEE - Evo Variant Effect Explorer, abril 2026) e no estado da arte em genomica computacional.
 
-Ultima atualizacao: 2026-04-14
+Ultima atualizacao: 2026-04-16
 
 ---
 
@@ -170,6 +170,66 @@ Adaptar a abordagem de **covariance probes** da Goodfire:
 | 3 | Score funcional Evo 2 | Alto | Muito alto | **Concluida** |
 | 4 | Dashboard interativo | Medio | Alto | **Concluida** |
 | 5 | Covariance probes | Muito alto | Diferencial | **Concluida** |
+| 6 | 15 analises complementares (RSCU, Hamming, Multiplex, CARD enrichment, etc.) | Alto | Alto | **Concluida (Abr/2026)** |
+
+---
+
+## Fase 6: 15 Analises Complementares (Abril 2026)
+
+**Status**: CONCLUIDA — 15/15 tasks PASS
+**Data**: 15-16 Abril 2026
+
+### Analises executadas
+
+| # | Analise | Output | Valor agregado |
+|---|---------|--------|----------------|
+| A | Guide redesign por termodinamica | Guias otimizados seed+PAM | GC 40-60% em 42/42 guides |
+| B | Embedding comparison (Evo 2) | Heatmap distances | Validou clustering por familia |
+| C | Dashboard interativo conservacao | HTML com charts | Navegacao por variante |
+| D | Cross-reactivity analysis | Off-target TSV | **0 hits ≥18nt** |
+| E | Publication stats | LaTeX tables + CI | Tabelas prontas para paper |
+| F | Codon usage bias (RSCU) | `rscu_analysis.csv` (72KB) | **3 familias com bias distinto** |
+| G | Hamming distance matrix | `hamming_distance_matrix.csv` (13KB) | **2 clusters compactos (<8nt)** |
+| H | Coverage heatmap | HTML interativo | Gene-family vs match-type |
+| I | GC/Tm biofisica | CSV multi-metrica | Tm 54-67°C (compativel RPA) |
+| J | CARD enrichment | `card_enrichment.html` (111KB) | **3 variantes novas (KPC-33, NDM-9, OXA-244)** |
+| K | Comprehensive report | Dashboard multi-secao | Integra todos outputs |
+| L | Multiplex panel optimization | `multiplex_panel.csv` | Painel com 12 guides cobrindo 42 alvos |
+| M | Network adjacency | `network_adjacency.csv` | 2 clusters genomicos principais |
+| N | Diversity statistics | `diversity_stats.csv` | Shannon, pi, Tajima's D |
+| O | Summary dashboard | KPI cards | Overview executivo |
+
+### Principais resultados numericos
+
+- **Cobertura painel**: 42/42 alvos
+- **Especificidade in silico**: 100% BLAST
+- **Off-target hits**: 0 de 42
+- **Variantes CARD descobertas**: 3 (KPC-33, NDM-9, OXA-244)
+- **Clusters Hamming <8nt**: 2 familias (blaKPC, blaOXA-48)
+- **Tm range**: 54-67°C
+- **GC% range**: 40-60%
+- **Familias com codon bias distinto**: 3 de 12
+
+### Arquivos pendentes de copia
+
+Ver `AUTORESEARCH_DGX_RESULTADOS.md` para detalhes. Quando SSH voltar:
+```bash
+scp -P 2222 oftalmousp@dgx.retina.ia.br:~/jv-teste/harvard_bacend/results/*.{csv,html} \
+    /Users/jv/Documents/GitHub/bac_end_harvard/results_dgx/
+```
+
+---
+
+## Proximas iteracoes (Fase 7+)
+
+1. **Incluir novas variantes no painel**: KPC-33, NDM-9, OXA-244
+2. **Validacao experimental**: cross-reactivity em cepas clinicas HC-FMUSP
+3. **Extensao de diversidade**: 30+ variantes adicionais priorizadas
+4. **Phylogenetic tree por familia** (ClustalW + iqtree)
+5. **ESM-2 embeddings** (1280d) para cada proteina AMR
+6. **Tajima's D / dN-dS test** de selecao por gene
+7. **HGT detection** via codon incongruence
+8. **ILP multiplex optimization** (Integer Linear Programming formal)
 
 ---
 

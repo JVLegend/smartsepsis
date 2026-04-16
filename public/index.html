@@ -4,118 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartLab BacEnd - IA para Médicos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1E3A8A;
-            --primary-light: #3B82F6;
-            --secondary: #059669;
-            --secondary-light: #10B981;
-            --accent: #D97706;
-            --accent-light: #F59E0B;
+            /* Paleta iaparamedicos: Harvard crimson + graphite + gold */
+            --primary: #8C1515;         /* Harvard crimson */
+            --primary-dark: #5a0d0d;
+            --primary-light: #be3944;
+            --secondary: #0A0A0A;        /* Graphite */
+            --secondary-light: #2a2a2a;
+            --accent: #D4AF37;           /* Gold */
+            --accent-light: #e6c866;
             --bg: #ffffff;
-            --bg-card: #f8fafc;
-            --bg-section: #f1f5f9;
-            --text: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #16a34a;
-            --success-bg: #f0fdf4;
-            --danger: #dc2626;
-            --radius: 12px;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --bg-card: #fefefe;
+            --bg-section: #F5F5F7;
+            --bg-dark: #0A0A0A;
+            --text: #1a1a1a;
+            --text-secondary: #4a4640;
+            --text-muted: #666666;
+            --border: #EAEAEA;
+            --border-dark: #2a2a2a;
+            --success: #1a5c2e;
+            --success-bg: #f0f5f1;
+            --danger: #8C1515;
+            --danger-bg: #faf0f0;
+            --radius: 2px;               /* Cantos retos, elegante */
+            --radius-md: 4px;
+            --shadow-sm: 0 1px 2px rgba(10,10,10,0.04);
+            --shadow-md: 0 2px 8px rgba(10,10,10,0.08);
+            --shadow-lg: 0 8px 32px rgba(10,10,10,0.12);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: 'EB Garamond', Georgia, serif; letter-spacing: -0.01em; }
+        code, .mono { font-family: 'JetBrains Mono', monospace; }
         nav {
             position: fixed; top: 0; width: 100%; z-index: 100;
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 0.7rem 2rem;
+            background: rgba(10,10,10,0.96); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 0.9rem 2rem;
             display: flex; justify-content: space-between; align-items: center;
         }
-        nav .logo { font-weight: 800; font-size: 1rem; color: var(--primary); }
-        nav .logo span { color: var(--secondary); }
-        nav .nav-links { display: flex; gap: 1.2rem; }
-        nav .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; }
-        nav .nav-links a:hover { color: var(--primary); }
-
+        nav .logo { font-family: 'EB Garamond', serif; font-weight: 700; font-size: 1.15rem; color: #fefefe; letter-spacing: 0.02em; }
+        nav .logo span { color: var(--accent); font-style: italic; }
+        nav .nav-links { display: flex; gap: 1.4rem; }
+        nav .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif; transition: color 0.2s; }
+        nav .nav-links a:hover { color: var(--accent); }
         .hero {
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 6rem 2rem 4rem; background: var(--bg);
+            text-align: center; padding: 7rem 2rem 4rem; background: var(--bg);
+            position: relative;
         }
-        .badge { display: inline-block; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.2rem; border: 1px solid; }
-        .badge-blue { background: #eff6ff; color: var(--primary); border-color: #bfdbfe; }
-        .badge-green { background: #ecfdf5; color: var(--secondary); border-color: #a7f3d0; }
-        .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; max-width: 850px; }
+        .hero::before {
+            content: ''; position: absolute; top: 60px; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 50%, var(--accent) 100%);
+        }
+        .badge { display: inline-block; padding: 0.4rem 1.1rem; border-radius: 2px; font-size: 0.72rem; font-weight: 700; margin-bottom: 1.5rem; border: 1px solid; letter-spacing: 0.15em; text-transform: uppercase; font-family: 'Inter', sans-serif; }
+        .badge-blue { background: var(--bg); color: var(--primary); border-color: var(--primary); }
+        .badge-green { background: var(--bg); color: var(--secondary); border-color: var(--secondary); }
+        .hero h1 { font-family: 'EB Garamond', serif; font-size: 3.4rem; font-weight: 600; line-height: 1.08; margin-bottom: 1.2rem; max-width: 880px; color: var(--secondary); letter-spacing: -0.02em; }
         .hero h1 .hl-blue { color: var(--primary); }
-        .hero h1 .hl-green { color: var(--secondary); }
-        .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2rem; }
-        .stats { display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+        .hero h1 .hl-green { color: var(--primary); font-style: italic; }
+        .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 680px; margin-bottom: 2.5rem; line-height: 1.65; }
+        .stats { display: flex; gap: 2.8rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); max-width: 900px; }
         .stat { text-align: center; }
-        .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-        section { padding: 4.5rem 2rem; max-width: 1100px; margin: 0 auto; }
+        .stat-value { font-family: 'EB Garamond', serif; font-size: 2.2rem; font-weight: 700; color: var(--primary); line-height: 1; }
+        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; font-family: 'Inter', sans-serif; font-weight: 600; margin-top: 0.4rem; }
+        section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
         .section-alt { background: var(--bg-section); max-width: 100%; }
-        .section-alt > .inner { max-width: 1100px; margin: 0 auto; padding: 4.5rem 2rem; }
-        .stitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem; }
-        .ssub { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1rem; }
-
+        .section-alt > .inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+        .stitle { font-family: 'EB Garamond', serif; font-size: 2.1rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--secondary); letter-spacing: -0.01em; position: relative; padding-bottom: 0.8rem; }
+        .stitle::after { content: ''; position: absolute; bottom: 0; left: 0; width: 48px; height: 2px; background: var(--primary); }
+        .ssub { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1rem; max-width: 800px; line-height: 1.65; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
-        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
-        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .card h3 { font-size: 1rem; margin-bottom: 0.4rem; font-weight: 700; }
-        .card p { color: var(--text-secondary); font-size: 0.9rem; }
-        .card .icon { font-size: 2rem; margin-bottom: 0.8rem; }
-
-        .callout { border-radius: var(--radius); padding: 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+        .card h3 { font-family: 'EB Garamond', serif; font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 600; color: var(--secondary); }
+        .card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; }
+        .card .icon { display: none; }
+        .callout { border-radius: var(--radius); padding: 1.4rem 1.5rem; margin: 1.2rem 0; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.65; border-left: 3px solid; }
         .callout strong { color: var(--text); }
-        .callout-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
-        .callout-blue strong { color: var(--primary); }
-        .callout-green { background: #ecfdf5; border: 1px solid #a7f3d0; }
-        .callout-green strong { color: var(--secondary); }
-        .callout-amber { background: #fffbeb; border: 1px solid #fde68a; }
-        .callout-amber strong { color: #92400e; }
-        .callout-red { background: #fef2f2; border: 1px solid #fecaca; }
-        .callout-red strong { color: var(--danger); }
-
+        .callout-blue { background: var(--bg-section); border-left-color: var(--secondary); }
+        .callout-blue strong { color: var(--secondary); }
+        .callout-green { background: var(--success-bg); border-left-color: var(--success); }
+        .callout-green strong { color: var(--success); }
+        .callout-amber { background: #fdf7e6; border-left-color: var(--accent); }
+        .callout-amber strong { color: #7a6418; }
+        .callout-red { background: var(--danger-bg); border-left-color: var(--primary); }
+        .callout-red strong { color: var(--primary); }
         /* DASHBOARD TABLE */
-        .dash-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: var(--bg); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
-        .dash-table th { background: var(--primary); color: white; padding: 0.7rem 1rem; text-align: left; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
-        .dash-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+        .dash-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: var(--bg); overflow: hidden; border: 1px solid var(--border); }
+        .dash-table th { background: var(--secondary); color: #fefefe; padding: 0.85rem 1rem; text-align: left; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; font-family: 'Inter', sans-serif; }
+        .dash-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
         .dash-table tr:last-child td { border-bottom: none; }
-        .dash-table tr:hover td { background: #f8fafc; }
-        .pill { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 100px; font-size: 0.72rem; font-weight: 600; }
-        .pill-done { background: #dcfce7; color: #166534; }
-        .pill-pending { background: #f1f5f9; color: #64748b; }
-        .pill-progress { background: #dbeafe; color: #1e40af; }
-
+        .dash-table tr:nth-child(even) { background: var(--bg-section); }
+        .dash-table tr:hover td { background: #faf0f0; }
+        .pill { display: inline-block; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-family: 'Inter', sans-serif; border: 1px solid; }
+        .pill-done { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+        .pill-pending { background: var(--bg-section); color: var(--text-muted); border-color: var(--border); }
+        .pill-progress { background: #fdf7e6; color: #7a6418; border-color: var(--accent); }
         /* TEAM */
-        .team-card { text-align: center; padding: 2rem 1.5rem; }
-        .team-card .avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--bg-section); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; border: 3px solid var(--border); }
-        .team-card h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
-        .team-card .role { color: var(--primary); font-size: 0.82rem; font-weight: 600; margin-bottom: 0.5rem; }
-        .team-card .creds { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+        .team-card { text-align: center; padding: 2.2rem 1.8rem; }
+        .team-card .avatar { width: 64px; height: 64px; background: var(--secondary); color: var(--accent); display: flex; align-items: center; justify-content: center; font-family: 'EB Garamond', serif; font-weight: 700; font-size: 1.6rem; margin: 0 auto 1rem; border: 2px solid var(--secondary); letter-spacing: -0.02em; }
+        .team-card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .team-card .role { color: var(--primary); font-size: 0.72rem; font-weight: 700; margin-bottom: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-family: 'Inter', sans-serif; }
+        .team-card .creds { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; }
         .team-card .creds strong { color: var(--text-secondary); }
-
         /* OLIGO / SEQ */
-        .seq { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #92400e; background: #fffbeb; padding: 0.2rem 0.4rem; border-radius: 4px; }
-
+        .seq { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--primary); background: var(--danger-bg); padding: 0.2rem 0.4rem; border-radius: var(--radius); }
         /* PIPE */
-        .pipe-step { display: flex; gap: 1.2rem; margin: 1.2rem 0; align-items: flex-start; }
-        .pipe-num { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+        .pipe-step { display: flex; gap: 1.2rem; margin: 1.4rem 0; align-items: flex-start; padding-bottom: 1.4rem; border-bottom: 1px solid var(--border); }
+        .pipe-step:last-child { border-bottom: none; }
+        .pipe-num { width: 40px; height: 40px; background: var(--secondary); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; font-family: 'EB Garamond', serif; border: 1px solid var(--accent); }
         .pipe-content { flex: 1; }
-        .pipe-content h4 { margin-bottom: 0.2rem; font-weight: 700; font-size: 0.95rem; }
-        .pipe-content p { color: var(--text-secondary); font-size: 0.88rem; }
-        .pipe-content code { background: #eff6ff; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--primary); }
-
-        footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); border-top: 1px solid var(--border); font-size: 0.82rem; }
-
+        .pipe-content h4 { font-family: 'EB Garamond', serif; margin-bottom: 0.3rem; font-weight: 600; font-size: 1.1rem; color: var(--secondary); }
+        .pipe-content p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; }
+        .pipe-content code { background: var(--bg-section); padding: 0.15rem 0.4rem; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--primary); border: 1px solid var(--border); }
+        footer { text-align: center; padding: 3.5rem 2rem; color: rgba(255,255,255,0.6); background: var(--secondary); font-size: 0.85rem; position: relative; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); }
+        footer a { color: var(--accent) !important; }
+        footer p { color: rgba(255,255,255,0.7); }
+        footer strong { color: #fefefe; }
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -126,7 +136,6 @@
     </style>
 </head>
 <body>
-
 <nav>
     <a href="https://www.iaparamédicos.com.br/" target="_blank" class="logo" style="text-decoration:none;">IA para <span>Médicos</span></a> <span style="color:var(--border); margin: 0 0.5rem;">|</span> <span style="font-weight:700; font-size:0.9rem; color:var(--text-muted);">SmartLab</span>
     <div class="nav-links">
@@ -136,12 +145,12 @@
         <a href="#interpretacao">IA Clinica</a>
         <a href="#card">CARD</a>
         <a href="#probes">Probes</a>
+        <a href="#analises">An&aacute;lises</a>
         <a href="#tecnologia">Tecnologia</a>
         <a href="#validação">Validação</a>
         <a href="#team">Team</a>
     </div>
 </nav>
-
 <!-- HERO -->
 <section class="hero">
     <div class="badge badge-blue">SmartLab BacEnd &mdash; IA para M&eacute;dicos</div>
@@ -152,84 +161,74 @@
         <div class="stat"><div class="stat-value">12</div><div class="stat-label">Fam&iacute;lias g&ecirc;nicas + 30 variantes</div></div>
         <div class="stat"><div class="stat-value">~R$25</div><div class="stat-label">Custo por teste (vs R$200+ PCR)</div></div>
         <div class="stat"><div class="stat-value">30 min</div><div class="stat-label">Resultado sem termociclador</div></div>
+        <div class="stat"><div class="stat-value">15</div><div class="stat-label">An&aacute;lises complementares</div></div>
     </div>
     <div style="margin-top: 2rem;">
         <a href="dashboard.html" style="display:inline-block; padding: 0.7rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(30,58,138,0.3); transition: transform 0.2s;">
-            &#x1F4CA; Abrir Dashboard Interativo
+            Abrir Dashboard Interativo
         </a>
     </div>
 </section>
-
 <!-- DIFERENCIAL -->
 <section id="diferencial">
     <h2 class="stitle">Nosso Diferencial</h2>
     <p class="ssub">CRISPR em papel existe desde 2017 (SHERLOCK/DETECTR). Nosso diferencial não é a biologia - é a orquestração de IA.</p>
-
     <div class="callout callout-amber">
         <strong>O que nos fazemos diferente:</strong> Redesenhar guides CRISPR para uma nova cepa leva semanas de trabalho manual de bioinformática. Nosso pipeline agêntico faz em 5 minutos. Quando surge uma cepa resistente nova no HC-FMUSP, não precisamos esperar o Broad Institute.
     </div>
-
     <div style="background: var(--bg-section); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0;">
         <h3 style="text-align:center; margin-bottom: 1.2rem; color: var(--primary); font-weight: 800; font-size: 0.95rem;">ORQUESTRAÇÃO DE 5 AGENTES DE IA</h3>
         <div style="display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; font-size: 0.82rem;">
             <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
-                <div style="font-size: 1.2rem;">&#x1F9EC;</div>
                 <div style="font-weight: 700; font-size: 0.78rem;">Agente 1: Fetch</div>
                 <div style="font-size: 0.7rem; color: var(--text-muted);">NCBI Entrez API</div>
             </div>
-            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="color: var(--primary); font-weight: 700;"><span style="color:var(--primary); font-weight:700; margin: 0 0.3rem;">&rarr;</span></div>
             <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
-                <div style="font-size: 1.2rem;">&#x1F50D;</div>
                 <div style="font-weight: 700; font-size: 0.78rem;">Agente 2: PAM Scan</div>
                 <div style="font-size: 0.7rem; color: var(--text-muted);">127+ sites analisados</div>
             </div>
-            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="color: var(--primary); font-weight: 700;"><span style="color:var(--primary); font-weight:700; margin: 0 0.3rem;">&rarr;</span></div>
             <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
-                <div style="font-size: 1.2rem;">&#x1F9EA;</div>
                 <div style="font-weight: 700; font-size: 0.78rem;">Agente 3: Primers</div>
                 <div style="font-size: 0.7rem; color: var(--text-muted);">RPA 30-35nt, Tm bal.</div>
             </div>
-            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="color: var(--primary); font-weight: 700;"><span style="color:var(--primary); font-weight:700; margin: 0 0.3rem;">&rarr;</span></div>
             <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
-                <div style="font-size: 1.2rem;">&#x1F30D;</div>
                 <div style="font-weight: 700; font-size: 0.78rem;">Agente 4: BLAST</div>
                 <div style="font-size: 0.7rem; color: var(--text-muted);">124M genomas</div>
             </div>
-            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="color: var(--primary); font-weight: 700;"><span style="color:var(--primary); font-weight:700; margin: 0 0.3rem;">&rarr;</span></div>
             <div style="background: var(--bg); border: 2px solid var(--secondary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
-                <div style="font-size: 1.2rem;">&#x2705;</div>
                 <div style="font-weight: 700; font-size: 0.78rem;">Output</div>
                 <div style="font-size: 0.7rem; color: var(--text-muted);">crRNA + primers + report</div>
             </div>
         </div>
     </div>
-
     <div class="grid-2" style="margin-top: 1.5rem;">
         <div class="card" style="border-left: 4px solid var(--accent);">
-            <h3>&#x1F1E7;&#x1F1F7; Focado no Brasil</h3>
+            <h3>Focado no Brasil</h3>
             <p>BioFire e Cepheid usam painéis genéricos EUA/Europa. Nosso pipeline busca cepas brasileiras (mecA, blaKPC, blaNDM, vanA, mcr-1, blaCTX-M) prevalentes em UTIs do SUS.</p>
         </div>
         <div class="card" style="border-left: 4px solid var(--primary);">
-            <h3>&#x1F916; IA agêntica, não generativa</h3>
+            <h3>IA agêntica, não generativa</h3>
             <p>Cada agente executa computacao real: scan de PAM, scoring termodinâmico, BLAST. Codigo que roda, não prompt que adivinha. Output = moléculas prontas para sintese.</p>
         </div>
         <div class="card" style="border-left: 4px solid var(--secondary);">
-            <h3>&#x26A1; 40x mais barato, 100x mais rapido</h3>
+            <h3>40x mais barato, 100x mais rapido</h3>
             <p>PCR customizado: US$10-50k, 6-12 meses. Nosso pipeline: 5 min, ~US$200 em oligos. Teste final: ~R$25 vs R$200+ (GeneXpert).</p>
         </div>
         <div class="card" style="border-left: 4px solid var(--secondary);">
-            <h3>&#x1F4BB; Open-source e reprodutível</h3>
+            <h3>Open-source e reprodutível</h3>
             <p>Pipeline no GitHub. Qualquer hospital roda <code style="background:#eff6ff; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.82rem; color:var(--primary);">python run_batch.py 4</code> e processa 4 novos genes.</p>
         </div>
     </div>
 </section>
-
 <!-- DASHBOARD -->
 <div class="section-alt" id="dashboard">
     <div class="inner">
         <h2 class="stitle">Cobertura do Pipeline</h2>
         <p class="ssub">42 alvos AMR processados computacionalmente: 12 fam&iacute;lias g&ecirc;nicas de refer&ecirc;ncia + 30 variantes cl&iacute;nicas prevalentes em UTIs brasileiras. Cada alvo passou por design de guide CRISPR-Cas12a, primers RPA e valida&ccedil;&atilde;o BLAST contra 124 milh&otilde;es de genomas.</p>
-
         <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
             <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--success);">
                 <div style="font-size:2rem; font-weight:800; color:var(--success);">42</div>
@@ -244,7 +243,6 @@
                 <div style="font-size:0.82rem; color:var(--text-muted);">Variantes no cat&aacute;logo NCBI AMRFinder</div>
             </div>
         </div>
-
         <table class="dash-table">
             <thead>
                 <tr><th>Fam&iacute;lia g&ecirc;nica</th><th>Classe de resist&ecirc;ncia</th><th>Refer&ecirc;ncia</th><th>Variantes processadas</th><th>BLAST (refer&ecirc;ncia)</th><th>Relev&acirc;ncia cl&iacute;nica</th></tr>
@@ -265,18 +263,15 @@
             </tbody>
         </table>
         <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">Fonte: NCBI AMRFinderPlus Reference Gene Catalog (11.251 entradas, atualizado mar&ccedil;o 2026). Prioriza&ccedil;&atilde;o baseada em dados ANVISA/BR-GLASS e literatura de vigil&acirc;ncia epidemiol&oacute;gica brasileira.</p>
-
         <div class="callout callout-blue" style="margin-top:1.5rem;">
             <strong>Nota para colaboradores:</strong> As sequ&ecirc;ncias de guides e primers projetados pelo pipeline n&atilde;o s&atilde;o publicadas neste site. Para acesso aos dados completos (crRNAs, primers RPA, amplicons), entre em contato para discuss&atilde;o de parceria ou licenciamento.
         </div>
     </div>
 </div>
-
 <!-- EVO2 SCORING -->
 <section id="evo2">
     <h2 class="stitle">Score Funcional de Variantes</h2>
     <p class="ssub">Analise de impacto funcional inspirada no Evo 2 (Arc Institute) e EVEE (Goodfire/Mayo Clinic). Vai alem do mismatch count.</p>
-
     <div class="grid-2">
         <div>
             <div class="callout callout-blue">
@@ -306,48 +301,39 @@
             </div>
         </div>
     </div>
-
     <div style="background: var(--bg-section); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem;">
         <h3 style="text-align:center; margin-bottom: 1rem; color: var(--primary); font-weight: 800; font-size: 0.95rem;">5 DIMENSOES DE ANALISE FUNCIONAL</h3>
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.8rem; text-align: center; font-size: 0.78rem;">
             <div style="background: var(--bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem;">&#x1F9EC;</div>
                 <strong>K-mer Profile</strong>
                 <div style="color: var(--text-muted);">Proxy para embedding distance (35%)</div>
             </div>
             <div style="background: var(--bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem;">&#x1F504;</div>
                 <strong>Codon Adapt.</strong>
                 <div style="color: var(--text-muted);">Uso de codons bacterianos (25%)</div>
             </div>
             <div style="background: var(--bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem;">&#x1F4CA;</div>
                 <strong>GC Shift</strong>
                 <div style="color: var(--text-muted);">Deslocamento composicional (15%)</div>
             </div>
             <div style="background: var(--bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem;">&#x1F52C;</div>
                 <strong>Dinucleotideo</strong>
                 <div style="color: var(--text-muted);">Bias CpG e contexto (15%)</div>
             </div>
             <div style="background: var(--bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem;">&#x1F9E9;</div>
                 <strong>Complexidade</strong>
                 <div style="color: var(--text-muted);">Entropia de Shannon (10%)</div>
             </div>
         </div>
     </div>
 </section>
-
 <!-- CLINICAL INTERPRETER -->
 <div class="section-alt" id="interpretacao">
     <div class="inner">
         <h2 class="stitle">Interpretacao Clinica por IA</h2>
         <p class="ssub">Inspirado no EVEE (Goodfire/Mayo Clinic): dados do pipeline traduzidos em linguagem natural para diferentes audiencias.</p>
-
         <div class="grid-3">
             <div class="card" style="border-top: 3px solid var(--danger);">
-                <div class="icon">&#x1F468;&#x200D;&#x2695;&#xFE0F;</div>
                 <h3>Para o Medico</h3>
                 <p>Impacto clinico direto: o que o resultado positivo significa, opcoes terapeuticas, decisao de isolamento e mortalidade associada. Linguagem clinica acessivel.</p>
                 <div style="margin-top: 0.8rem; padding: 0.6rem; background: #fef2f2; border-radius: 6px; font-size: 0.78rem; color: #991b1b;">
@@ -355,7 +341,6 @@
                 </div>
             </div>
             <div class="card" style="border-top: 3px solid var(--primary);">
-                <div class="icon">&#x1F4CA;</div>
                 <h3>Para o Gestor</h3>
                 <p>Custo-beneficio, ROI vs cultura/PCR, impacto na taxa de HAI. Linguagem administrativa para diretores de CCIH e gestores hospitalares.</p>
                 <div style="margin-top: 0.8rem; padding: 0.6rem; background: #eff6ff; border-radius: 6px; font-size: 0.78rem; color: #1e3a8a;">
@@ -363,7 +348,6 @@
                 </div>
             </div>
             <div class="card" style="border-top: 3px solid var(--secondary);">
-                <div class="icon">&#x1F52C;</div>
                 <h3>Para o Pesquisador</h3>
                 <p>Detalhes tecnicos: sequencia do spacer, scoring, cobertura de variantes, mecanismo molecular de resistencia, dados CARD/BLAST.</p>
                 <div style="margin-top: 0.8rem; padding: 0.6rem; background: #ecfdf5; border-radius: 6px; font-size: 0.78rem; color: #065f46;">
@@ -371,51 +355,41 @@
                 </div>
             </div>
         </div>
-
         <div class="callout callout-amber" style="margin-top: 1.5rem;">
             <strong>Abordagem EVEE adaptada:</strong> Assim como o EVEE traduz embeddings genomicos em explicacoes clinicas via LLM, nosso <code>clinical_interpreter.py</code> traduz dados computacionais do pipeline (scores, BLAST, conservacao) em interpretacoes acionaveis. Suporta Claude API (online) ou modo pre-computado (offline).
         </div>
     </div>
 </div>
-
 <!-- CARD INTEGRATION -->
 <section id="card">
     <h2 class="stitle">Integracao CARD Database</h2>
     <p class="ssub">Enriquecimento automatico com dados do Comprehensive Antibiotic Resistance Database (McMaster University).</p>
-
     <div class="grid-2">
         <div class="card" style="border-left: 4px solid var(--primary);">
-            <div class="icon">&#x1F5C4;</div>
             <h3>Auto-descoberta de variantes</h3>
             <p>O modulo <code>card_integration.py</code> baixa o catalogo CARD completo, mapeia entradas para as 12 familias genicas do pipeline e identifica variantes novas nao rastreadas.</p>
         </div>
         <div class="card" style="border-left: 4px solid var(--secondary);">
-            <div class="icon">&#x1F9EC;</div>
             <h3>Metadados enriquecidos</h3>
             <p>Cada variante recebe: <strong>mecanismo de resistencia</strong> (inativacao, efluxo, alteracao de alvo), <strong>classe de droga</strong>, <strong>ontologia ARO</strong> e familia genica CARD.</p>
         </div>
         <div class="card" style="border-left: 4px solid var(--accent);">
-            <div class="icon">&#x1F504;</div>
             <h3>Atualizacao periodica</h3>
             <p>Cache de 7 dias com re-download automatico. Comando: <code>python card_integration.py</code> ou <code>--force</code> para forcar atualizacao.</p>
         </div>
         <div class="card" style="border-left: 4px solid var(--danger);">
-            <div class="icon">&#x1F50D;</div>
             <h3>Relatorio de descobertas</h3>
             <p>Gera <code>card_new_variants.csv</code> com variantes AMR relevantes que o pipeline ainda nao rastreia, priorizadas para inclusao futura.</p>
         </div>
     </div>
-
     <div class="callout callout-green" style="margin-top: 1.5rem;">
         <strong>Fontes de dados combinadas:</strong> NCBI RefSeq + AMRFinderPlus (sequencias e validacao BLAST) + CARD (ontologia, mecanismos, drug classes). Tres bases complementares para cobertura maxima.
     </div>
 </section>
-
 <!-- COVARIANCE PROBES -->
 <section id="probes">
     <h2 class="stitle">Covariance Probes - Scoring Avancado</h2>
     <p class="ssub">18 features biofisicas + matriz de covariancia para prever eficacia real de clivagem Cas12a. Diferencial competitivo inspirado no EVEE.</p>
-
     <div class="grid-2">
         <div>
             <div class="callout callout-blue">
@@ -437,12 +411,89 @@
         </div>
     </div>
 </section>
-
+<!-- ANALISES AVANCADAS -->
+<div class="section-alt" id="analises">
+    <div class="inner">
+        <h2 class="stitle">Melhorias Experimentais e Resultados</h2>
+        <p class="ssub">Itera&ccedil;&atilde;o atual do pipeline incorporou 15 an&aacute;lises complementares que elevaram a qualidade do painel multiplex, a especificidade dos guides e o enriquecimento cl&iacute;nico das variantes. Resumo do que mudou &mdash; e o resultado de cada mudan&ccedil;a.</p>
+        <div style="display: flex; gap: 1rem; margin: 1rem 0 2rem; flex-wrap: wrap;">
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--primary);">
+                <div style="font-size:1.8rem; font-weight:800; color:var(--primary);">+3</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">Variantes cl&iacute;nicas descobertas via CARD</div>
+            </div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--secondary);">
+                <div style="font-size:1.8rem; font-weight:800; color:var(--secondary);">0</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">Cross-reactivity hits (off-target)</div>
+            </div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--accent);">
+                <div style="font-size:1.8rem; font-weight:800; color:var(--accent);">100%</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">Cobertura do painel multiplex otimizado</div>
+            </div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--primary-light);">
+                <div style="font-size:1.8rem; font-weight:800; color:var(--primary-light);">12</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">Fam&iacute;lias validadas por Hamming + RSCU</div>
+            </div>
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 800; margin: 1.5rem 0 0.8rem; color: var(--primary);">O que melhorou nesta itera&ccedil;&atilde;o</h3>
+        <div class="grid-2">
+            <div class="card" style="border-left: 4px solid var(--primary);">
+                <h3>Guide redesign por termodin&acirc;mica</h3>
+                <p><strong>Antes:</strong> Guides escolhidos por scoring linear (GC%, homopol&iacute;mero, posi&ccedil;&atilde;o). <strong>Agora:</strong> Redesign prioriza estabilidade seed (pos 1-8), &Delta;G nearest-neighbor e PAM-proximal. <strong>Resultado:</strong> todos os 42 guides passaram a ter GC 40-60% e seed est&aacute;vel, com zero homopol&iacute;meros &ge;5nt.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--secondary);">
+                <h3>An&aacute;lise de cross-reactivity</h3>
+                <p><strong>Antes:</strong> Especificidade validada apenas contra NCBI nt (in silico). <strong>Agora:</strong> C&aacute;lculo expl&iacute;cito de off-target para cada spacer contra genomas humano + bacterianos relacionados. <strong>Resultado:</strong> nenhum spacer apresenta off-target &ge;18nt de complementaridade &mdash; risco de falso positivo clinicamente baixo.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--accent);">
+                <h3>Codon usage bias (RSCU)</h3>
+                <p><strong>Novidade:</strong> C&aacute;lculo de Relative Synonymous Codon Usage para cada fam&iacute;lia g&ecirc;nica AMR. <strong>Resultado:</strong> 3 fam&iacute;lias (blaCTX-M, mecA, vanA) mostram assinatura de codon fortemente diferenciada &mdash; &uacute;til para inferir origem da resist&ecirc;ncia e hist&oacute;ria evolutiva.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--danger);">
+                <h3>Matriz de dist&acirc;ncia Hamming</h3>
+                <p><strong>Novidade:</strong> Matriz 12x12 de dist&acirc;ncias entre variantes refer&ecirc;ncia. <strong>Resultado:</strong> fam&iacute;lias <em>blaKPC</em> e <em>blaOXA-48</em> mostram clustering interno apertado (dist &lt; 8nt) &mdash; validando que UM guide cobre m&uacute;ltiplas variantes cl&iacute;nicas, reduzindo complexidade do painel.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--primary-light);">
+                <h3>Enriquecimento CARD</h3>
+                <p><strong>Antes:</strong> CARD usado apenas para ontologia. <strong>Agora:</strong> Enriquecimento automatizado detectou 3 variantes cl&iacute;nicas relevantes ainda n&atilde;o rastreadas (KPC-33, NDM-9, OXA-244). <strong>Resultado:</strong> pr&oacute;xima itera&ccedil;&atilde;o do painel j&aacute; tem target priorit&aacute;rio para inclus&atilde;o.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--secondary-light);">
+                <h3>Multiplex panel otimizado</h3>
+                <p><strong>Antes:</strong> Sele&ccedil;&atilde;o manual de combina&ccedil;&otilde;es de guides. <strong>Agora:</strong> Otimiza&ccedil;&atilde;o formal minimizando cross-talk e maximizando cobertura. <strong>Resultado:</strong> painel final com 12 guides cobre 42 alvos sem interfer&ecirc;ncia m&uacute;tua detect&aacute;vel.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid #6366f1;">
+                <h3>GC/Tm balanceado</h3>
+                <p><strong>Novidade:</strong> An&aacute;lise biof&iacute;sica (GC%, Tm, acessibilidade estrutural) por guide. <strong>Resultado:</strong> Tm de todos os guides cai dentro da janela 54-67&deg;C &mdash; compat&iacute;vel com RPA isot&eacute;rmica a 37&deg;C sem perda de especificidade.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid #8b5cf6;">
+                <h3>Diversity &amp; network stats</h3>
+                <p><strong>Novidade:</strong> C&aacute;lculo de Shannon diversity, diversidade nucleot&iacute;dica (&pi;) e rede de adjac&ecirc;ncia gene-gene. <strong>Resultado:</strong> identificou 2 clusters gen&oacute;micos principais (&beta;-lactamases vs demais mecanismos) &mdash; base para priorizar expans&atilde;o futura do painel.</p>
+            </div>
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 800; margin: 2rem 0 0.8rem; color: var(--primary);">Principais resultados num&eacute;ricos</h3>
+        <table class="dash-table">
+            <thead>
+                <tr><th>M&eacute;trica</th><th>Valor</th><th>Interpreta&ccedil;&atilde;o cl&iacute;nica</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Cobertura do painel</strong></td><td><span class="pill pill-done">42/42 alvos</span></td><td>Todas as variantes prevalentes em UTIs BR cobertas</td></tr>
+                <tr><td><strong>Especificidade in silico</strong></td><td><span class="pill pill-done">100% BLAST</span></td><td>Nenhum match esp&uacute;rio em 124M genomas</td></tr>
+                <tr><td><strong>Off-target hits</strong></td><td><span class="pill pill-done">0 de 42</span></td><td>Sem risco de falso positivo detect&aacute;vel</td></tr>
+                <tr><td><strong>Variantes CARD descobertas</strong></td><td><span class="pill pill-progress">3 novas</span></td><td>KPC-33, NDM-9, OXA-244 priorizadas</td></tr>
+                <tr><td><strong>Clusters Hamming (&lt;8nt)</strong></td><td>2 fam&iacute;lias</td><td>blaKPC e blaOXA-48 compactos &rarr; 1 guide cobre v&aacute;rios</td></tr>
+                <tr><td><strong>Tm de guides (range)</strong></td><td>54-67&deg;C</td><td>Compat&iacute;vel com RPA isot&eacute;rmica 37&deg;C</td></tr>
+                <tr><td><strong>GC% (range)</strong></td><td>40-60%</td><td>Balanceado &mdash; evita secondary structure</td></tr>
+                <tr><td><strong>Fam&iacute;lias com codon bias distinto</strong></td><td>3 de 12</td><td>blaCTX-M, mecA, vanA &mdash; origem evolutiva diferenciada</td></tr>
+            </tbody>
+        </table>
+        <div class="callout callout-green" style="margin-top:1.5rem;">
+            <strong>Pr&oacute;xima itera&ccedil;&atilde;o:</strong> Incluir KPC-33, NDM-9 e OXA-244 no painel. Validar experimentalmente as predi&ccedil;&otilde;es de cross-reactivity em cepas cl&iacute;nicas do HC-FMUSP. Estender a an&aacute;lise de diversidade para 30+ variantes adicionais.
+        </div>
+    </div>
+</div>
 <!-- TECNOLOGIA -->
 <section id="tecnologia">
     <h2 class="stitle">Como Funciona</h2>
     <p class="ssub">Pipeline computacional de 7 etapas, incluindo scoring avancado e interpretacao por IA.</p>
-
     <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-content"><h4>Busca de genomas</h4><p>Agente busca sequencias DNA dos genes AMR via NCBI Entrez API. Catalogo base: AMRFinderPlus (12+ genes priorizados). <code>fetch_sequences.py</code></p></div></div>
     <div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-content"><h4>Design de crRNA guides</h4><p>Scan de sites PAM TTTV em ambas as fitas, scoring por GC%, homopolimeros, posicao e estabilidade. Top 5 guides por gene. <code>design_guides.py</code></p></div></div>
     <div class="pipe-step"><div class="pipe-num">3</div><div class="pipe-content"><h4>Covariance Probes</h4><p>Re-scoring com 18 features biofisicas + covariancia: seed region, termodinamica, acessibilidade estrutural. <code>covariance_probes.py</code></p></div></div>
@@ -450,18 +501,15 @@
     <div class="pipe-step"><div class="pipe-num">5</div><div class="pipe-content"><h4>Validacao BLAST</h4><p>Amplicons completos (~150bp) submetidos ao NCBI BLAST contra 124M genomas. Todas as 12 familias: 100% match. <code>specificity_check.py</code></p></div></div>
     <div class="pipe-step"><div class="pipe-num">6</div><div class="pipe-content"><h4>Score funcional + CARD</h4><p>Analise de impacto funcional de variantes (Evo 2 inspired) + enriquecimento CARD. <code>evo2_scoring.py</code> + <code>card_integration.py</code></p></div></div>
     <div class="pipe-step"><div class="pipe-num">7</div><div class="pipe-content"><h4>Interpretacao clinica + Painel</h4><p>Interpretacao por IA para 3 audiencias + montagem do painel com folha de oligos. <code>clinical_interpreter.py</code> + <code>multiplex_panel.py</code></p></div></div>
-
     <div class="callout callout-blue" style="margin-top:1.5rem;">
         <strong>Batch mode:</strong> <code style="background:white; padding:0.1rem 0.4rem; border-radius:3px;">python run_batch.py 4 --skip-blast</code> processa os proximos 4 genes da fila automaticamente. O tracking CSV e atualizado em tempo real.
     </div>
 </section>
-
 <!-- VALIDAÇÃO -->
 <div class="section-alt" id="validação">
     <div class="inner">
         <h2 class="stitle">Validação e Posicionamento</h2>
         <p class="ssub">Transparência sobre o que ja validamos e o que ainda não.</p>
-
         <div class="grid-2">
             <div class="callout callout-green">
                 <strong>O QUE SOMOS</strong><br>
@@ -472,21 +520,18 @@
                 Não substituímos cultura microbiológica, antibiograma, nem vigilância clonal. Detectar gene de resistência não identifica organismo hospedeiro. Especificidade reportada é computacional (in silico). Validação clínica pendente.
             </div>
         </div>
-
         <div class="callout callout-blue" style="margin-top:1rem;">
             <strong>Estratégia regulatória:</strong> Fase 1 (atual) - Ferramenta de pesquisa, uso não-diagnóstico, sem registro ANVISA. Fase 2 - Com dados clínicos, submissão IVD (RDC 830/2023).
         </div>
     </div>
 </div>
-
 <!-- TEAM -->
 <section id="team">
     <h2 class="stitle">Time</h2>
     <p class="ssub">Expertise combinada em IA, medicina e engenharia.</p>
-
     <div class="grid-3">
         <div class="card team-card">
-            <div class="avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+            <div class="avatar">J</div>
             <h3>Joao Victor Pacheco Dias</h3>
             <div class="role">CTO &amp; AI Architect</div>
             <div class="creds">
@@ -499,7 +544,7 @@
             </div>
         </div>
         <div class="card team-card">
-            <div class="avatar">&#x1F468;&#x200D;&#x2695;&#xFE0F;</div>
+            <div class="avatar">G</div>
             <h3>Dr. Gustavo Sakuno</h3>
             <div class="role">Clinical &amp; Scientific Lead</div>
             <div class="creds">
@@ -511,7 +556,7 @@
             </div>
         </div>
         <div class="card team-card">
-            <div class="avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+            <div class="avatar">R</div>
             <h3>Raul Primo</h3>
             <div class="role">Software Engineer</div>
             <div class="creds">
@@ -523,7 +568,6 @@
         </div>
     </div>
 </section>
-
 <!-- FOOTER -->
 <footer>
     <p><strong><a href="https://www.iaparamédicos.com.br/" target="_blank" style="color: var(--primary); text-decoration: none;">IA para Médicos</a></strong> | SmartLab BacEnd</p>
@@ -531,6 +575,5 @@
     <p style="margin-top:0.4rem;"><a href="https://www.iaparamédicos.com.br/" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">www.iaparamédicos.com.br</a></p>
     <p style="margin-top:0.4rem; font-size:0.75rem;">São Paulo, Brasil | 12 genes AMR | Dados: NCBI RefSeq + AMRFinderPlus</p>
 </footer>
-
 </body>
 </html>

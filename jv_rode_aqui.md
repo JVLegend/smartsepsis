@@ -2,6 +2,10 @@
 
 Guia completo para rodar o pipeline do zero neste computador.
 
+> **Ultima execucao:** 2026-04-15 | macOS, Python 3.11.6 | Status: OK
+> Bug corrigido em `card_integration.py` (CSV com chaves inconsistentes entre linhas).
+> `clinical_interpreter.py` pendente — rodar manualmente com ANTHROPIC_API_KEY no `.env`.
+
 ---
 
 ## 1. Pre-requisitos

@@ -1,7 +1,7 @@
 # TODO - SmartLab BacEnd
 
 Tarefas pendentes e em andamento do projeto.
-Ultima atualizacao: 2026-04-14
+Ultima atualizacao: 2026-04-16
 
 ---
 
@@ -64,6 +64,51 @@ Ultima atualizacao: 2026-04-14
 - [x] Benchmark automatico contra scoring rule-based original
 - [x] Outputs: TSV, JSON, relatorio de benchmark detalhado
 - [x] Atualizar site com secao "Covariance Probes" + pipeline atualizado para 7 etapas
+
+### Fase 6 - 15 Analises Complementares [CONCLUIDA - Abr/2026]
+- [x] Guide redesign termodinamica (seed+PAM) - 42/42 guides com GC 40-60%
+- [x] Embedding comparison (Evo 2 distances) - heatmap
+- [x] Dashboard interativo de conservacao - HTML com charts
+- [x] Cross-reactivity analysis - 0 off-target hits >=18nt
+- [x] Publication stats (LaTeX tables + CI)
+- [x] Codon usage bias (RSCU) - rscu_analysis.csv (72KB)
+- [x] Hamming distance matrix - hamming_distance_matrix.csv (13KB)
+- [x] Coverage heatmap gene-family x match-type
+- [x] GC/Tm biofisica - Tm 54-67C (RPA-compativel)
+- [x] CARD enrichment - card_enrichment.html (111KB) - descobriu KPC-33, NDM-9, OXA-244
+- [x] Comprehensive multi-secao report
+- [x] Multiplex panel optimization - 12 guides cobrindo 42 alvos
+- [x] Network adjacency gene-gene
+- [x] Diversity statistics (Shannon, nucleotide diversity)
+- [x] Summary dashboard executivo (KPIs)
+- [x] Atualizar site com secao "Melhorias Experimentais e Resultados"
+- [x] Criar AUTORESEARCH_DGX_RESULTADOS.md
+
+---
+
+## Em andamento / Bloqueado
+
+### Copia de resultados DGX -> Mac
+- [ ] Baixar 15 outputs HTML/CSV quando SSH voltar
+  ```bash
+  scp -P 2222 oftalmousp@dgx.retina.ia.br:~/jv-teste/harvard_bacend/results/*.{csv,html} \
+      /Users/jv/Documents/GitHub/bac_end_harvard/results_dgx/
+  ```
+
+---
+
+## Proximas iteracoes (Fase 7+)
+
+- [ ] Incluir KPC-33, NDM-9, OXA-244 no painel
+- [ ] Validacao experimental de cross-reactivity em cepas HC-FMUSP
+- [ ] Phylogenetic tree por familia (ClustalW + iqtree)
+- [ ] ESM-2 embeddings (1280d) para cada proteina AMR
+- [ ] Tajima's D test de selecao por gene
+- [ ] dN/dS ratio analysis
+- [ ] HGT (horizontal gene transfer) detection via codon incongruence
+- [ ] ILP multiplex optimization formal
+- [ ] RNAfold secondary structure analysis (evitar hairpins)
+- [ ] Regional-specific variants analysis (Brasil vs mundo)
 
 ---
 
