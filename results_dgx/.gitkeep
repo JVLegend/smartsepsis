@@ -1,0 +1,16 @@
+# Results from DGX Autoresearch (pending copy via scp)
+#
+# When SSH tunnel is back:
+#   scp -P 2222 oftalmousp@dgx.retina.ia.br:~/jv-teste/harvard_bacend/results/*.{csv,html} \
+#       /Users/jv/Documents/GitHub/bac_end_harvard/results_dgx/
+#
+# Expected files:
+#   rscu_analysis.csv (72KB)
+#   hamming_distance_matrix.csv (13KB)
+#   hamming_distance_matrix.html
+#   card_enrichment.html (111KB)
+#   coverage_heatmap.html
+#   multiplex_panel.csv
+#   network_adjacency.csv
+#   diversity_stats.csv
+#   summary_dashboard.html

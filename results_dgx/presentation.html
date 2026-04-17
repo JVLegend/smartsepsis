@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLab BacEnd - IA para Médicos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1E3A8A;
+            --primary-light: #3B82F6;
+            --secondary: #059669;
+            --secondary-light: #10B981;
+            --accent: #D97706;
+            --accent-light: #F59E0B;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-section: #f1f5f9;
+            --text: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+            --danger: #dc2626;
+            --radius: 12px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.7rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo { font-weight: 800; font-size: 1rem; color: var(--primary); }
+        nav .logo span { color: var(--secondary); }
+        nav .nav-links { display: flex; gap: 1.2rem; }
+        nav .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; }
+        nav .nav-links a:hover { color: var(--primary); }
+
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 6rem 2rem 4rem; background: var(--bg);
+        }
+        .badge { display: inline-block; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.2rem; border: 1px solid; }
+        .badge-blue { background: #eff6ff; color: var(--primary); border-color: #bfdbfe; }
+        .badge-green { background: #ecfdf5; color: var(--secondary); border-color: #a7f3d0; }
+        .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; max-width: 850px; }
+        .hero h1 .hl-blue { color: var(--primary); }
+        .hero h1 .hl-green { color: var(--secondary); }
+        .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2rem; }
+        .stats { display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+        section { padding: 4.5rem 2rem; max-width: 1100px; margin: 0 auto; }
+        .section-alt { background: var(--bg-section); max-width: 100%; }
+        .section-alt > .inner { max-width: 1100px; margin: 0 auto; padding: 4.5rem 2rem; }
+        .stitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem; }
+        .ssub { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1rem; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .card h3 { font-size: 1rem; margin-bottom: 0.4rem; font-weight: 700; }
+        .card p { color: var(--text-secondary); font-size: 0.9rem; }
+        .card .icon { font-size: 2rem; margin-bottom: 0.8rem; }
+
+        .callout { border-radius: var(--radius); padding: 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .callout strong { color: var(--text); }
+        .callout-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .callout-blue strong { color: var(--primary); }
+        .callout-green { background: #ecfdf5; border: 1px solid #a7f3d0; }
+        .callout-green strong { color: var(--secondary); }
+        .callout-amber { background: #fffbeb; border: 1px solid #fde68a; }
+        .callout-amber strong { color: #92400e; }
+        .callout-red { background: #fef2f2; border: 1px solid #fecaca; }
+        .callout-red strong { color: var(--danger); }
+
+        /* DASHBOARD TABLE */
+        .dash-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: var(--bg); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .dash-table th { background: var(--primary); color: white; padding: 0.7rem 1rem; text-align: left; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .dash-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+        .dash-table tr:last-child td { border-bottom: none; }
+        .dash-table tr:hover td { background: #f8fafc; }
+        .pill { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 100px; font-size: 0.72rem; font-weight: 600; }
+        .pill-done { background: #dcfce7; color: #166534; }
+        .pill-pending { background: #f1f5f9; color: #64748b; }
+        .pill-progress { background: #dbeafe; color: #1e40af; }
+
+        /* TEAM */
+        .team-card { text-align: center; padding: 2rem 1.5rem; }
+        .team-card .avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--bg-section); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; border: 3px solid var(--border); }
+        .team-card h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
+        .team-card .role { color: var(--primary); font-size: 0.82rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .team-card .creds { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+        .team-card .creds strong { color: var(--text-secondary); }
+
+        /* OLIGO / SEQ */
+        .seq { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #92400e; background: #fffbeb; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        /* PIPE */
+        .pipe-step { display: flex; gap: 1.2rem; margin: 1.2rem 0; align-items: flex-start; }
+        .pipe-num { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+        .pipe-content { flex: 1; }
+        .pipe-content h4 { margin-bottom: 0.2rem; font-weight: 700; font-size: 0.95rem; }
+        .pipe-content p { color: var(--text-secondary); font-size: 0.88rem; }
+        .pipe-content code { background: #eff6ff; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--primary); }
+
+        footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); border-top: 1px solid var(--border); font-size: 0.82rem; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 1rem; }
+            nav .nav-links { display: none; }
+            .dash-table { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://www.iaparamédicos.com.br/" target="_blank" class="logo" style="text-decoration:none;">IA para <span>Médicos</span></a> <span style="color:var(--border); margin: 0 0.5rem;">|</span> <span style="font-weight:700; font-size:0.9rem; color:var(--text-muted);">SmartLab</span>
+    <div class="nav-links">
+        <a href="#diferencial">Diferencial</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#tecnologia">Tecnologia</a>
+        <a href="#validação">Validação</a>
+        <a href="#team">Team</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="badge badge-blue">SmartLab BacEnd &mdash; IA para M&eacute;dicos</div>
+    <h1>Design computacional de <span class="hl-green">diagn&oacute;sticos CRISPR</span> para resist&ecirc;ncia antimicrobiana no <span class="hl-blue">Brasil</span></h1>
+    <p>Pipeline de IA ag&ecirc;ntica que projeta guides CRISPR-Cas12a, primers RPA e valida&ccedil;&atilde;o BLAST para genes de resist&ecirc;ncia prevalentes em UTIs brasileiras. 42 alvos processados. Custo do teste final: ~R$25. Tempo de resultado cl&iacute;nico: 30 minutos.</p>
+    <div class="stats">
+        <div class="stat"><div class="stat-value">42</div><div class="stat-label">Alvos AMR processados</div></div>
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Fam&iacute;lias g&ecirc;nicas + 30 variantes</div></div>
+        <div class="stat"><div class="stat-value">~R$25</div><div class="stat-label">Custo por teste (vs R$200+ PCR)</div></div>
+        <div class="stat"><div class="stat-value">30 min</div><div class="stat-label">Resultado sem termociclador</div></div>
+    </div>
+</section>
+
+<!-- DIFERENCIAL -->
+<section id="diferencial">
+    <h2 class="stitle">Nosso Diferencial</h2>
+    <p class="ssub">CRISPR em papel existe desde 2017 (SHERLOCK/DETECTR). Nosso diferencial não é a biologia - é a orquestração de IA.</p>
+
+    <div class="callout callout-amber">
+        <strong>O que nos fazemos diferente:</strong> Redesenhar guides CRISPR para uma nova cepa leva semanas de trabalho manual de bioinformática. Nosso pipeline agêntico faz em 5 minutos. Quando surge uma cepa resistente nova no HC-FMUSP, não precisamos esperar o Broad Institute.
+    </div>
+
+    <div style="background: var(--bg-section); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0;">
+        <h3 style="text-align:center; margin-bottom: 1.2rem; color: var(--primary); font-weight: 800; font-size: 0.95rem;">ORQUESTRAÇÃO DE 5 AGENTES DE IA</h3>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; font-size: 0.82rem;">
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F9EC;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 1: Fetch</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">NCBI Entrez API</div>
+            </div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F50D;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 2: PAM Scan</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">127+ sites analisados</div>
+            </div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F9EA;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 3: Primers</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">RPA 30-35nt, Tm bal.</div>
+            </div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--primary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x1F30D;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Agente 4: BLAST</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">124M genomas</div>
+            </div>
+            <div style="color: var(--primary); font-weight: 700;">&#x2192;</div>
+            <div style="background: var(--bg); border: 2px solid var(--secondary); border-radius: 8px; padding: 0.7rem 0.9rem; text-align: center; min-width: 130px;">
+                <div style="font-size: 1.2rem;">&#x2705;</div>
+                <div style="font-weight: 700; font-size: 0.78rem;">Output</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">crRNA + primers + report</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 1.5rem;">
+        <div class="card" style="border-left: 4px solid var(--accent);">
+            <h3>&#x1F1E7;&#x1F1F7; Focado no Brasil</h3>
+            <p>BioFire e Cepheid usam painéis genéricos EUA/Europa. Nosso pipeline busca cepas brasileiras (mecA, blaKPC, blaNDM, vanA, mcr-1, blaCTX-M) prevalentes em UTIs do SUS.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--primary);">
+            <h3>&#x1F916; IA agêntica, não generativa</h3>
+            <p>Cada agente executa computacao real: scan de PAM, scoring termodinâmico, BLAST. Codigo que roda, não prompt que adivinha. Output = moléculas prontas para sintese.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--secondary);">
+            <h3>&#x26A1; 40x mais barato, 100x mais rapido</h3>
+            <p>PCR customizado: US$10-50k, 6-12 meses. Nosso pipeline: 5 min, ~US$200 em oligos. Teste final: ~R$25 vs R$200+ (GeneXpert).</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--secondary);">
+            <h3>&#x1F4BB; Open-source e reprodutível</h3>
+            <p>Pipeline no GitHub. Qualquer hospital roda <code style="background:#eff6ff; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.82rem; color:var(--primary);">python run_batch.py 4</code> e processa 4 novos genes.</p>
+        </div>
+    </div>
+</section>
+
+<!-- DASHBOARD -->
+<div class="section-alt" id="dashboard">
+    <div class="inner">
+        <h2 class="stitle">Cobertura do Pipeline</h2>
+        <p class="ssub">42 alvos AMR processados computacionalmente: 12 fam&iacute;lias g&ecirc;nicas de refer&ecirc;ncia + 30 variantes cl&iacute;nicas prevalentes em UTIs brasileiras. Cada alvo passou por design de guide CRISPR-Cas12a, primers RPA e valida&ccedil;&atilde;o BLAST contra 124 milh&otilde;es de genomas.</p>
+
+        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--success);">
+                <div style="font-size:2rem; font-weight:800; color:var(--success);">42</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Alvos com guides e primers projetados</div>
+            </div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--primary-light);">
+                <div style="font-size:2rem; font-weight:800; color:var(--primary-light);">12</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Com BLAST 100% identity confirmado</div>
+            </div>
+            <div class="card" style="flex:1; min-width:150px; text-align:center; border-top: 3px solid var(--accent);">
+                <div style="font-size:2rem; font-weight:800; color:var(--accent);">1.079</div>
+                <div style="font-size:0.82rem; color:var(--text-muted);">Variantes no cat&aacute;logo NCBI AMRFinder</div>
+            </div>
+        </div>
+
+        <table class="dash-table">
+            <thead>
+                <tr><th>Fam&iacute;lia g&ecirc;nica</th><th>Classe de resist&ecirc;ncia</th><th>Refer&ecirc;ncia</th><th>Variantes processadas</th><th>BLAST (refer&ecirc;ncia)</th><th>Relev&acirc;ncia cl&iacute;nica</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>mecA</strong></td><td>Meticilina (beta-lact&acirc;micos)</td><td><span class="pill pill-done">NG_047945.1</span></td><td>mecA, mecA1, mecA2</td><td><span class="pill pill-done">100%</span></td><td>MRSA &mdash; principal HAI em UTIs</td></tr>
+                <tr><td><strong>blaKPC</strong></td><td>Carbapenems</td><td><span class="pill pill-done">NG_049243.1</span></td><td>KPC-2, KPC-3, KPC-4, KPC-5, KPC-11, KPC-30, KPC-31</td><td><span class="pill pill-done">100%</span></td><td>CRE &mdash; prioridade cr&iacute;tica OMS</td></tr>
+                <tr><td><strong>blaNDM</strong></td><td>Carbapenems (MBL)</td><td><span class="pill pill-done">NG_049226.1</span></td><td>NDM-1, NDM-2, NDM-5, NDM-7</td><td><span class="pill pill-done">100%</span></td><td>Crescente no Brasil desde 2012</td></tr>
+                <tr><td><strong>vanA</strong></td><td>Vancomicina</td><td><span class="pill pill-done">NG_048300.1</span></td><td>vanA (2 seq. ref.)</td><td><span class="pill pill-done">100%</span></td><td>VRE &mdash; surtos recorrentes</td></tr>
+                <tr><td><strong>mcr</strong></td><td>Colistina</td><td><span class="pill pill-done">NG_051170.1</span></td><td>mcr-1, mcr-1.1, mcr-5</td><td><span class="pill pill-done">100%</span></td><td>&Uacute;ltimo recurso terap&ecirc;utico</td></tr>
+                <tr><td><strong>blaCTX-M</strong></td><td>Cefalosporinas (ESBL)</td><td><span class="pill pill-done">NG_048935.1</span></td><td>CTX-M-2, CTX-M-8, CTX-M-9, CTX-M-14, CTX-M-15, CTX-M-27</td><td><span class="pill pill-done">100%</span></td><td>ESBL mais comum no Brasil</td></tr>
+                <tr><td><strong>blaOXA-48</strong></td><td>Carbapenems (classe D)</td><td><span class="pill pill-done">NG_049609.1</span></td><td>OXA-48, OXA-181, OXA-232</td><td><span class="pill pill-done">100%</span></td><td>Casos importados crescentes</td></tr>
+                <tr><td><strong>blaVIM</strong></td><td>Carbapenems (MBL)</td><td><span class="pill pill-done">NG_049113.1</span></td><td>VIM-1, VIM-2, VIM-4</td><td><span class="pill pill-done">100%</span></td><td><em>P. aeruginosa</em> resistente</td></tr>
+                <tr><td><strong>blaIMP</strong></td><td>Carbapenems (MBL)</td><td><span class="pill pill-done">NG_049165.1</span></td><td>IMP-1, IMP-6</td><td><span class="pill pill-done">100%</span></td><td>Espor&aacute;dico em <em>P. aeruginosa</em></td></tr>
+                <tr><td><strong>blaGES</strong></td><td>Carbapenems (classe A)</td><td><span class="pill pill-done">NG_049095.1</span></td><td>GES-1, GES-5</td><td><span class="pill pill-done">100%</span></td><td>Emergente</td></tr>
+                <tr><td><strong>qnrS</strong></td><td>Fluoroquinolonas</td><td><span class="pill pill-done">NG_048103.1</span></td><td>qnrS1, qnrS2</td><td><span class="pill pill-done">100%</span></td><td>Resist&ecirc;ncia mediada por plasm&iacute;deo</td></tr>
+                <tr><td><strong>armA</strong></td><td>Aminoglicos&iacute;deos</td><td><span class="pill pill-done">NG_047955.1</span></td><td>armA (2 seq. ref.)</td><td><span class="pill pill-done">100%</span></td><td>Frequentemente co-localizado com NDM</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">Fonte: NCBI AMRFinderPlus Reference Gene Catalog (11.251 entradas, atualizado mar&ccedil;o 2026). Prioriza&ccedil;&atilde;o baseada em dados ANVISA/BR-GLASS e literatura de vigil&acirc;ncia epidemiol&oacute;gica brasileira.</p>
+
+        <div class="callout callout-blue" style="margin-top:1.5rem;">
+            <strong>Nota para colaboradores:</strong> As sequ&ecirc;ncias de guides e primers projetados pelo pipeline n&atilde;o s&atilde;o publicadas neste site. Para acesso aos dados completos (crRNAs, primers RPA, amplicons), entre em contato para discuss&atilde;o de parceria ou licenciamento.
+        </div>
+    </div>
+</div>
+
+<!-- TECNOLOGIA -->
+<section id="tecnologia">
+    <h2 class="stitle">Como Funciona</h2>
+    <p class="ssub">Pipeline computacional de 5 etapas, cada uma executada por um agente Python autônomo.</p>
+
+    <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-content"><h4>Busca de genomas</h4><p>Agente busca sequências DNA dos genes AMR via NCBI Entrez API. Catalogo base: AMRFinderPlus (12+ genes priorizados). <code>fetch_sequences.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-content"><h4>Design de crRNA guides</h4><p>Scan de sites PAM TTTV em ambas as fitas, scoring por GC%, homopolímeros, posição e estabilidade. Top 5 guides por gene. <code>design_guides.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">3</div><div class="pipe-content"><h4>Design de primers RPA</h4><p>Primers 30-35nt flanqueando o crRNA, amplicon 100-200bp, Tm 54-67C. Amplificação isotérmica a 37C sem termociclador. <code>design_primers.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">4</div><div class="pipe-content"><h4>Validação BLAST</h4><p>Amplicons completos (~150bp) submetidos ao NCBI BLAST contra 124M genomas. mecA e blaKPC: 100% match. <code>specificity_check.py</code></p></div></div>
+    <div class="pipe-step"><div class="pipe-num">5</div><div class="pipe-content"><h4>Montagem do painel</h4><p>Gera folha de encomenda de oligos, layout do dispositivo e estimativa de custo. <code>multiplex_panel.py</code></p></div></div>
+
+    <div class="callout callout-blue" style="margin-top:1.5rem;">
+        <strong>Batch mode:</strong> <code style="background:white; padding:0.1rem 0.4rem; border-radius:3px;">python run_batch.py 4 --skip-blast</code> processa os próximos 4 genes da fila automaticamente. O tracking CSV é atualizado em tempo real.
+    </div>
+</section>
+
+<!-- VALIDAÇÃO -->
+<div class="section-alt" id="validação">
+    <div class="inner">
+        <h2 class="stitle">Validação e Posicionamento</h2>
+        <p class="ssub">Transparência sobre o que ja validamos e o que ainda não.</p>
+
+        <div class="grid-2">
+            <div class="callout callout-green">
+                <strong>O QUE SOMOS</strong><br>
+                Ferramenta de triagem rapida no ponto de cuidado. Complementa vigilância ativa (culturas de admissao em UTI) com resultado em 30 min. Permite isolamento precoce de pacientes colonizados. Sensibilidade estimada: 10-100 copias/uL (baseado em literatura RPA+Cas12a, PubMed 38689239).
+            </div>
+            <div class="callout callout-red">
+                <strong>O QUE NAO SOMOS</strong><br>
+                Não substituímos cultura microbiológica, antibiograma, nem vigilância clonal. Detectar gene de resistência não identifica organismo hospedeiro. Especificidade reportada é computacional (in silico). Validação clínica pendente.
+            </div>
+        </div>
+
+        <div class="callout callout-blue" style="margin-top:1rem;">
+            <strong>Estratégia regulatória:</strong> Fase 1 (atual) - Ferramenta de pesquisa, uso não-diagnóstico, sem registro ANVISA. Fase 2 - Com dados clínicos, submissão IVD (RDC 830/2023).
+        </div>
+    </div>
+</div>
+
+<!-- TEAM -->
+<section id="team">
+    <h2 class="stitle">Time</h2>
+    <p class="ssub">Expertise combinada em IA, medicina e engenharia.</p>
+
+    <div class="grid-3">
+        <div class="card team-card">
+            <div class="avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+            <h3>Joao Victor Pacheco Dias</h3>
+            <div class="role">CTO &amp; AI Architect</div>
+            <div class="creds">
+                <strong>15 anos em IA</strong><br>
+                PhD candidate HC-FMUSP (Medical AI)<br>
+                CTO WingsAI (FINEP)<br>
+                Top 46 Harvard Business Review 2018<br>
+                ITU/WHO Member - AI for Health<br>
+                Technical Advisor CBO
+            </div>
+        </div>
+        <div class="card team-card">
+            <div class="avatar">&#x1F468;&#x200D;&#x2695;&#xFE0F;</div>
+            <h3>Dr. Gustavo Sakuno</h3>
+            <div class="role">Clinical &amp; Scientific Lead</div>
+            <div class="creds">
+                <strong>Postdoc Harvard Medical School</strong><br>
+                Mass Eye and Ear / Broad Institute<br>
+                PhD USP - Ophthalmology &amp; Oculomics<br>
+                Chief Resident USP<br>
+                Published: Springer Nature, TVST, PMC
+            </div>
+        </div>
+        <div class="card team-card">
+            <div class="avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+            <h3>Raul Primo</h3>
+            <div class="role">Software Engineer</div>
+            <div class="creds">
+                <strong>Engenheiro de Software</strong><br>
+                Lattes CNPq<br>
+                Pipeline development<br>
+                Full-stack &amp; DevOps
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p><strong><a href="https://www.iaparamédicos.com.br/" target="_blank" style="color: var(--primary); text-decoration: none;">IA para Médicos</a></strong> | SmartLab BacEnd</p>
+    <p style="margin-top:0.4rem;">Pipeline open-source: CRISPR-Cas12a + RPA + IA agêntica para diagnóstico AMR</p>
+    <p style="margin-top:0.4rem;"><a href="https://www.iaparamédicos.com.br/" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">www.iaparamédicos.com.br</a></p>
+    <p style="margin-top:0.4rem; font-size:0.75rem;">São Paulo, Brasil | 12 genes AMR | Dados: NCBI RefSeq + AMRFinderPlus</p>
+</footer>
+
+</body>
+</html>
