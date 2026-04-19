@@ -221,9 +221,14 @@
         .section-dark .callout strong { color: #ffffff; }
 
         /* TEAM */
-        .team-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 700px; }
-        .team-card { text-align: center; padding: 2.5rem 2rem; border: 1px solid var(--border); }
-        .team-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--secondary); color: var(--accent); font-family: 'EB Garamond', serif; font-size: 1.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; border: 2px solid var(--accent); }
+        .team-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .team-advisors { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 720px; margin: 0 auto; }
+        .team-subheader { font-family: 'EB Garamond', serif; font-size: 1.35rem; font-weight: 600; text-align: center; margin: 3rem 0 1.5rem; color: var(--secondary); }
+        .team-subheader::after { content: ''; display: block; width: 40px; height: 2px; background: var(--accent); margin: 0.6rem auto 0; }
+        .team-card { text-align: center; padding: 2.2rem 1.6rem; border: 1px solid var(--border); transition: box-shadow 0.2s, transform 0.2s; }
+        .team-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .team-card.advisor .team-avatar { background: rgba(10,10,10,0.04); color: var(--primary); border-color: var(--primary); }
+        .team-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--secondary); color: var(--accent); font-family: 'EB Garamond', serif; font-size: 1.6rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; border: 2px solid var(--accent); }
         .team-name { font-family: 'EB Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--secondary); }
         .team-role { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); margin: 0.35rem 0 0.7rem; }
         .team-bio { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
@@ -266,7 +271,7 @@
 
         /* RESPONSIVE */
         @media (max-width: 900px) {
-            .grid-2, .grid-3, .grid-4, .tiers-grid, .metrics-grid, .team-grid-2 { grid-template-columns: 1fr; }
+            .grid-2, .grid-3, .grid-4, .tiers-grid, .metrics-grid, .team-grid-3, .team-advisors { grid-template-columns: 1fr; }
             .problem-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.5rem; }
             .nav-right { display: none; }
@@ -871,20 +876,42 @@
 <section id="team">
     <div class="badge badge-crimson">Quem está por trás</div>
     <h2 class="stitle">Equipe SmartLab</h2>
-    <p class="ssub">Dois fundadores unindo inteligência artificial, medicina clínica e biologia molecular — construindo a ponte entre a bancada do futuro e o paciente de hoje.</p>
+    <p class="ssub">Um núcleo enxuto unindo inteligência artificial, engenharia de interface e medicina clínica — apoiado por advisors que garantem relevância científica e hospitalar.</p>
 
-    <div class="team-grid-2">
+    <div class="team-grid-3">
         <div class="team-card">
             <div class="team-avatar">JV</div>
             <div class="team-name">João Victor</div>
             <div class="team-role">Fundador & Lead AI Architect</div>
-            <div class="team-bio">Líder do projeto SmartLab. Especialista em agentes de IA aplicados à biologia e medicina. Desenvolveu o pipeline de design automatizado de CRISPR com validação em DGX H100. Co-fundador da plataforma IA para Médicos.</div>
+            <div class="team-bio">Líder do projeto SmartLab. Especialista em agentes de IA aplicados à biologia e medicina. Desenvolveu o pipeline de design automatizado de CRISPR com validação em DGX H100.</div>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">RP</div>
+            <div class="team-name">Raul Primo</div>
+            <div class="team-role">Desenvolvedor Front-End — IA para Médicos · SmartLab</div>
+            <div class="team-bio">Responsável pela experiência visual e pela interface dos produtos do ecossistema. Constrói as camadas web que conectam agentes de IA a médicos, pesquisadores e usuários finais.</div>
         </div>
         <div class="team-card">
             <div class="team-avatar">SK</div>
             <div class="team-name">Dr. Sakuno</div>
-            <div class="team-role">Médico & Co-fundador, IA para Médicos</div>
-            <div class="team-bio">Médico com visão estratégica na aplicação de inteligência artificial ao contexto clínico brasileiro. Co-fundador da IA para Médicos, responsável pela ponte entre necessidades médicas reais e soluções tecnológicas de impacto.</div>
+            <div class="team-role">Médico Sócio — IA para Médicos</div>
+            <div class="team-bio">Sócio da IA para Médicos. Aporta visão clínica ao produto e garante que os agentes entreguem valor real no contexto hospitalar brasileiro.</div>
+        </div>
+    </div>
+
+    <div class="team-subheader">Medical Advisors</div>
+    <div class="team-advisors">
+        <div class="team-card advisor">
+            <div class="team-avatar">RS</div>
+            <div class="team-name">Dr. Rafael Scherer</div>
+            <div class="team-role">Medical Advisor</div>
+            <div class="team-bio">Consultoria clínica para validação dos fluxos diagnósticos e integração do Smart Wet Lab ao ambiente hospitalar.</div>
+        </div>
+        <div class="team-card advisor">
+            <div class="team-avatar">PC</div>
+            <div class="team-name">Dr. Pedro Carricondo</div>
+            <div class="team-role">Medical Advisor</div>
+            <div class="team-bio">Consultoria clínica e apoio científico na priorização de casos de uso de alto impacto para a medicina brasileira.</div>
         </div>
     </div>
 
