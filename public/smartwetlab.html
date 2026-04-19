@@ -258,6 +258,33 @@
         .faq-q { font-family: 'EB Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem; }
         .faq-a { font-size: 0.93rem; color: var(--text-secondary); line-height: 1.65; }
 
+        /* SHOPPING LIST */
+        .shop-group { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 1.5rem; }
+        .shop-header { display: flex; justify-content: space-between; align-items: baseline; padding: 1.4rem 1.8rem; border-bottom: 1px solid var(--border); background: #fafafa; }
+        .shop-header h3 { font-family: 'EB Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--secondary); margin: 0; display: flex; align-items: center; gap: 0.7rem; }
+        .shop-header .shop-icon { width: 32px; height: 32px; background: rgba(140,21,21,0.08); border: 1px solid rgba(140,21,21,0.15); display: flex; align-items: center; justify-content: center; color: var(--primary); }
+        .shop-header.gold .shop-icon { background: rgba(212,175,55,0.1); border-color: rgba(212,175,55,0.25); color: #b8860b; }
+        .shop-header.green .shop-icon { background: rgba(26,92,46,0.08); border-color: rgba(26,92,46,0.2); color: var(--success); }
+        .shop-header.blue .shop-icon { background: rgba(30,58,138,0.08); border-color: rgba(30,58,138,0.2); color: #1e3a8a; }
+        .shop-subtotal { font-family: 'EB Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--primary); }
+        .shop-list { list-style: none; padding: 0; margin: 0; }
+        .shop-list li { display: grid; grid-template-columns: 1.3fr 2fr auto; gap: 1.2rem; padding: 1rem 1.8rem; border-bottom: 1px solid var(--border); align-items: center; }
+        .shop-list li:last-child { border-bottom: none; }
+        .shop-list li:hover { background: var(--bg-section); }
+        .shop-name { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+        .shop-name small { display: block; font-weight: 500; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; letter-spacing: 0.02em; }
+        .shop-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+        .shop-price { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.95rem; color: var(--secondary); white-space: nowrap; text-align: right; }
+        .shop-total { background: var(--secondary); color: #fff; padding: 1.8rem 2.2rem; display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+        .shop-total-label { font-family: 'EB Garamond', serif; font-size: 1.3rem; font-weight: 600; }
+        .shop-total-label small { display: block; font-size: 0.78rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; margin-top: 0.2rem; }
+        .shop-total-val { font-family: 'EB Garamond', serif; font-size: 2.4rem; font-weight: 700; color: var(--accent); line-height: 1; }
+        @media (max-width: 900px) {
+            .shop-list li { grid-template-columns: 1fr; gap: 0.4rem; padding: 1rem 1.2rem; }
+            .shop-price { text-align: left; }
+            .shop-header { padding: 1.2rem; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+        }
+
         /* CTA FINAL */
         .cta-final { background: var(--bg-dark); padding: 6rem 2rem; text-align: center; }
         .cta-final h2 { font-family: 'EB Garamond', serif; font-size: 2.8rem; font-weight: 600; color: #fefefe; margin-bottom: 1rem; }
@@ -295,6 +322,7 @@
         <a href="#problema">O Problema</a>
         <a href="#solucao">Solução</a>
         <a href="#pipeline">Pipeline</a>
+        <a href="#shopping">Compras</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#tiers" class="nav-cta">Contribuir Agora</a>
     </div>
@@ -871,6 +899,164 @@
         </div>
     </div>
 </div>
+
+<!-- LISTA DE COMPRAS -->
+<section id="shopping">
+    <div class="badge badge-crimson">Lista de Compras</div>
+    <h2 class="stitle">O que vamos adquirir — item por item</h2>
+    <p class="ssub">Transparência máxima. Abaixo está a lista concreta de equipamentos, reagentes e serviços que o crowdfunding viabiliza, com valores de referência do mercado brasileiro. Cada item tem um porquê direto na construção do Smart Wet Lab.</p>
+
+    <!-- Hardware -->
+    <div class="shop-group">
+        <div class="shop-header">
+            <h3>
+                <span class="shop-icon"><svg width="18" height="18"><use href="#ico-cpu"/></svg></span>
+                Hardware Laboratorial
+            </h3>
+            <div class="shop-subtotal">R$ 200.000</div>
+        </div>
+        <ul class="shop-list">
+            <li>
+                <div class="shop-name">Opentrons OT-2<small>Liquid handler automatizado</small></div>
+                <div class="shop-desc">Pipetador de bancada com API Python. É o coração da automação — agentes enviam protocolos e ele executa sem intervenção humana. Padrão ouro em laboratórios ágeis.</div>
+                <div class="shop-price">R$ 80.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Leitor de Placas (Plate Reader)<small>Absorbância + Fluorescência</small></div>
+                <div class="shop-desc">Essencial para ler os ensaios CRISPR-Cas12a (sinal FAM/BHQ-1). Modelo alvo: BioTek Epoch 2 ou equivalente. Alimenta dados em tempo real para o Data Analyst Agent.</div>
+                <div class="shop-price">R$ 60.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Termociclador<small>Para RPA e validação qPCR</small></div>
+                <div class="shop-desc">Controle preciso de temperatura para RPA (37–42 °C) e qPCR de comparação. Conectado via USB/Serial à camada de agentes.</div>
+                <div class="shop-price">R$ 40.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Centrífugas + Vortex + Mini-spin<small>Instrumentação de bancada</small></div>
+                <div class="shop-desc">Microcentrífuga refrigerada, vortex mixer e mini-spin para preparo de amostras. Equipamento de suporte indispensável.</div>
+                <div class="shop-price">R$ 10.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Conjunto de Micropipetas<small>Calibradas, 0,1 μL a 1000 μL</small></div>
+                <div class="shop-desc">Pipetas eletrônicas e manuais de todas as faixas, usadas tanto pelo robô (via pontas) quanto pela equipe humana em etapas de calibração.</div>
+                <div class="shop-price">R$ 10.000</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Reagentes -->
+    <div class="shop-group">
+        <div class="shop-header green">
+            <h3>
+                <span class="shop-icon"><svg width="18" height="18"><use href="#ico-flask"/></svg></span>
+                Reagentes & Consumíveis (12 meses)
+            </h3>
+            <div class="shop-subtotal">R$ 100.000</div>
+        </div>
+        <ul class="shop-list">
+            <li>
+                <div class="shop-name">Enzima LbCas12a + crRNAs<small>IDT / NEB</small></div>
+                <div class="shop-desc">Enzima Cas12a recombinante e crRNAs sintéticos para os 42 alvos de AMR priorizados. Reagente central dos ensaios diagnósticos.</div>
+                <div class="shop-price">R$ 35.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Kits RPA (TwistAmp Basic)<small>Amplificação isotérmica</small></div>
+                <div class="shop-desc">Kits de amplificação recombinase polimerase — permitem point-of-care (37 °C, sem termociclador). Base dos 30-min assays.</div>
+                <div class="shop-price">R$ 25.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Sondas FQ (FAM/BHQ-1) + Controles<small>Repórteres sintéticos</small></div>
+                <div class="shop-desc">Oligos repórter com fluoróforo FAM e quencher BHQ-1 para detecção da atividade colateral da Cas12a. Controles positivos e negativos padrão.</div>
+                <div class="shop-price">R$ 10.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Plásticos: placas 96/384, pontas, tubos<small>Consumíveis de rotina</small></div>
+                <div class="shop-desc">Placas PCR de 96 e 384 poços, pontas filtradas para OT-2, tubos Eppendorf. Gastos mensais recorrentes de bancada.</div>
+                <div class="shop-price">R$ 15.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Síntese inicial de oligos — 42 alvos<small>Primers RPA + crRNAs</small></div>
+                <div class="shop-desc">Síntese comercial de todos os primers e guias projetados in silico pelo pipeline computacional. Insumo de entrada para o primeiro ciclo de validação.</div>
+                <div class="shop-price">R$ 15.000</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Equipe -->
+    <div class="shop-group">
+        <div class="shop-header gold">
+            <h3>
+                <span class="shop-icon"><svg width="18" height="18"><use href="#ico-network"/></svg></span>
+                Equipe Técnica (12 meses)
+            </h3>
+            <div class="shop-subtotal">R$ 150.000</div>
+        </div>
+        <ul class="shop-list">
+            <li>
+                <div class="shop-name">Bioinformata / Engenheiro de IA<small>Parcial — foco em agentes</small></div>
+                <div class="shop-desc">Profissional dedicado à camada de agentes, integração LLM, pipelines de dados e refinamento dos protocolos de validação in silico.</div>
+                <div class="shop-price">R$ 80.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Técnico de Laboratório<small>Parcial — operação do Wet Lab</small></div>
+                <div class="shop-desc">Responsável pelo setup físico, calibração do OT-2, preparo de reagentes e garantia de qualidade dos experimentos executados pelos agentes.</div>
+                <div class="shop-price">R$ 50.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Consultoria Regulatória<small>Preparação ANVISA</small></div>
+                <div class="shop-desc">Assessoria para documentação e início do processo de registro ANVISA do kit diagnóstico de AMR. Crítica para viabilizar o produto final.</div>
+                <div class="shop-price">R$ 20.000</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Digital -->
+    <div class="shop-group">
+        <div class="shop-header blue">
+            <h3>
+                <span class="shop-icon"><svg width="18" height="18"><use href="#ico-refresh"/></svg></span>
+                Infraestrutura Digital (12 meses)
+            </h3>
+            <div class="shop-subtotal">R$ 50.000</div>
+        </div>
+        <ul class="shop-list">
+            <li>
+                <div class="shop-name">Créditos Anthropic API<small>Agentes LLM (Claude)</small></div>
+                <div class="shop-desc">Cota anual de uso da API Claude para orquestração de agentes, interpretação clínica e loops de feedback. Essencial para a camada cognitiva.</div>
+                <div class="shop-price">R$ 20.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Cloud GPU / Tempo de DGX<small>Treinamento e inferência</small></div>
+                <div class="shop-desc">Tempo de GPU para rodar Evo 2, ESM-2, análises de variantes e experimentos de ML offline. Complementa o tempo institucional no DGX H100.</div>
+                <div class="shop-price">R$ 20.000</div>
+            </li>
+            <li>
+                <div class="shop-name">Servidores de Orquestração + Hosting<small>API, dashboards, backups</small></div>
+                <div class="shop-desc">VPS de produção para rodar o orquestrador de agentes 24/7, API REST, dashboards ao vivo e armazenamento seguro de dados experimentais.</div>
+                <div class="shop-price">R$ 10.000</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="shop-total">
+        <div class="shop-total-label">
+            Total da Campanha
+            <small>Meta de crowdfunding</small>
+        </div>
+        <div class="shop-total-val">R$ 500.000</div>
+    </div>
+
+    <div class="callout callout-gold" style="margin-top: 2rem">
+        <div class="callout-label">Por que exatamente esses itens?</div>
+        <p>Cada item foi escolhido para <strong>fechar o loop mais curto possível</strong>: do objetivo científico ao resultado auditado. O OT-2 executa, o leitor mede, os agentes interpretam, e a infraestrutura digital sustenta o ciclo contínuo. Nenhum item é luxo — é o mínimo viável para um laboratório agêntico real no Brasil.</p>
+    </div>
+
+    <div class="callout callout-crimson" style="margin-top: 1rem">
+        <div class="callout-label">Cenários Abaixo da Meta</div>
+        <p>Se atingirmos <strong>60% da meta (R$ 300k)</strong>, priorizamos OT-2 + reagentes + equipe reduzida, adiando leitor de placas e consultoria regulatória. Com <strong>30% (R$ 150k)</strong>, focamos exclusivamente em software + síntese de oligos e validação em laboratório parceiro. Nenhum cenário desperdiça o investimento dos apoiadores.</p>
+    </div>
+</section>
 
 <!-- TIME -->
 <section id="team">
