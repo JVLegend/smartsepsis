@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequenciar o Próprio Genoma em Casa — Versão Brasileira | SmartLab</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8C1515; --primary-dark: #5a0d0d; --primary-light: #be3944;
+            --secondary: #0A0A0A; --secondary-light: #2a2a2a;
+            --accent: #D4AF37; --accent-light: #e6c866;
+            --bg: #ffffff; --bg-card: #fefefe; --bg-section: #F5F5F7; --bg-dark: #0A0A0A;
+            --text: #1a1a1a; --text-secondary: #4a4640; --text-muted: #666666;
+            --border: #EAEAEA; --border-dark: #2a2a2a;
+            --success: #1a5c2e; --success-bg: #f0f5f1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: 'EB Garamond', Georgia, serif; letter-spacing: -0.01em; }
+        code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(10,10,10,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-dark); padding: 0 2rem; display: flex; justify-content: space-between; align-items: stretch; height: 58px; }
+        .nav-left { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-brand { font-family: 'EB Garamond', serif; font-weight: 700; font-size: 1.1rem; color: rgba(255,255,255,0.5); letter-spacing: 0.02em; text-decoration: none; white-space: nowrap; }
+        .nav-brand span { color: var(--accent); font-style: italic; }
+        .nav-sep { color: var(--border-dark); font-size: 1.2rem; }
+        .nav-tabs { display: flex; }
+        .nav-tab { display: flex; align-items: center; padding: 0 1.1rem; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; color: rgba(255,255,255,0.45); border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+        .nav-tab:hover { color: rgba(255,255,255,0.8); }
+        .nav-tab.active { color: #fff; border-bottom-color: var(--accent); }
+        .nav-right { display: flex; gap: 1.2rem; align-items: center; }
+        .nav-right a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.73rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
+        .nav-right a:hover { color: rgba(255,255,255,0.85); }
+
+        /* HERO */
+        .hero {
+            padding: 10rem 2rem 5rem; max-width: 880px; margin: 0 auto; text-align: left;
+            position: relative;
+        }
+        .hero .kicker { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--primary); margin-bottom: 1.5rem; display: inline-block; padding: 0.35rem 0.9rem; border: 1px solid rgba(140,21,21,0.2); background: rgba(140,21,21,0.04); }
+        .hero h1 { font-family: 'EB Garamond', serif; font-size: 3.6rem; font-weight: 600; line-height: 1.1; margin-bottom: 1.5rem; color: var(--secondary); letter-spacing: -0.02em; }
+        .hero h1 em { color: var(--primary); font-style: italic; }
+        .hero .lede { font-size: 1.25rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 2rem; font-weight: 400; max-width: 780px; }
+        .hero .meta { display: flex; gap: 2rem; color: var(--text-muted); font-size: 0.85rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .hero .meta span strong { color: var(--text); font-weight: 600; }
+
+        /* ARTICLE */
+        article { max-width: 780px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+        article section { margin-bottom: 4rem; }
+        article h2 { font-family: 'EB Garamond', serif; font-size: 2.2rem; font-weight: 600; margin: 3rem 0 1rem; color: var(--secondary); letter-spacing: -0.01em; position: relative; padding-bottom: 0.8rem; }
+        article h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 2px; background: var(--primary); }
+        article h3 { font-family: 'EB Garamond', serif; font-size: 1.55rem; font-weight: 600; margin: 2.5rem 0 0.9rem; color: var(--secondary); }
+        article h4 { font-family: 'EB Garamond', serif; font-size: 1.25rem; font-weight: 600; margin: 1.8rem 0 0.6rem; color: var(--secondary); }
+        article p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 1.2rem; }
+        article p strong { color: var(--text); font-weight: 600; }
+        article a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+        article a:hover { color: var(--primary-dark); }
+        article ul, article ol { margin: 1rem 0 1.5rem 1.8rem; color: var(--text-secondary); font-size: 1.02rem; line-height: 1.7; }
+        article ul li, article ol li { margin-bottom: 0.5rem; }
+
+        /* CALLOUT */
+        .callout { padding: 1.4rem 1.7rem; border-left: 3px solid; margin: 2rem 0; background: var(--bg-section); }
+        .callout.warn { border-color: var(--primary); background: rgba(140,21,21,0.04); }
+        .callout.note { border-color: var(--accent); background: rgba(212,175,55,0.05); }
+        .callout.tip { border-color: var(--success); background: rgba(26,92,46,0.04); }
+        .callout-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .callout p { font-size: 0.98rem; margin-bottom: 0.5rem; }
+        .callout p:last-child { margin-bottom: 0; }
+
+        /* TABLE */
+        .cost-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: 0.93rem; }
+        .cost-table thead { background: var(--secondary); color: #fff; }
+        .cost-table th { padding: 0.9rem 1rem; text-align: left; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+        .cost-table th:last-child { text-align: right; }
+        .cost-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+        .cost-table td:last-child { text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--secondary); white-space: nowrap; }
+        .cost-table tbody tr:hover { background: var(--bg-section); }
+        .cost-table tfoot td { background: rgba(140,21,21,0.04); font-weight: 700; color: var(--text); padding: 1rem; border-top: 2px solid var(--primary); border-bottom: none; font-size: 1rem; }
+        .cost-table tfoot td:last-child { color: var(--primary); font-size: 1.1rem; }
+        .cost-table .subtotal td { background: #fafafa; font-weight: 700; }
+        .cost-table .subtotal td:first-child { color: var(--secondary); }
+        .cost-table small { display: block; font-weight: 500; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+        /* CODE BLOCK */
+        pre { background: var(--secondary); color: #e6e6e6; padding: 1.2rem 1.5rem; border-left: 3px solid var(--accent); overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; margin: 1.5rem 0; }
+        pre code { color: inherit; font-size: 1em; }
+        :not(pre) > code { background: #f3f3f3; padding: 0.15rem 0.4rem; border-radius: 2px; color: var(--primary); border: 1px solid var(--border); font-size: 0.88em; }
+
+        /* PHASE CARD */
+        .phase-card { border: 1px solid var(--border); padding: 1.5rem 1.8rem; margin: 1rem 0; background: var(--bg-card); display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center; }
+        .phase-num { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent); background: var(--secondary); border: 1px solid var(--accent); padding: 0.4rem 0.7rem; font-weight: 600; }
+        .phase-body strong { display: block; color: var(--text); margin-bottom: 0.25rem; font-size: 1.05rem; font-weight: 600; }
+        .phase-body p { font-size: 0.93rem; color: var(--text-muted); margin: 0; }
+        .phase-time { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; background: var(--bg-section); padding: 0.3rem 0.6rem; white-space: nowrap; }
+
+        /* FOOTER */
+        footer { background: var(--bg-dark); padding: 3rem 2rem; text-align: center; color: rgba(255,255,255,0.6); }
+        footer p { font-size: 0.9rem; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; }
+        footer a { color: rgba(255,255,255,0.8); text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.3); }
+        footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+        /* RESPONSIVE */
+        @media (max-width: 720px) {
+            .hero h1 { font-size: 2.4rem; }
+            .hero .lede { font-size: 1.1rem; }
+            .nav-right { display: none; }
+            .phase-card { grid-template-columns: 1fr; gap: 0.6rem; }
+            .cost-table { font-size: 0.84rem; }
+            .cost-table td, .cost-table th { padding: 0.6rem 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-left">
+        <a href="https://www.iaparamedicos.com.br/" target="_blank" class="nav-brand">IA para <span>Médicos</span></a>
+        <span class="nav-sep">|</span>
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab">SmartLab</a>
+            <a href="smartwetlab.html" class="nav-tab">Smart Wet Lab</a>
+            <a href="sequenciar-em-casa.html" class="nav-tab active">Sequenciar em Casa</a>
+        </div>
+    </div>
+    <div class="nav-right">
+        <a href="#por-que">Por Que</a>
+        <a href="#hardware">Equipamento</a>
+        <a href="#reagentes">Reagentes</a>
+        <a href="#passo-a-passo">Passos</a>
+        <a href="#custo">Custo</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="kicker">Guia Prático · Versão Brasileira</div>
+    <h1>Quero sequenciar meu <em>genoma inteiro</em> na cozinha de casa.</h1>
+    <p class="lede">
+        Sim, é possível. Sim, no Brasil. Sim, com imposto. Este é o passo-a-passo honesto — equipamento, reagentes, preços em real, armadilhas de importação, e como conectar tudo isso à visão do SmartLab. Adaptado livremente do <a href="https://iwantosequencemygenomeathome.com/" target="_blank" rel="noopener">post original de Seth Showes</a>.
+    </p>
+    <div class="meta">
+        <span><strong>Dificuldade:</strong> Médio-alto (requer paciência de pipetagem)</span>
+        <span><strong>Tempo total:</strong> 3 dias úteis</span>
+        <span><strong>Custo:</strong> ~R$ 15k por run + R$ 40k de setup</span>
+    </div>
+</div>
+
+<article>
+
+<!-- POR QUE -->
+<section id="por-que">
+    <h2>Por que sequenciar o próprio genoma?</h2>
+    <p>
+        Tem duas razões que se misturam. A primeira é <strong>curiosidade de fuçador</strong>: quem passou a adolescência desmontando computador quer desmontar biologia também. A segunda é mais pessoal — história familiar. Se sua linhagem carrega um padrão que ninguém sabe explicar (doença autoimune, câncer precoce, resposta estranha a remédio), você eventualmente vai querer olhar o código-fonte.
+    </p>
+    <p>
+        Nos EUA, o Seth Showes fez isso na mesa da cozinha dele por cerca de US$ 5.000 no total. A pergunta deste guia é: <strong>dá para replicar no Brasil?</strong> Resposta curta: dá, mas tem que negociar com a Receita Federal, aceitar que o frete vai dobrar o preço de alguns reagentes, e ter estômago para errar uma flow cell de R$ 9.000 porque entrou bolha. Resposta longa: continua lendo.
+    </p>
+
+    <div class="callout note">
+        <div class="callout-label">Aviso importante</div>
+        <p>Isto <strong>não é diagnóstico médico</strong>. Você está fazendo ciência caseira por curiosidade intelectual. Resultados devem ser validados por laboratório clínico certificado antes de qualquer decisão de saúde. A LGPD também se aplica: seus dados genéticos são dado pessoal sensível. Guarde com cuidado, não publique em repositório aberto, pense antes de compartilhar com familiares.</p>
+    </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+    <h2>Como a mágica acontece: MinION em 90 segundos</h2>
+    <p>
+        O equipamento central é o <a href="https://nanoporetech.com/products/sequence/minion" target="_blank" rel="noopener">MinION Mk1D da Oxford Nanopore</a> — um sequenciador do tamanho de um grampeador. Dentro dele, uma <strong>flow cell</strong> (cartucho descartável) tem cerca de 2.000 nanoporos de proteína alinhados em uma membrana. Você aplica voltagem, o DNA é puxado através desses poros, e cada base (A, C, G, T) altera a corrente de um jeito único. Um software lê esses sinais elétricos e reconstrói a sequência.
+    </p>
+    <p>
+        Diferente do sequenciamento de cadeia curta (tipo o que a 23andMe usa, com leituras de 150 bases), o nanoporo produz leituras de <strong>10.000 a 50.000+ bases</strong> por vez. Isso muda o jogo para detectar variantes estruturais, regiões repetitivas, e genes difíceis. Também dá para ler metilação (epigenética) na mesma run, sem reagente extra.
+    </p>
+    <p>
+        Um recurso matador é o <strong>adaptive sampling</strong>: o software lê as primeiras 500 bases de cada molécula, compara com o genoma de referência, e decide em tempo real se vale a pena continuar lendo ou ejetar. Na prática, isso é enriquecimento de target "de graça" — sem PCR, sem sondas, sem nada. Você dá uma lista BED de regiões de interesse e o aparelho foca nelas.
+    </p>
+</section>
+
+<!-- HARDWARE -->
+<section id="hardware">
+    <h2>Equipamento: o que comprar, onde, e por quanto</h2>
+    <p>
+        A realidade brasileira é dura em uma parte e macia em outra. Dura: MinION e reagentes importados chegam com 40–60% de imposto + frete caro. Macia: equipamento de bancada genérico (heat block, vórtex, centrífuga) tem mercado usado robusto em universidades e ONGs — e Aliexpress/OLX funciona para o que não é crítico.
+    </p>
+
+    <table class="cost-table">
+        <thead>
+            <tr><th>Item</th><th>Onde comprar</th><th>Preço (R$)</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>MinION Mk1D</strong><small>Sequenciador principal, reutilizável</small></td>
+                <td>Oxford Nanopore direto (store.nanoporetech.com) — envio UK/EU, declarar no Siscomex</td>
+                <td>~R$ 32.000</td>
+            </tr>
+            <tr>
+                <td><strong>Flow cell FLO-MIN114</strong><small>Descartável, 1 por run (~48h)</small></td>
+                <td>Oxford Nanopore direto. Pedir em lote para diluir frete</td>
+                <td>~R$ 9.000/un</td>
+            </tr>
+            <tr>
+                <td><strong>Kit de pipetas P10–P1000</strong><small>Calibração importa, aqui não economize</small></td>
+                <td>Gilson/Eppendorf usadas (Allcrom, Kasvi, OLX de universidades)</td>
+                <td>R$ 2.500–4.000</td>
+            </tr>
+            <tr>
+                <td><strong>Heat block digital</strong><small>Precisa de 56 °C e 65 °C</small></td>
+                <td>Quimis, Marconi, ou usado em feiras como ExpoLab</td>
+                <td>R$ 1.200–2.000</td>
+            </tr>
+            <tr>
+                <td><strong>Microcentrífuga</strong><small>Atingir 12.000 g</small></td>
+                <td>Kasvi/Eppendorf novas ou usadas de universidade</td>
+                <td>R$ 1.800–3.500</td>
+            </tr>
+            <tr>
+                <td><strong>Vórtex</strong><small>Scientific Industries ou similar</small></td>
+                <td>Aliexpress (~R$ 300) ou usado nacional</td>
+                <td>R$ 300–800</td>
+            </tr>
+            <tr>
+                <td><strong>Rack magnético</strong><small>Dá para imprimir em 3D</small></td>
+                <td>DIY com ímãs de neodímio (AliExpress) ou Allcrom</td>
+                <td>R$ 50–500</td>
+            </tr>
+            <tr>
+                <td><strong>Qubit fluorômetro</strong><small>Quantificação de DNA</small></td>
+                <td>ThermoFisher via distribuidor BR, ou Qubit 2.0 usado</td>
+                <td>R$ 3.000–8.000</td>
+            </tr>
+            <tr class="subtotal">
+                <td colspan="2">Subtotal equipamento (one-time)</td>
+                <td>~R$ 40.000–60.000</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout tip">
+        <div class="callout-label">Dica brasileira</div>
+        <p>Universidades públicas descartam equipamento toda hora. Vórtex dos anos 80 funciona idêntico a modelo novo. Entre em contato com o departamento de biologia molecular mais próximo e pergunte se tem material de baixa. A UFMG, USP, UFRJ e UFRGS têm programas de reaproveitamento. Se você tiver um CNPJ de pesquisa, compra cai no lucro presumido e o imposto some.</p>
+    </div>
+</section>
+
+<!-- REAGENTES -->
+<section id="reagentes">
+    <h2>Reagentes: kits, onde achar, e como driblar o "pacote de 24"</h2>
+    <p>
+        Aqui mora a parte cruel: kits de sequenciamento são vendidos em formato high-throughput. O SQK-LSK114 vem com 6 reações mínimas, o NEBNext Companion com 24. Se você vai fazer <strong>uma run</strong>, está pagando pelo lote inteiro — ou divide com amigos, ou tenta revender as alíquotas.
+    </p>
+
+    <table class="cost-table">
+        <thead>
+            <tr><th>Reagente</th><th>Tamanho / Fornecedor</th><th>Preço (R$)</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>SQK-LSK114</strong><small>Kit de ligação Oxford Nanopore</small></td>
+                <td>6 reações — Oxford Nanopore direto</td>
+                <td>~R$ 6.000<small>~R$ 1.000/rxn</small></td>
+            </tr>
+            <tr>
+                <td><strong>NEBNext Companion v2 (E7672S)</strong><small>Enzimas de reparo + ligação</small></td>
+                <td>24 reações — NEB via Uniscience ou Sinapse Biotech</td>
+                <td>~R$ 12.500<small>~R$ 520/rxn</small></td>
+            </tr>
+            <tr>
+                <td><strong>Monarch T3010</strong><small>Extração de DNA (swab bucal)</small></td>
+                <td>50 preps — NEB via distribuidor BR</td>
+                <td>~R$ 1.500<small>~R$ 30/prep</small></td>
+            </tr>
+            <tr>
+                <td><strong>Flow Cell Wash Kit (EXP-WSH004)</strong><small>Regenera poros no meio da run</small></td>
+                <td>Oxford Nanopore direto</td>
+                <td>~R$ 200/uso</td>
+            </tr>
+            <tr>
+                <td><strong>AMPure beads</strong><small>Limpeza magnética</small></td>
+                <td>Inclusas nos kits + reserva em ThermoFisher BR</td>
+                <td>Já incluso</td>
+            </tr>
+            <tr>
+                <td><strong>Consumíveis</strong><small>Pontas filtradas, tubos, etanol absoluto, PBS</small></td>
+                <td>Allcrom, Kasvi, Sigma-Aldrich BR</td>
+                <td>R$ 250/run</td>
+            </tr>
+            <tr class="subtotal">
+                <td colspan="2">Custo por run (amortizado sobre 1ª reação do kit)</td>
+                <td>~R$ 11.200</td>
+            </tr>
+            <tr class="subtotal">
+                <td colspan="2">Custo por run (amortizado sobre kits inteiros)</td>
+                <td>~R$ 1.800</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout warn">
+        <div class="callout-label">Realidade da importação</div>
+        <p>Reagentes da ONT saem do Reino Unido. Prazo médio: 10–20 dias úteis. Alguns ficam retidos na Receita por causa de documentação (pedir ao vendedor para emitir commercial invoice detalhada + ficha técnica em inglês). O <strong>cold chain</strong> é crítico: os kits precisam chegar congelados (-20 °C). Peça <strong>entrega expressa com gelo seco</strong> e tenha alguém em casa para receber. Já aconteceu de kit chegar descongelado e virar R$ 6.000 no lixo.</p>
+    </div>
+</section>
+
+<!-- PASSO A PASSO -->
+<section id="passo-a-passo">
+    <h2>O workflow de 3 dias</h2>
+    <p>Dia 1: prepara. Dia 2–3: sequencia e basecalling. Dia 4 em diante: análise. Abaixo o resumo executável — os detalhes completos estão nos PDFs da ONT e NEB linkados em cada passo.</p>
+
+    <div class="phase-card">
+        <div class="phase-num">01</div>
+        <div class="phase-body">
+            <strong>Setup do MinION & validação da flow cell</strong>
+            <p>Instalar MinKNOW (Mac/Win/Linux), aquecer 20 min, rodar pore check. Precisa de <strong>≥800 poros ativos</strong> para valer a pena. Se estiver abaixo disso, contatar a ONT — às vezes dão reposição.</p>
+        </div>
+        <div class="phase-time">~30 min</div>
+    </div>
+
+    <div class="phase-card">
+        <div class="phase-num">02</div>
+        <div class="phase-body">
+            <strong>Extração de DNA — swab bucal</strong>
+            <p>Raspa a bochecha por 60s de cada lado com swab <strong>flocado</strong> (não use cotonete comum). Ressuspende em PBS, segue protocolo NEB Monarch T3010. <strong>Aquecer o elution buffer a 60 °C antes da eluição final</strong> (faz diferença enorme no yield).</p>
+        </div>
+        <div class="phase-time">~30 min</div>
+    </div>
+
+    <div class="phase-card">
+        <div class="phase-num">03</div>
+        <div class="phase-body">
+            <strong>Library prep — reparo, ligação, limpeza</strong>
+            <p>Reparo FFPE + end-prep → ligação de adapters → 2× limpeza AMPure. <strong>Nunca dar vórtex em mix de enzima</strong> (glicerol espuma e a enzima perde atividade — só dar flicks no tubo). Na segunda limpeza, usar <strong>LFB em vez de etanol</strong> (etanol arranca a proteína motora do adapter).</p>
+        </div>
+        <div class="phase-time">~70 min</div>
+    </div>
+
+    <div class="phase-card">
+        <div class="phase-num">04</div>
+        <div class="phase-body">
+            <strong>Carregar a flow cell — o passo mais perigoso</strong>
+            <p>Uma única bolha de ar mata poros <strong>permanentemente</strong>. Assistir ao vídeo oficial da ONT antes de começar. Usar P1000 e controlar volume pelo dial (não pelo pistão) para aspirar o buffer de priming. R$ 9.000 podem virar pó em 5 segundos de distração.</p>
+        </div>
+        <div class="phase-time">~15 min</div>
+    </div>
+
+    <div class="phase-card">
+        <div class="phase-num">05</div>
+        <div class="phase-body">
+            <strong>Sequenciar — 48h no canto do escritório</strong>
+            <p>MinKNOW faz basecalling em tempo real (modelo HAC). Monitorar pore occupancy: se cair abaixo de 30% no meio da run, rodar o Wash Kit e recarregar com a reserva da library. Throughput esperado: 20–40 Gb totais.</p>
+        </div>
+        <div class="phase-time">48h</div>
+    </div>
+
+    <div class="phase-card">
+        <div class="phase-num">06</div>
+        <div class="phase-body">
+            <strong>Basecalling & alinhamento</strong>
+            <p>Reprocessar regiões críticas com modelo SUP (99,5% acurácia). Alinhar com <code>minimap2</code>, validar cobertura com <code>mosdepth</code>. Um Mac Studio M3 Ultra dá conta de HAC em tempo real; para SUP, rodar numa GPU (DGX Spark faz em ~31h o que o Mac faz em 5 dias).</p>
+        </div>
+        <div class="phase-time">3–17h</div>
+    </div>
+
+    <h3>Comandos úteis</h3>
+    <pre><code># Basecalling com Dorado (HAC)
+dorado basecaller -x auto \
+  ~/models/dna_r10.4.1_e8.2_400bps_hac@v5.2.0 \
+  ~/runs/pod5/ > reads.hac.bam
+
+# Alinhamento + cobertura
+minimap2 -ax map-ont --MD ref/GRCh38.fa reads.hac.bam \
+  | samtools sort -o aligned.bam -
+samtools index aligned.bam
+samtools flagstat aligned.bam  # esperar >95% mapeado
+mosdepth --by panels/farmacogenes.bed cov aligned.bam</code></pre>
+
+    <div class="callout tip">
+        <div class="callout-label">Dica: adaptive sampling é seu amigo</div>
+        <p>Em vez de sequenciar o genoma todo (que vai exigir 3 runs para 30× de cobertura), defina um <strong>painel de 30–50 genes clinicamente relevantes</strong> — farmacogenômica (CYP2D6, CYP2C19), BRCA1/2, APOE, MC4R etc. Em ~1% do genoma, você consegue 30–50× de cobertura em uma única flow cell. Custa o mesmo e entrega dados bem mais úteis do que 5× WGS raso. Use o Claude para converter lista de genes em arquivo BED rapidamente.</p>
+    </div>
+</section>
+
+<!-- CUSTO -->
+<section id="custo">
+    <h2>O custo total em reais</h2>
+    <p>
+        Dois cenários: o barato (uma run, painel focado) e o razoável (três runs de WGS 30× ao longo do ano).
+    </p>
+
+    <table class="cost-table">
+        <thead>
+            <tr><th>Cenário</th><th>Detalhe</th><th>Total (R$)</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Barato — uma run</strong><small>Painel de 50 genes, 30× cobertura</small></td>
+                <td>Equipamento (R$ 40k) + consumíveis de 1 run (R$ 11k)</td>
+                <td>~R$ 51.000</td>
+            </tr>
+            <tr>
+                <td><strong>Razoável — 3 runs</strong><small>WGS 30× ao longo de um ano</small></td>
+                <td>Equipamento (R$ 40k) + 3 flow cells + reagentes parcialmente divididos</td>
+                <td>~R$ 65.000</td>
+            </tr>
+            <tr>
+                <td><strong>Coletivo — grupo de 6</strong><small>Dividindo kits e equipamento</small></td>
+                <td>Equipamento compartilhado + kits divididos entre 6 pessoas</td>
+                <td>~R$ 15.000/pessoa</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Comparação: sequenciamento em lab comercial no Brasil (WGS 30×)</td>
+                <td>~R$ 8.000–18.000</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p>
+        Então por que não pagar o lab comercial e pronto? Porque o ponto aqui não é economia — é <strong>agência</strong>. Com o MinION em casa, você pode rodar painéis específicos quando quiser, acessar dados brutos (pod5) — que laboratório nenhum entrega — e fazer parte da revolução da biotecnologia acessível. É a diferença entre alugar um servidor e ter seu próprio homelab.
+    </p>
+</section>
+
+<!-- RISCOS -->
+<section id="riscos">
+    <h2>O que pode dar errado (e provavelmente vai)</h2>
+    <ul>
+        <li><strong>Bolha na flow cell:</strong> R$ 9.000 em 5 segundos. Assista ao tutorial. Pratique com flow cell morta se conseguir uma.</li>
+        <li><strong>Kit descongelado na alfândega:</strong> pagar frete expresso com gelo seco. Tem segurado?</li>
+        <li><strong>Vórtex em enzima:</strong> só dar flick. Glicerol vira espuma e a enzima morre.</li>
+        <li><strong>Pipetagem desregulada:</strong> mandar calibrar as pipetas em laboratório certificado (~R$ 150/peça) antes da primeira run.</li>
+        <li><strong>Contaminação:</strong> 70% isopropanol na bancada antes e depois de cada etapa. Pontas filtradas sempre.</li>
+        <li><strong>LGPD:</strong> seu genoma é dado pessoal sensível. HD encriptado, não sobe pra nuvem pública, não compartilha sem pensar duas vezes.</li>
+    </ul>
+
+    <div class="callout warn">
+        <div class="callout-label">Não é consultoria médica</div>
+        <p>Achar uma variante em BRCA1 não significa que você tem câncer. Achar APOE4 não significa que você vai ter Alzheimer. Variantes raras exigem validação clínica em laboratório certificado com painel multidisciplinar. Se aparecer algo que assusta, procure geneticista antes de tomar qualquer decisão de saúde. O que você tem aqui é um brinquedo científico poderoso, não um substituto de medicina.</p>
+    </div>
+</section>
+
+<!-- LIGAÇÃO COM SMARTLAB -->
+<section id="smartlab">
+    <h2>Por que esse post está no site do SmartLab?</h2>
+    <p>
+        Porque <strong>a filosofia é a mesma</strong>. O SmartLab é um projeto que parte do pressuposto de que ciência de ponta não precisa mais ficar trancada em laboratório de R$ 20 milhões com 30 PhDs. Um MinION na sua mesa, agentes de IA rodando no seu notebook, reagentes acessíveis. Isso é o caminho.
+    </p>
+    <p>
+        Nosso <a href="smartwetlab.html">Smart Wet Lab</a> é a evolução natural deste DIY: pega o mesmo espírito, adiciona automação robótica (Opentrons OT-2) e orquestração agêntica (Claude como cientista de plantão), e escala de "um genoma por fim de semana" para "painéis diagnósticos de AMR rodando 24/7". O crowdfunding que estamos captando é exatamente para viabilizar essa infraestrutura para toda a comunidade brasileira.
+    </p>
+    <p>
+        Se você leu até aqui, provavelmente é o tipo de pessoa que já está tentando. Manda DM, vamos trocar figurinha. E se quiser apoiar o Smart Wet Lab, <a href="smartwetlab.html#tiers">os marcos de R$ 50k/150k/500k estão aqui</a>.
+    </p>
+</section>
+
+<!-- PRÓXIMOS PASSOS -->
+<section id="proximos">
+    <h2>Quero começar. Por onde?</h2>
+    <ol>
+        <li><strong>Encontre uma comunidade.</strong> Grupos no Telegram de biohacker brasileiro existem. Biofábrica ETFMG em Belo Horizonte, Biohacking.Rio, Bioclub Brasil. Não faça isso sozinho no primeiro run — o custo de errar é alto.</li>
+        <li><strong>Crie conta na ONT Store</strong> e peça orçamento formal. Eles emitem commercial invoice necessária para o Siscomex.</li>
+        <li><strong>Calibre pipetas</strong> em lab certificado antes de gastar o primeiro reagente.</li>
+        <li><strong>Pratique com DNA barato primeiro.</strong> Compre DNA de E. coli ou lambda (R$ 50), extraia, faça library prep sem flow cell. Se errar, só perde R$ 500 em reagente. Só quando acertar 3 vezes seguidas, compre a flow cell.</li>
+        <li><strong>Defina seu BED.</strong> Use o Claude pra transformar lista de genes em coordenadas GRCh38. Mantenha o painel em ~1% do genoma.</li>
+        <li><strong>Documente tudo.</strong> Cada pipetagem, cada desvio do protocolo. Seu eu do futuro vai agradecer quando der errado.</li>
+    </ol>
+
+    <div class="callout note">
+        <div class="callout-label">Precisa de ajuda?</div>
+        <p>Estamos montando uma rede de fuçadores de DNA no Brasil. Se quiser dividir um pedido de kits, compartilhar equipamento, ou só trocar ideia antes de pagar R$ 9.000 em flow cell, <a href="mailto:contato@iaparamedicos.com.br?subject=Sequenciamento DIY">manda e-mail</a>. Não temos resposta pra tudo, mas temos cicatrizes.</p>
+    </div>
+</section>
+
+</article>
+
+<footer>
+    <p>
+        <strong>SmartLab BacEnd</strong> · <a href="index.html">Projeto principal</a> · <a href="smartwetlab.html">Smart Wet Lab</a> · <a href="https://www.iaparamedicos.com.br/" target="_blank">IA para Médicos</a>
+    </p>
+    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 1rem">
+        Adaptado de <a href="https://iwantosequencemygenomeathome.com/" target="_blank" rel="noopener">iwantosequencemygenomeathome.com</a> por Seth Showes. Versão brasileira livre, sem afiliação. Preços são estimativas baseadas em cotações informais de 2026 — confirme antes de comprar.
+    </p>
+    <p style="font-size: 0.78rem; opacity: 0.4; margin-top: 0.5rem">© 2026 IA para Médicos.</p>
+</footer>
+
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const t = document.querySelector(a.getAttribute('href'));
+            if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+</script>
+
+</body>
+</html>
