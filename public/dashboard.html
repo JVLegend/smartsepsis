@@ -141,6 +141,49 @@
         <p>Explore os 42 alvos do pipeline: filtre por prioridade, familia, impacto funcional. Clique em um gene para ver detalhes.</p>
     </div>
 
+    <!-- ESM-2 / PHENOTYPE PROBE PANEL (Fase 7/9/10 reais) -->
+    <div class="filters" id="esmPanel" style="background: #ecfeff; border-color: #a5f3fc; margin-bottom: 1rem; flex-direction: column; align-items: stretch; gap: 0.6rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label style="color:#0e7490; font-size: 0.85rem;">&#x1F9EC; Inferencia ESM-2 (Fase 7) + Phenotype Probe (Fase 9)</label>
+            <span class="pill" style="background:#06b6d4; color:white; font-size:0.6rem;" id="esmModelTag">aguardando dados...</span>
+        </div>
+        <div style="display:flex; gap:1.2rem; flex-wrap:wrap; font-size:0.78rem; color:#155e75;" id="esmStats">
+            <span>Carregando metricas...</span>
+        </div>
+    </div>
+
+    <!-- MULTI-OBJECTIVE SLIDERS (Fase 8) -->
+    <div class="filters" style="background: #fdf2f2; border-color: #fee2e2; margin-bottom: 1rem;">
+        <div style="width: 100%; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <label style="color: #991b1b; font-size: 0.85rem;">🎚️ Multi-Objective Design Slider (Fase 8)</label>
+            <span class="pill pill-p1" style="font-size: 0.6rem;">Pareto Frontier Mode</span>
+        </div>
+        <div class="filter-group" style="flex: 1; min-width: 120px;">
+            <label style="font-size: 0.65rem;">Eficácia (Cov)</label>
+            <input type="range" id="weightEfficacy" min="0" max="100" value="50" oninput="applyWeights()">
+        </div>
+        <div class="filter-group" style="flex: 1; min-width: 120px;">
+            <label style="font-size: 0.65rem;">Especificidade</label>
+            <input type="range" id="weightSpec" min="0" max="100" value="50" oninput="applyWeights()">
+        </div>
+        <div class="filter-group" style="flex: 1; min-width: 120px;">
+            <label style="font-size: 0.65rem;">Cobertura</label>
+            <input type="range" id="weightCoverage" min="0" max="100" value="50" oninput="applyWeights()">
+        </div>
+        <div class="filter-group" style="flex: 1; min-width: 120px;">
+            <label style="font-size: 0.65rem;">RPA (Tm/GC)</label>
+            <input type="range" id="weightRPA" min="0" max="100" value="50" oninput="applyWeights()">
+        </div>
+        <div class="filter-group" style="flex: 1; min-width: 120px;">
+            <label style="font-size: 0.65rem;">Custo (Oligo)</label>
+            <input type="range" id="weightCost" min="0" max="100" value="50" oninput="applyWeights()">
+        </div>
+        <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+            <button onclick="resetWeights()" style="font-size: 0.7rem; padding: 0.3rem 0.5rem; border: 1px solid #dc2626; background: white; color: #dc2626; border-radius: 4px; cursor: pointer;">Reset</button>
+            <button onclick="saveProfile()" style="font-size: 0.7rem; padding: 0.3rem 0.5rem; border: none; background: #dc2626; color: white; border-radius: 4px; cursor: pointer;">Salvar</button>
+        </div>
+    </div>
+
     <!-- FILTERS -->
     <div class="filters">
         <div class="filter-group">
@@ -187,7 +230,8 @@
                     <th onclick="sortTable(3)">Organismo <span class="sort-icon">&#x25B4;&#x25BE;</span></th>
                     <th onclick="sortTable(4)">Variantes <span class="sort-icon">&#x25B4;&#x25BE;</span></th>
                     <th onclick="sortTable(5)">BLAST <span class="sort-icon">&#x25B4;&#x25BE;</span></th>
-                    <th onclick="sortTable(6)">Impacto Func. <span class="sort-icon">&#x25B4;&#x25BE;</span></th>
+                    <th onclick="sortTable(6)">Impacto DNA (Evo2) <span class="sort-icon">&#x25B4;&#x25BE;</span></th>
+                    <th onclick="sortTable(7)">Impacto Prot (ESM2) <span class="sort-icon">&#x25B4;&#x25BE;</span></th>
                     <th>Acao</th>
                 </tr>
             </thead>
@@ -351,6 +395,22 @@ function getImpactBar(score) {
     return `<div class="impact-bar"><div class="impact-fill ${cls}" style="width:${norm*100}%"></div></div> <span style="font-size:0.72rem; color:var(--text-muted)">${score}</span>`;
 }
 
+function renderProteinImpact(t) {
+    if (t.proteinMaxDist === undefined) {
+        return '<span style="color:var(--text-muted); font-size:0.75rem;">--</span>';
+    }
+    const d = t.proteinMaxDist;
+    let cls = 'impact-conserved', label = 'Conservado';
+    if (d >= 0.15) { cls = 'impact-disrupted'; label = 'Disrupted'; }
+    else if (d >= 0.05) { cls = 'impact-uncertain'; label = 'Moderate'; }
+    else if (d >= 0.01) { cls = 'impact-likely'; label = 'Light'; }
+    const pct = Math.min(d * 100 / 0.2, 100);
+    return `<span title="max cosine dist=${d.toFixed(4)} (mean=${(t.proteinMeanDist||0).toFixed(4)})">
+        <span class="impact-bar"><span class="impact-fill ${cls}" style="width:${pct}%"></span></span>
+        <span style="font-size:0.7rem; margin-left:0.3rem; color:var(--text-muted);">${label} ${d.toFixed(3)}</span>
+    </span>`;
+}
+
 function renderGeneMap(t) {
     if (!t.geneLen) return '';
     const guideStart = (t.guidePos / t.geneLen) * 100;
@@ -412,9 +472,34 @@ function renderDetailPanel(t) {
                         <li><strong>Accession:</strong> <span class="seq">${t.accession}</span></li>
                     </ul>
                 </div>
+                ${renderEsmDetail(t)}
             </div>
         </div>
     </td>`;
+}
+
+function renderEsmDetail(t) {
+    if (!t.proteinImpactList && !t.phenotypePred) return '';
+    const variants = (t.proteinImpactList || []).slice(0, 8).map(s => `<li><span class="seq" style="font-size:0.7rem;">${s}</span></li>`).join('');
+    const phen = t.phenotypePred;
+    const phenBlock = phen ? `
+        <div style="margin-top:0.6rem; padding-top:0.5rem; border-top:1px dashed var(--border); font-size:0.78rem;">
+            <strong>Phenotype probe:</strong><br>
+            Drug class predita: <strong>${phen.predicted_drug_class}</strong>
+            <span style="color:var(--text-muted);">(conf=${phen.drug_confidence_max})</span><br>
+            Mecanismo: <strong>${phen.predicted_mechanism}</strong>
+            <span style="color:var(--text-muted);">(conf=${phen.mechanism_confidence})</span>
+        </div>` : '';
+    return `
+        <div class="detail-box" style="grid-column: 1 / -1; background:#ecfeff; border-color:#a5f3fc;">
+            <h4>&#x1F9EC; ESM-2 / Phenotype probe (Fase 7/9)</h4>
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.4rem;">
+                Max cosine dist: <strong>${(t.proteinMaxDist || 0).toFixed(4)}</strong>
+                | Mean: <strong>${(t.proteinMeanDist || 0).toFixed(4)}</strong>
+            </div>
+            <ul style="max-height:120px; overflow:auto;">${variants || '<li>Sem variantes embed</li>'}</ul>
+            ${phenBlock}
+        </div>`;
 }
 
 function renderTable(data) {
@@ -433,7 +518,8 @@ function renderTable(data) {
             <td style="font-style:italic; font-size:0.78rem;">${t.organism}</td>
             <td>${t.variants.length}</td>
             <td><span class="pill pill-done">${t.blast}</span></td>
-            <td>${getImpactBar(t.guideScore)}</td>
+            <td>${getImpactBar(t.dynamicScore || t.guideScore)}</td>
+            <td>${renderProteinImpact(t)}</td>
             <td style="font-size:0.78rem; color:var(--primary); cursor:pointer;">Detalhes &#x25BC;</td>
         `;
         tr.id = `row-${idx}`;
@@ -462,6 +548,57 @@ function toggleDetail(idx) {
     detailRow.classList.toggle('visible');
     mainRow.classList.toggle('expanded');
     expandedRow = detailRow.classList.contains('visible') ? idx : null;
+}
+
+// =====================================================================
+// MULTI-OBJECTIVE WEIGHTS (Fase 8)
+// =====================================================================
+let currentWeights = { efficacy: 0.5, specificity: 0.5, coverage: 0.5, rpa: 0.5, cost: 0.5 };
+
+function applyWeights() {
+    currentWeights = {
+        efficacy: document.getElementById('weightEfficacy').value / 100,
+        specificity: document.getElementById('weightSpec').value / 100,
+        coverage: document.getElementById('weightCoverage').value / 100,
+        rpa: document.getElementById('weightRPA').value / 100,
+        cost: 1 - (document.getElementById('weightCost').value / 100) // Lower cost is better
+    };
+
+    // Re-calculate scores for all targets
+    TARGETS.forEach(t => {
+        // Mock data to simulate multi-objective features if not present
+        const fSpec = t.blast === "100%" ? 1.0 : 0.7;
+        const fCov = Math.min(t.variants.length / 5, 1.0);
+        const fRpa = (t.guideGC >= 0.4 && t.guideGC <= 0.6) ? 1.0 : 0.6;
+        const fEff = (t.guideScore - 100) / 35; // Normalized efficacy
+
+        // Simple weighted linear combination
+        t.dynamicScore = (
+            fEff * currentWeights.efficacy +
+            fSpec * currentWeights.specificity +
+            fCov * currentWeights.coverage +
+            fRpa * currentWeights.rpa +
+            currentWeights.cost * 0.5 // Simplified cost
+        ) * 100 + 50;
+    });
+
+    // Auto-sort by dynamic score descending
+    TARGETS.sort((a, b) => b.dynamicScore - a.dynamicScore);
+    applyFilters();
+}
+
+function resetWeights() {
+    ['weightEfficacy', 'weightSpec', 'weightCoverage', 'weightRPA', 'weightCost'].forEach(id => {
+        document.getElementById(id).value = 50;
+    });
+    applyWeights();
+}
+
+function saveProfile() {
+    const blob = new Blob([JSON.stringify(currentWeights, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'weight_profile.json'; a.click();
 }
 
 // =====================================================================
@@ -540,9 +677,81 @@ function exportCSV() {
 }
 
 // =====================================================================
+// REAL DATA LOADERS (Fases 7/9/10 - ESM-2 inference)
+// =====================================================================
+let PROTEIN_SCORES = {};      // por variante
+let PHENOTYPE_PREDS = [];     // lista
+let PHENOTYPE_METRICS = null; // dict
+let PROTEIN_DISTANCES = {};   // por familia
+
+async function loadRealData() {
+    try {
+        const [scores, preds, metrics, dists] = await Promise.all([
+            fetch('data/protein_scores.json').then(r => r.json()),
+            fetch('data/phenotype_predictions.json').then(r => r.json()),
+            fetch('data/phenotype_metrics.json').then(r => r.json()),
+            fetch('data/protein_distances_all.json').then(r => r.json()),
+        ]);
+        PROTEIN_SCORES = scores;
+        PHENOTYPE_PREDS = preds;
+        PHENOTYPE_METRICS = metrics;
+        PROTEIN_DISTANCES = dists;
+        // Popular cada TARGET com agregados reais por familia
+        TARGETS.forEach(t => {
+            const famVariants = Object.values(PROTEIN_SCORES).filter(s =>
+                s.family === t.name || s.family === t.name.replace(/-\d+$/, '') || (t.variants || []).includes(s.variant)
+            );
+            if (famVariants.length) {
+                const dists = famVariants.map(s => s.protein_distance_cosine);
+                t.proteinMaxDist = Math.max(...dists);
+                t.proteinMeanDist = dists.reduce((a, b) => a + b, 0) / dists.length;
+                t.proteinImpactList = famVariants.map(s => `${s.variant}: ${s.impact_type} (d=${s.protein_distance_cosine.toFixed(4)})`);
+            }
+            // Phenotype: pegar predicao da primeira variante associada
+            const phen = PHENOTYPE_PREDS.find(p =>
+                p.family === t.name || (t.variants || []).includes(p.variant)
+            );
+            if (phen) {
+                t.phenotypePred = phen;
+            }
+        });
+        renderEsmPanel();
+        renderTable(TARGETS);
+    } catch (e) {
+        console.warn('Dados ESM-2 nao encontrados em public/data/. Rode os scripts python primeiro.', e);
+        document.getElementById('esmStats').innerHTML =
+            '<span style="color:#b91c1c;">Dados nao encontrados. Rode: python protein_scoring.py, protein_distance_matrix.py, phenotype_probe.py</span>';
+    }
+}
+
+function renderEsmPanel() {
+    if (!PHENOTYPE_METRICS) return;
+    const m = PHENOTYPE_METRICS;
+    document.getElementById('esmModelTag').textContent = m.model;
+    const totalVar = Object.keys(PROTEIN_SCORES).length;
+    const families = new Set(Object.values(PROTEIN_SCORES).map(s => s.family)).size;
+    const synCount = Object.values(PROTEIN_SCORES).filter(s => s.impact_type === 'SYNONYMOUS').length;
+    const conservedCount = Object.values(PROTEIN_SCORES).filter(s => s.impact_type === 'CONSERVED').length;
+    const missenseCount = Object.values(PROTEIN_SCORES).filter(s => s.impact_type.startsWith('MISSENSE')).length;
+    document.getElementById('esmStats').innerHTML = `
+        <span><strong>${totalVar}</strong> variantes embed</span>
+        <span><strong>${families}</strong> familias</span>
+        <span>Sinonimas: <strong>${synCount}</strong></span>
+        <span>Conservadas: <strong>${conservedCount}</strong></span>
+        <span>Missense: <strong>${missenseCount}</strong></span>
+        <span>|</span>
+        <span>Phenotype LOO hamming: <strong>${(m.drug_hamming_acc_loo * 100).toFixed(1)}%</strong></span>
+        <span>Mechanism LOO acc: <strong>${(m.mechanism_acc_loo * 100).toFixed(1)}%</strong></span>
+        <span>Drug F1 (cephalosporin / penam / carbapenem): <strong>${(m.drug_per_class_f1_loo.cephalosporin || 0).toFixed(2)} / ${(m.drug_per_class_f1_loo.penam || 0).toFixed(2)} / ${(m.drug_per_class_f1_loo.carbapenem || 0).toFixed(2)}</strong></span>
+    `;
+}
+
+// =====================================================================
 // INIT
 // =====================================================================
+applyWeights(); // Initialize scores with default weights
 renderTable(TARGETS);
+loadRealData();
 </script>
 
 </body>

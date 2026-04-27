@@ -1,0 +1,324 @@
+{
+  "blaCTX-M": {
+    "variants": [
+      "blaCTX-M-2",
+      "blaCTX-M-8",
+      "blaCTX-M-9",
+      "blaCTX-M-14",
+      "blaCTX-M-27"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.007313,
+        0.009993,
+        0.009908,
+        0.010129
+      ],
+      [
+        0.007313,
+        0.0,
+        0.005038,
+        0.005151,
+        0.005215
+      ],
+      [
+        0.009993,
+        0.005038,
+        0.0,
+        4.1e-05,
+        8.1e-05
+      ],
+      [
+        0.009908,
+        0.005151,
+        4.1e-05,
+        0.0,
+        4e-05
+      ],
+      [
+        0.010129,
+        0.005215,
+        8.1e-05,
+        4e-05,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 5,
+      "mean_pairwise_distance": 0.005290899999999999,
+      "max_pairwise_distance": 0.010129,
+      "min_pairwise_distance": 4e-05
+    }
+  },
+  "blaGES": {
+    "variants": [
+      "blaGES-1",
+      "blaGES-5"
+    ],
+    "matrix": [
+      [
+        0.0,
+        2.6e-05
+      ],
+      [
+        2.6e-05,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 2,
+      "mean_pairwise_distance": 2.6e-05,
+      "max_pairwise_distance": 2.6e-05,
+      "min_pairwise_distance": 2.6e-05
+    }
+  },
+  "blaIMP": {
+    "variants": [
+      "blaIMP-1",
+      "blaIMP-6"
+    ],
+    "matrix": [
+      [
+        0.0,
+        4.6e-05
+      ],
+      [
+        4.6e-05,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 2,
+      "mean_pairwise_distance": 4.6e-05,
+      "max_pairwise_distance": 4.6e-05,
+      "min_pairwise_distance": 4.6e-05
+    }
+  },
+  "blaKPC": {
+    "variants": [
+      "blaKPC-2",
+      "blaKPC-3",
+      "blaKPC-4",
+      "blaKPC-5",
+      "blaKPC-11",
+      "blaKPC-30",
+      "blaKPC-31"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.000129,
+        0.000116,
+        0.002067,
+        8.4e-05,
+        0.001274,
+        0.000312
+      ],
+      [
+        0.000129,
+        0.0,
+        0.000277,
+        0.00232,
+        0.000177,
+        0.001452,
+        0.000137
+      ],
+      [
+        0.000116,
+        0.000277,
+        0.0,
+        0.001824,
+        0.000158,
+        0.001294,
+        0.000454
+      ],
+      [
+        0.002067,
+        0.00232,
+        0.001824,
+        0.0,
+        0.002029,
+        0.002303,
+        0.002295
+      ],
+      [
+        8.4e-05,
+        0.000177,
+        0.000158,
+        0.002029,
+        0.0,
+        0.00144,
+        0.000356
+      ],
+      [
+        0.001274,
+        0.001452,
+        0.001294,
+        0.002303,
+        0.00144,
+        0.0,
+        0.001398
+      ],
+      [
+        0.000312,
+        0.000137,
+        0.000454,
+        0.002295,
+        0.000356,
+        0.001398,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 7,
+      "mean_pairwise_distance": 0.0010426666666666668,
+      "max_pairwise_distance": 0.00232,
+      "min_pairwise_distance": 8.4e-05
+    }
+  },
+  "blaNDM": {
+    "variants": [
+      "blaNDM-1",
+      "blaNDM-2",
+      "blaNDM-5",
+      "blaNDM-7"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.000164,
+        6.9e-05,
+        0.000108
+      ],
+      [
+        0.000164,
+        0.0,
+        0.00023,
+        0.000363
+      ],
+      [
+        6.9e-05,
+        0.00023,
+        0.0,
+        0.000102
+      ],
+      [
+        0.000108,
+        0.000363,
+        0.000102,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 4,
+      "mean_pairwise_distance": 0.00017266666666666667,
+      "max_pairwise_distance": 0.000363,
+      "min_pairwise_distance": 6.9e-05
+    }
+  },
+  "blaOXA": {
+    "variants": [
+      "blaOXA-48",
+      "blaOXA-181",
+      "blaOXA-232"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.0002,
+        0.000228
+      ],
+      [
+        0.0002,
+        0.0,
+        4.9e-05
+      ],
+      [
+        0.000228,
+        4.9e-05,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 3,
+      "mean_pairwise_distance": 0.000159,
+      "max_pairwise_distance": 0.000228,
+      "min_pairwise_distance": 4.9e-05
+    }
+  },
+  "blaVIM": {
+    "variants": [
+      "blaVIM-1",
+      "blaVIM-2",
+      "blaVIM-4"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.002604,
+        0.004346
+      ],
+      [
+        0.002604,
+        0.0,
+        0.007051
+      ],
+      [
+        0.004346,
+        0.007051,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 3,
+      "mean_pairwise_distance": 0.004667,
+      "max_pairwise_distance": 0.007051,
+      "min_pairwise_distance": 0.002604
+    }
+  },
+  "mcr-1": {
+    "variants": [
+      "mcr-1",
+      "mcr-1.1"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 2,
+      "mean_pairwise_distance": 0.0,
+      "max_pairwise_distance": 0.0,
+      "min_pairwise_distance": 0.0
+    }
+  },
+  "qnrS": {
+    "variants": [
+      "qnrS1",
+      "qnrS2"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.000927
+      ],
+      [
+        0.000927,
+        0.0
+      ]
+    ],
+    "stats": {
+      "n_variants": 2,
+      "mean_pairwise_distance": 0.000927,
+      "max_pairwise_distance": 0.000927,
+      "min_pairwise_distance": 0.000927
+    }
+  }
+}
