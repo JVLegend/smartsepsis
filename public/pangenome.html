@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartSepsis — Pangenoma AMR</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:wght@500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+:root { --bg:#0a0a0a; --panel:#141414; --border:#2a2a2a; --text:#e7e7e7;
+        --muted:#888; --accent:#c9a961; --primary:#1f5c8a; --secondary:#2d6a4f; --danger:#8C1515; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); }
+h1,h2,h3 { font-family:'EB Garamond',serif; font-weight:600; letter-spacing:-0.01em; }
+nav { position:fixed; top:0; width:100%; z-index:100; background:rgba(10,10,10,0.96);
+      backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
+      padding:0 1.5rem; height:56px; display:flex; align-items:center;
+      justify-content:space-between; }
+nav a { color:var(--muted); text-decoration:none; font-size:0.78rem; font-weight:500;
+        text-transform:uppercase; letter-spacing:0.06em; }
+nav a:hover { color:var(--accent); }
+nav .brand { color:var(--text); font-weight:700; font-family:'EB Garamond',serif; font-size:1.1rem; }
+nav .brand span { color:var(--accent); font-style:italic; }
+.container { max-width:1200px; margin:0 auto; padding:5rem 1.5rem 2rem; }
+.header { margin-bottom:2rem; }
+.header h1 { font-size:2rem; }
+.header .subtitle { color:var(--muted); font-size:0.95rem; margin-top:0.4rem; }
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:1.2rem; }
+.kpi-label { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.4rem; }
+.kpi-value { font-family:'EB Garamond',serif; font-size:2rem; font-weight:600; color:var(--accent); line-height:1; }
+.kpi-sub { font-size:0.78rem; color:var(--muted); margin-top:0.3rem; }
+.section { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:1.5rem; margin-bottom:1.5rem; }
+.section h2 { font-size:1.4rem; margin-bottom:0.4rem; color:var(--accent); }
+.section .desc { color:var(--muted); font-size:0.85rem; margin-bottom:1.2rem; }
+.chart-wrap { height:340px; position:relative; }
+table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+th { text-align:left; color:var(--muted); font-weight:600; font-size:0.72rem;
+     text-transform:uppercase; letter-spacing:0.06em; padding:0.5rem 0.6rem;
+     border-bottom:1px solid var(--border); }
+td { padding:0.5rem 0.6rem; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:0.8rem; }
+tr:hover td { background:rgba(255,255,255,0.03); }
+.bar { display:inline-block; height:8px; background:var(--accent); border-radius:2px; vertical-align:middle; }
+.note { background:rgba(140,21,21,0.15); border-left:3px solid var(--danger); padding:0.9rem 1rem; font-size:0.85rem; color:#ffb4b4; margin:1rem 0; border-radius:2px; }
+.note strong { color:#ff8a8a; }
+@media (max-width:760px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } .container { padding:5rem 1rem 2rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="brand">SmartSepsis <span>Pangenome</span></a>
+    <div style="display:flex; gap:1.4rem;">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="structure.html">Estrutura 3D</a>
+        <a href="pangenome.html" style="color:var(--accent);">Pangenoma</a>
+    </div>
+</nav>
+
+<main class="container">
+<div class="header">
+    <h1>Pangenoma de patógenos AMR brasileiros</h1>
+    <p class="subtitle">21 genomas (K. pneumoniae + E. coli) RefSeq · panaroo 1.6.1 · clean-mode sensitive</p>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="kpi-label">Genomas</div>
+        <div class="kpi-value" id="kpi-strains">—</div>
+        <div class="kpi-sub">RefSeq, 2 espécies</div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Genes (todos)</div>
+        <div class="kpi-value" id="kpi-total">—</div>
+        <div class="kpi-sub">após clustering panaroo</div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Shell genes</div>
+        <div class="kpi-value" id="kpi-shell">—</div>
+        <div class="kpi-sub">15-95% das cepas</div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Cloud genes</div>
+        <div class="kpi-value" id="kpi-cloud">—</div>
+        <div class="kpi-sub">&lt;15% — raros / HGT</div>
+    </div>
+</div>
+
+<div class="note">
+    <strong>Por que 0 core genes?</strong> O conjunto mistura K. pneumoniae e E. coli (~30% identidade média). Genes 100% conservados entre os 21 = 0. Para core genome alignment tradicional, rodar separadamente por espécie. O perfil atual mostra <strong>diversidade inter-espécie</strong> em UTI BR — outro ângulo válido.
+</div>
+
+<div class="section">
+    <h2>Distribuição de genes por número de cepas</h2>
+    <p class="desc">Histograma: quantos genes estão presentes em N das 21 cepas. Picos em valores baixos = cloud (raros); picos altos = conservados.</p>
+    <div class="chart-wrap"><canvas id="histChart"></canvas></div>
+</div>
+
+<div class="section">
+    <h2>Top 30 genes mais conservados</h2>
+    <p class="desc">Genes presentes na maior fração de cepas. Genes "group_*" são clusters sem nome funcional anotado (prodigal não anotou função).</p>
+    <table id="topTable">
+        <thead><tr><th>#</th><th>Gene</th><th>Presente em</th><th>Fração</th><th></th></tr></thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>Resumo metodológico</h2>
+    <p class="desc" style="line-height:1.6;">
+        <strong style="color:var(--text);">Pipeline:</strong>
+        50 acessões RefSeq tentadas → 21 baixadas com sucesso →
+        <code style="color:var(--accent);">prodigal -p meta</code> (predição de ORFs) →
+        conversor próprio (prodigal GFF → prokka-style GFF panaroo-compatível) →
+        <code style="color:var(--accent);">panaroo --clean-mode sensitive --remove-invalid-genes</code>.
+        Filtros: genes com stop interno ou frame inválido removidos automaticamente.
+        cd-hit/cd-hit-est em 4 rodadas progressivas (98%, 95%, 90%, 70% identidade).
+    </p>
+</div>
+
+</main>
+
+<script>
+async function load() {
+    const [dist, top] = await Promise.all([
+        fetch('data/panaroo_distribution.json').then(r => r.json()),
+        fetch('data/panaroo_top_genes.json').then(r => r.json()),
+    ]);
+
+    document.getElementById('kpi-strains').textContent = dist.n_strains;
+    document.getElementById('kpi-total').textContent = dist.total_genes.toLocaleString('pt-BR');
+
+    // Computar shell vs cloud
+    const n = dist.n_strains;
+    const shell_lo = Math.ceil(n * 0.15), shell_hi = Math.ceil(n * 0.95);
+    let shell = 0, cloud = 0;
+    dist.distribution.forEach(d => {
+        if (d.present_in < shell_lo) cloud += d.count;
+        else if (d.present_in < shell_hi) shell += d.count;
+    });
+    document.getElementById('kpi-shell').textContent = shell.toLocaleString('pt-BR');
+    document.getElementById('kpi-cloud').textContent = cloud.toLocaleString('pt-BR');
+
+    // Histograma
+    const labels = dist.distribution.map(d => d.present_in);
+    const counts = dist.distribution.map(d => d.count);
+    new Chart(document.getElementById('histChart'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'genes',
+                data: counts,
+                backgroundColor: '#c9a961',
+                borderRadius: 2,
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+                x: { title: { display: true, text: 'Presente em N cepas (de 21)', color: '#888' },
+                     ticks: { color: '#888' }, grid: { color: '#1e1e1e' } },
+                y: { title: { display: true, text: 'Número de genes', color: '#888' },
+                     ticks: { color: '#888' }, grid: { color: '#1e1e1e' },
+                     type: 'logarithmic' }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // Top 30
+    const tbody = document.querySelector('#topTable tbody');
+    const maxCount = Math.max(...top.top30.map(g => g.present_in));
+    top.top30.forEach((g, i) => {
+        const widthPx = (g.present_in / maxCount) * 200;
+        tbody.innerHTML += `<tr>
+            <td>${i+1}</td>
+            <td>${g.gene}</td>
+            <td>${g.present_in} / ${g.total}</td>
+            <td>${(g.fraction*100).toFixed(1)}%</td>
+            <td><div class="bar" style="width:${widthPx}px;"></div></td>
+        </tr>`;
+    });
+}
+load();
+</script>
+
+</body>
+</html>

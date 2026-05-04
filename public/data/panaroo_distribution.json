@@ -1,0 +1,50 @@
+{
+  "n_strains": 21,
+  "total_genes": 60718,
+  "distribution": [
+    {
+      "present_in": 1,
+      "count": 50368
+    },
+    {
+      "present_in": 2,
+      "count": 3634
+    },
+    {
+      "present_in": 3,
+      "count": 2748
+    },
+    {
+      "present_in": 4,
+      "count": 257
+    },
+    {
+      "present_in": 5,
+      "count": 166
+    },
+    {
+      "present_in": 6,
+      "count": 271
+    },
+    {
+      "present_in": 7,
+      "count": 610
+    },
+    {
+      "present_in": 8,
+      "count": 2574
+    },
+    {
+      "present_in": 9,
+      "count": 5
+    },
+    {
+      "present_in": 10,
+      "count": 2
+    },
+    {
+      "present_in": 11,
+      "count": 83
+    }
+  ]
+}
