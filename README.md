@@ -1,16 +1,20 @@
-# SmartLab BacEnd - CRISPR-Cas12a Diagnostic Pipeline for AMR Detection
+# SmartSepsis-Oph - Microbiologia Inteligente para Oftalmologia
 
-Pipeline computacional de IA agentica para design automatizado de diagnosticos CRISPR-Cas12a, focado em resistencia antimicrobiana (AMR) em UTIs brasileiras.
+Pipeline computacional de IA agentica + foundation models de proteina (ESM-2 + ProtT5) + CRISPR-Cas12a em papel para diagnostico point-of-care de patogenos oculares — endoftalmite, queratite, profilaxia perioperatoria.
 
-**Projeto**: IA para Medicos / SmartLab BacEnd
-**Instituicoes**: HC-FMUSP, Harvard Medical School (Broad Institute)
-**Status**: Pesquisa ativa - validacao clinica pendente
+**Linha de pesquisa**: Plataforma de microbiologia inteligente para oftalmologia, com lente em oculomica e biomarcadores.
+**Projeto**: IA para Medicos / SmartSepsis-Oph (rebranded de "SmartLab BacEnd")
+**Instituicoes**: HC-FMUSP × Mass Eye and Ear (Harvard Medical School)
+**Lider clinico-cientifico**: Dr. Gustavo Sakuno (postdoc Harvard, oculomica + biomarcadores)
+**Status**: Pesquisa ativa - validacao clinica em isolados oculares pendente
+
+> Audiencia primaria: oftalmologistas clinicos e cirurgioes; oculomistas; pesquisadores em multi-omica ocular.
 
 ---
 
 ## O que faz
 
-Um profissional de saude coleta amostra fecal, aplica em dispositivo de papel, e obtem resultado fluorescente em **~30 minutos**. O dispositivo detecta genes de resistencia antimicrobiana sem necessidade de termociclador.
+O cirurgiao oftalmologista coleta tap vitreo (endoftalmite), raspado de cornea (queratite) ou swab de superficie ocular (profilaxia), aplica em dispositivo de papel, e obtem resultado fluorescente em **~30 minutos**. O dispositivo detecta genes de resistencia antimicrobiana relevantes a infeccoes oculares (mecA p/ MRSA pos-LASIK, blaKPC/blaNDM p/ Klebsiella endoftalmite, etc.) sem necessidade de termociclador. Substitui — para decisao terapeutica imediata — o tempo de 48-72h da cultura tradicional.
 
 ```
 Amostra -> Lise (fibra de vidro) -> Extracao (fluxo lateral em papel)

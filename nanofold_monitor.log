@@ -1,0 +1,21 @@
+[monitor] terminou em Mon May  4 22:23:41 -03 2026
+  [ 600/1000] elapsed=70s
+  [ 700/1000] elapsed=82s
+  [ 800/1000] elapsed=93s
+  [ 900/1000] elapsed=105s
+  [1000/1000] elapsed=118s
+[ESM-2] 1000 embeddings em 118s
+
+Classifier: 186 drug classes
+
+=== Resultados ===
+  Cadeias avaliadas:     1000
+  False positive rate:   14.90%
+  High confidence calls: 149
+  Avg max proba:         0.281
+  Top 5 false positives: [('aminoglycoside', 38), ('mercury', 30), ('beta-lactam', 17), ('stx2', 13), ('carbapenem', 12)]
+
+[Saved] /Users/iaparamedicos/Documents/GitHub/smartsepsis/reports/nanofold_benchmark/metrics.json
+[Saved] /Users/iaparamedicos/Documents/GitHub/smartsepsis/reports/nanofold_benchmark/embeddings_esm2_t30_150M_UR50D.npz  shape=(1000, 640)
+
+Done. Use estes embeddings como negativos no item #2.
