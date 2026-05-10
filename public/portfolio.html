@@ -5,17 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartSepsis-Oph Portfolio</title>
   <link rel="stylesheet" href="portfolio.css">
+  <link rel="stylesheet" href="nav.css">
 </head>
 <body>
 <nav>
-  <a class="brand" href="index.html">SmartSepsis-<span>Oph</span></a>
-  <div class="links">
-    <a class="active" href="portfolio.html">Portfolio</a>
-    <a href="targets.html">Alvos</a>
-    <a href="tier2.html">Tier 2</a>
-    <a href="benchmarks.html">Benchmarks</a>
-    <a href="structure.html">3D</a>
-  </div>
+    <div class="nav-left">
+        <a href="https://www.iaparamedicos.com.br/" target="_blank" class="nav-brand">IA para <span>Médicos</span></a>
+        <span class="nav-sep">|</span>
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab" data-i18n="nav.tab.smartsepsis">SmartSepsis</a>
+            <a href="smartwetlab.html" class="nav-tab" data-i18n="nav.tab.crowdfunding">Crowdfunding</a>
+            <a href="sequenciar-em-casa.html" class="nav-tab" data-i18n="nav.tab.sequence">Sequenciar em Casa</a>
+        </div>
+    </div>
+    <div class="nav-right">
+        <a href="dashboard.html" class="nav-cta" data-i18n="nav.link.dashboard">Dashboard</a>
+        <a href="portfolio.html" class="nav-cta-deep active-page">Portfolio</a>
+        <a href="structure.html" class="nav-cta-gold">3D</a>
+        <a href="pangenome.html" class="nav-cta-dark" data-i18n="nav.link.pangenome">Pangenoma</a>
+    </div>
 </nav>
 <main>
   <div class="eyebrow">Portfolio científico</div>
@@ -55,5 +63,6 @@ async function load() {
 }
 load();
 </script>
+<script src="lang.js"></script>
 </body>
 </html>
