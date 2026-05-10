@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartSepsis-Oph Targets</title>
+  <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+<nav>
+  <a class="brand" href="index.html">SmartSepsis-<span>Oph</span></a>
+  <div class="links">
+    <a href="portfolio.html">Portfolio</a>
+    <a class="active" href="targets.html">Alvos</a>
+    <a href="tier2.html">Tier 2</a>
+    <a href="benchmarks.html">Benchmarks</a>
+    <a href="structure.html">3D</a>
+  </div>
+</nav>
+<main>
+  <div class="eyebrow">Alvos fortes Tier 2</div>
+  <h1>Dois núcleos: MRSA ocular e Pseudomonas de queratite.</h1>
+  <p class="lead">A revisão curada reposicionou o painel: <code>mecA</code> permanece como eixo Gram-positivo; <code>crpP</code> e <code>exoU</code> entram como alvos fortes para Pseudomonas ocular.</p>
+  <div class="note">FASTA completo: <code>data/tier2_strong_targets/tier2_strong_targets_proteins.fasta</code>. Metadata: <code>data/tier2_strong_targets/tier2_strong_targets_metadata.csv</code>.</div>
+  <h2>Prioridades</h2>
+  <table>
+    <thead><tr><th>Prioridade</th><th>Alvo</th><th>Evidência</th><th>Decisão</th></tr></thead>
+    <tbody>
+      <tr><td>P0</td><td>mecA / mecA1 / mecA2</td><td>Molecular + 37 papers fenotípicos/curados</td><td>Manter núcleo</td></tr>
+      <tr><td>P0</td><td>crpP</td><td>Gene adquirido em isolados corneanos de Pseudomonas</td><td>Adicionado v5</td></tr>
+      <tr><td>P0</td><td>exoU</td><td>Associado a maior resistência em Pseudomonas de queratite</td><td>Adicionado v5</td></tr>
+      <tr><td>P1</td><td>qnrVC1</td><td>Sinal explícito em corneal isolates; qnrS é proxy atual</td><td>Próximo painel</td></tr>
+      <tr><td>P1</td><td>aph genes</td><td>Aminoglicosídeo em Pseudomonas ocular</td><td>Candidatos v6</td></tr>
+      <tr><td>P1</td><td>ampC / mex regulators</td><td>QRDR/efflux/beta-lactam resistance signatures</td><td>Candidatos v6</td></tr>
+      <tr><td>Rebaixado</td><td>ermA / ermB / ermC</td><td>Não suportado pelos 82 abstracts; falso positivo textual</td><td>Manter apenas como racional externo</td></tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

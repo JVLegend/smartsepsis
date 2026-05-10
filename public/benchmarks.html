@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartSepsis-Oph Benchmarks</title>
+  <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+<nav>
+  <a class="brand" href="index.html">SmartSepsis-<span>Oph</span></a>
+  <div class="links">
+    <a href="portfolio.html">Portfolio</a>
+    <a href="targets.html">Alvos</a>
+    <a href="tier2.html">Tier 2</a>
+    <a class="active" href="benchmarks.html">Benchmarks</a>
+    <a href="structure.html">3D</a>
+  </div>
+</nav>
+<main>
+  <div class="eyebrow">Benchmarks</div>
+  <h1>Evolução do classificador e da cobertura multimodal.</h1>
+  <p class="lead">Comparação entre ESM-2 puro, calibração com negativos e ensemble structure-aware com expansão Tier 2.</p>
+  <table id="benchmarks"><thead><tr><th>Versão</th><th>Modalidades</th><th>N</th><th>Hamming</th><th>Exact</th><th>FP</th><th>Notas</th></tr></thead><tbody></tbody></table>
+  <div class="note">Resumo bruto: <code>reports/portfolio_benchmarks/benchmark_summary.csv</code>.</div>
+</main>
+<script>
+async function load() {
+  const rows = await fetch('data/benchmark_summary.json').then(r => r.json());
+  document.querySelector('#benchmarks tbody').innerHTML = rows.map(r => `<tr><td>${r.version}</td><td>${r.modalities}</td><td>${r.n_samples}</td><td>${r.hamming_acc ?? ''}</td><td>${r.exact_match ?? ''}</td><td>${r.fp_rate ?? ''}</td><td>${r.notes}</td></tr>`).join('');
+}
+load();
+</script>
+</body>
+</html>

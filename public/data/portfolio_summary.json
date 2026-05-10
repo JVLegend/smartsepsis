@@ -1,0 +1,68 @@
+{
+  "panel_rows": 57,
+  "protein_rows": 52,
+  "esm2_rows": 52,
+  "prott5_rows": 52,
+  "pdb_rows": 52,
+  "struct_feature_rows": 52,
+  "tier2_papers": 82,
+  "tier2_molecular_explicit": 7,
+  "portfolio_subdatasets": [
+    {
+      "name": "ocular_pseudomonas_panel",
+      "path": "data/hf_dataset/portfolio/ocular_pseudomonas_panel.parquet",
+      "rows": 9,
+      "columns": 19,
+      "size_mb": 0.653
+    },
+    {
+      "name": "ocular_pseudomonas_tier2",
+      "path": "data/hf_dataset/portfolio/ocular_pseudomonas_tier2.parquet",
+      "rows": 11,
+      "columns": 19,
+      "size_mb": 0.018
+    },
+    {
+      "name": "ocular_staphylococcus_mrsa_panel",
+      "path": "data/hf_dataset/portfolio/ocular_staphylococcus_mrsa_panel.parquet",
+      "rows": 3,
+      "columns": 19,
+      "size_mb": 0.383
+    },
+    {
+      "name": "ocular_staphylococcus_mrsa_tier2",
+      "path": "data/hf_dataset/portfolio/ocular_staphylococcus_mrsa_tier2.parquet",
+      "rows": 37,
+      "columns": 19,
+      "size_mb": 0.021
+    },
+    {
+      "name": "panel_multimodal",
+      "path": "data/hf_dataset/portfolio/panel_multimodal.parquet",
+      "rows": 52,
+      "columns": 19,
+      "size_mb": 4.169
+    },
+    {
+      "name": "protein_embeddings_only",
+      "path": "data/hf_dataset/portfolio/protein_embeddings_only.parquet",
+      "rows": 52,
+      "columns": 10,
+      "size_mb": 0.658
+    },
+    {
+      "name": "structure_features_only",
+      "path": "data/hf_dataset/portfolio/structure_features_only.parquet",
+      "rows": 52,
+      "columns": 9,
+      "size_mb": 0.009
+    },
+    {
+      "name": "tier2_literature_curation",
+      "path": "data/hf_dataset/portfolio/tier2_literature_curation.parquet",
+      "rows": 82,
+      "columns": 19,
+      "size_mb": 0.027
+    }
+  ]
+}

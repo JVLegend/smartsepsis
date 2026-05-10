@@ -1,0 +1,38 @@
+[
+  {
+    "version": "v1_esm2_panel",
+    "modalities": "ESM-2",
+    "n_samples": 42,
+    "hamming_acc": 0.9635,
+    "exact_match": 0.6905,
+    "fp_rate": null,
+    "notes": "Panel-only leave-one-out classifier."
+  },
+  {
+    "version": "v2_negatives",
+    "modalities": "ESM-2 + NanoFold negatives",
+    "n_samples": 9791,
+    "hamming_acc": 0.9894,
+    "exact_match": 0.0,
+    "fp_rate": 0.03,
+    "notes": "False-positive calibration on non-AMR proteins."
+  },
+  {
+    "version": "v3_structure_aware",
+    "modalities": "ESM-2 + ProtT5 + structure",
+    "n_samples": 41,
+    "hamming_acc": 0.9512,
+    "exact_match": 0.7561,
+    "fp_rate": null,
+    "notes": "Original structure-aware panel before Tier 2 v5 expansion."
+  },
+  {
+    "version": "v5_tier2_expanded",
+    "modalities": "ESM-2 + ProtT5 + structure",
+    "n_samples": 52,
+    "hamming_acc": 0.9628,
+    "exact_match": 0.75,
+    "fp_rate": null,
+    "notes": "Tier 2 expanded panel with crpP/exoU and full structural coverage."
+  }
+]

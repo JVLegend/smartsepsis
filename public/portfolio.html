@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartSepsis-Oph Portfolio</title>
+  <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+<nav>
+  <a class="brand" href="index.html">SmartSepsis-<span>Oph</span></a>
+  <div class="links">
+    <a class="active" href="portfolio.html">Portfolio</a>
+    <a href="targets.html">Alvos</a>
+    <a href="tier2.html">Tier 2</a>
+    <a href="benchmarks.html">Benchmarks</a>
+    <a href="structure.html">3D</a>
+  </div>
+</nav>
+<main>
+  <div class="eyebrow">Portfolio científico</div>
+  <h1>Um projeto, vários ativos publicáveis.</h1>
+  <p class="lead">O SmartSepsis-Oph agora está organizado como portfólio: painel multimodal, curação de literatura, atlas estrutural, subdatasets por organismo e benchmarks de modelos.</p>
+
+  <div class="metrics" id="metrics"></div>
+
+  <section class="band">
+    <h2>Subdatasets locais</h2>
+    <p>Cada split abaixo pode virar dataset card, release auxiliar ou tabela suplementar.</p>
+    <table id="subdatasets"><thead><tr><th>Split</th><th>Linhas</th><th>Colunas</th><th>Tamanho</th><th>Caminho</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <h2>Itens do portfólio</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Estado</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td>Painel multimodal</td><td><span class="pill">pronto</span></td><td>52 proteínas com ESM-2, ProtT5, PDB e descritores estruturais.</td></tr>
+      <tr><td>Curação Tier 2</td><td><span class="pill">pronto</span></td><td>82 abstracts revisados em fluxo auditável sem API externa.</td></tr>
+      <tr><td>FASTAs Tier 2 fortes</td><td><span class="pill">pronto</span></td><td><code>data/tier2_strong_targets/tier2_strong_targets_proteins.fasta</code></td></tr>
+      <tr><td>Backlog de papers</td><td><span class="pill">anotado</span></td><td>Ideias priorizadas sem redação iniciada.</td></tr>
+    </tbody>
+  </table>
+</main>
+<script>
+async function load() {
+  const summary = await fetch('data/portfolio_summary.json').then(r => r.json());
+  const metrics = [
+    ['Painel', summary.panel_rows],
+    ['Proteínas', summary.protein_rows],
+    ['PDB/estrutura', `${summary.pdb_rows}/${summary.protein_rows}`],
+    ['Tier 2 papers', summary.tier2_papers]
+  ];
+  document.getElementById('metrics').innerHTML = metrics.map(([label, value]) => `<div class="metric"><strong>${value}</strong><span>${label}</span></div>`).join('');
+  document.querySelector('#subdatasets tbody').innerHTML = summary.portfolio_subdatasets.map(d => `<tr><td>${d.name}</td><td>${d.rows}</td><td>${d.columns}</td><td>${d.size_mb} MB</td><td><code>${d.path}</code></td></tr>`).join('');
+}
+load();
+</script>
+</body>
+</html>
