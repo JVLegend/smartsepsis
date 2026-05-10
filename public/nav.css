@@ -1,0 +1,87 @@
+/* ── SmartSepsis — Shared Navbar ── */
+nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(10,10,10,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid #2a2a2a;
+    padding: 0 1.6rem;
+    display: flex; justify-content: space-between; align-items: stretch;
+    height: 58px; box-sizing: border-box;
+}
+.nav-left {
+    display: flex; align-items: stretch; gap: 0;
+}
+.nav-brand {
+    display: flex; align-items: center;
+    font-family: 'EB Garamond', Georgia, serif; font-weight: 700;
+    font-size: 1.05rem; color: rgba(255,255,255,0.45);
+    letter-spacing: 0.02em; text-decoration: none; white-space: nowrap;
+    padding-right: 1.2rem;
+}
+.nav-brand span { color: #D4AF37; font-style: italic; }
+.nav-sep {
+    display: flex; align-items: center;
+    color: #2a2a2a; font-size: 1.1rem; line-height: 1;
+    padding-right: 1.2rem; user-select: none;
+}
+.nav-tabs { display: flex; align-items: stretch; }
+.nav-tab {
+    display: flex; align-items: center;
+    padding: 0 1rem; font-size: 0.76rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    text-decoration: none; font-family: 'Inter', system-ui, sans-serif;
+    color: rgba(255,255,255,0.42); border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s; white-space: nowrap;
+}
+.nav-tab:hover { color: rgba(255,255,255,0.8); }
+.nav-tab.active { color: #fff; border-bottom-color: #D4AF37; }
+
+.nav-right {
+    display: flex; gap: 0.6rem; align-items: center;
+}
+.nav-right a {
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; font-family: 'Inter', system-ui, sans-serif;
+    transition: color 0.2s; white-space: nowrap;
+    padding: 0.38rem 0.75rem; border-radius: 2px;
+}
+.nav-right a:hover { color: #D4AF37; }
+.nav-cta {
+    background: #8C1515 !important; color: #fff !important;
+    border-radius: 2px;
+}
+.nav-cta:hover { opacity: 0.85; color: #fff !important; }
+.nav-cta-gold { background: #D4AF37 !important; color: #1a1a1a !important; }
+.nav-cta-gold:hover { background: #e0c060 !important; color: #1a1a1a !important; }
+.nav-cta-dark { background: #2a2a2a !important; color: #fff !important; }
+.nav-cta-dark:hover { background: #3a3a3a !important; }
+.nav-cta-deep { background: #5a0d0d !important; color: #fff !important; }
+.nav-cta-deep:hover { opacity: 0.85; }
+
+/* language switcher (injected by lang.js) */
+.lang-switcher {
+    display: flex; align-items: center; gap: 2px;
+    margin-left: 4px; border-left: 1px solid #2a2a2a; padding-left: 8px;
+}
+.lang-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 1.2rem; line-height: 1; padding: 2px 3px;
+    border-radius: 3px; opacity: .45;
+    transition: opacity .2s, transform .15s;
+    display: flex; align-items: center;
+}
+.lang-btn:hover { opacity: .85; }
+.lang-btn.active { opacity: 1; transform: scale(1.1); }
+
+/* responsive */
+@media (max-width: 1100px) {
+    .nav-right a:not(.nav-cta):not(.nav-cta-dark):not(.nav-cta-gold):not(.nav-cta-deep) { display: none; }
+    .nav-tab { padding: 0 0.75rem; font-size: 0.7rem; }
+}
+@media (max-width: 780px) {
+    nav { padding: 0 0.8rem; }
+    .nav-brand { font-size: 0.9rem; padding-right: 0.7rem; }
+    .nav-sep { display: none; }
+    .nav-tab { padding: 0 0.45rem; font-size: 0.6rem; letter-spacing: 0.04em; }
+    .nav-right a { padding: 0.3rem 0.5rem; font-size: 0.62rem; }
+}

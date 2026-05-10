@@ -45,16 +45,25 @@ tr:hover td { background:rgba(255,255,255,0.03); }
 .note strong { color:#ff8a8a; }
 @media (max-width:760px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } .container { padding:5rem 1rem 2rem; } }
 </style>
+    <link rel="stylesheet" href="nav.css">
 </head>
 <body data-i18n-title="pangen.title">
 
 <nav>
-    <a href="index.html" class="brand">SmartSepsis <span>Pangenome</span></a>
-    <div style="display:flex; gap:1.4rem;">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html" data-i18n="nav.link.dashboard">Dashboard</a>
-        <a href="structure.html">3D</a>
-        <a href="pangenome.html" style="color:var(--accent);" data-i18n="nav.link.pangenome">Pangenoma</a>
+    <div class="nav-left">
+        <a href="https://www.iaparamedicos.com.br/" target="_blank" class="nav-brand">IA para <span>Médicos</span></a>
+        <span class="nav-sep">|</span>
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab" data-i18n="nav.tab.smartsepsis">SmartSepsis</a>
+            <a href="smartwetlab.html" class="nav-tab" data-i18n="nav.tab.crowdfunding">Crowdfunding</a>
+            <a href="sequenciar-em-casa.html" class="nav-tab" data-i18n="nav.tab.sequence">Sequenciar em Casa</a>
+        </div>
+    </div>
+    <div class="nav-right">
+        <a href="dashboard.html" class="nav-cta" data-i18n="nav.link.dashboard">Dashboard</a>
+        <a href="portfolio.html" class="nav-cta-deep">Portfolio</a>
+        <a href="structure.html" class="nav-cta-gold">3D</a>
+        <a href="pangenome.html" class="nav-cta-dark active-page" data-i18n="nav.link.pangenome">Pangenoma</a>
     </div>
 </nav>
 

@@ -66,15 +66,25 @@
         .pill-missense { background: rgba(201,169,97,0.2); color: var(--accent); }
         .pill-disrupted { background: rgba(140,21,21,0.3); color: #ff8a8a; }
     </style>
+    <link rel="stylesheet" href="nav.css">
 </head>
 <body data-i18n-title="struct.title">
 
 <nav>
-    <a href="index.html" class="brand">SmartSepsis <span>3D</span></a>
-    <div style="display:flex; gap:1.5rem;">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html" data-i18n="nav.link.dashboard">Dashboard</a>
-        <a href="structure.html" style="color: var(--accent);" data-i18n="struct.hero.title">Estrutura 3D</a>
+    <div class="nav-left">
+        <a href="https://www.iaparamedicos.com.br/" target="_blank" class="nav-brand">IA para <span>Médicos</span></a>
+        <span class="nav-sep">|</span>
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab" data-i18n="nav.tab.smartsepsis">SmartSepsis</a>
+            <a href="smartwetlab.html" class="nav-tab" data-i18n="nav.tab.crowdfunding">Crowdfunding</a>
+            <a href="sequenciar-em-casa.html" class="nav-tab" data-i18n="nav.tab.sequence">Sequenciar em Casa</a>
+        </div>
+    </div>
+    <div class="nav-right">
+        <a href="dashboard.html" class="nav-cta" data-i18n="nav.link.dashboard">Dashboard</a>
+        <a href="portfolio.html" class="nav-cta-deep">Portfolio</a>
+        <a href="structure.html" class="nav-cta-gold active-page">3D</a>
+        <a href="pangenome.html" class="nav-cta-dark" data-i18n="nav.link.pangenome">Pangenoma</a>
     </div>
 </nav>
 
