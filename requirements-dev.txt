@@ -17,3 +17,4 @@ mkdocstrings[python]>=0.24
 
 # Notebooks
 jupyter>=1.0
+mkdocs-git-revision-date-localized-plugin>=1.2
