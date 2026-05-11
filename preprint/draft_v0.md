@@ -269,9 +269,11 @@ The pipeline produced a candidate crRNA library covering 12 AMR families. The cu
 **panel** released on HuggingFace contains 45 variant rows (manifest v1.1.0,
 generated 2026-05-05), and the **extended** companion split contains 9,034 rows. Both
 splits ship pre-computed ESM-2 and ProtT5 embeddings, predicted PDB structures, and
-structural descriptors. [VERIFY: number of crRNA candidates that survive PAM scan +
-covariance probe filter, currently described in the prompt as 42 ranked guides — confirm
-against `reports/` artifacts.]
+structural descriptors. Confirmed counts from `fase7_dgx_results/fase7_results/rnafold_guides.csv`:
+**213 ranked candidate guides** were produced across **42 AMR target entries** (12 reference
+gene families plus clinically relevant variants). Of these, 178 are classified as
+`linear_ok` (no detectable secondary structure interfering with the 20-nt spacer), 34 as
+`weak_hairpin`, and 1 as `moderate_hairpin`.
 
 [INSERT TABLE 1 — per-family counts: variants, candidate guides surviving PAM scan,
 guides retained after covariance probe filter, primer pairs designed]
