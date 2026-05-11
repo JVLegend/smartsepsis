@@ -38,3 +38,34 @@ data/amrfinderplus/ReferenceGeneCatalog.txt
 reports/protein_scoring/embeddings/
 reports/amrfinderplus/embeddings*.npz
 reports/protein_structure/pdbs/
+
+# --- Appended by metadata pass (2026-05-11) ---
+
+# Python (additional)
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments (additional)
+env/
+ENV/
+
+# IDE (additional)
+*.swo
+
+# Data hygiene — large outputs (uncomment to exclude)
+# *.parquet
+# results/
+# *.bam
+# *.fastq.gz
+
+# Notes / scratchpads
+*.local.md
+scratch/
+tmp/

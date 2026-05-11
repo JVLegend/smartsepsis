@@ -1,0 +1,127 @@
+site_name: "SmartSepsis-Oph"
+site_description: "AI-first computational design for CRISPR-Cas12a ophthalmic infection diagnostics. Phase 0 — in silico only."
+site_url: "https://jvlegend.github.io/smartsepsis/"
+repo_url: "https://github.com/JVLegend/smartsepsis"
+repo_name: "JVLegend/smartsepsis"
+edit_uri: "edit/main/docs/"
+
+copyright: >
+  Copyright &copy; 2026 IA para Médicos — SmartSepsis-Oph is a research program in
+  Phase 0 (computational design). No clinical performance claims. Not a medical device.
+
+theme:
+  name: material
+  font:
+    text: "Source Serif Pro"
+    code: "JetBrains Mono"
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.action.view
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+            docstring_style: google
+  - git-revision-date-localized:
+      enable_creation_date: true
+      fallback_to_build_date: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - tables
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+nav:
+  - Home: index.md
+  - Project:
+      - Overview: project/overview.md
+      - Roadmap: project/roadmap.md
+      - Team: project/team.md
+      - Partners: project/partners.md
+  - Methods:
+      - Pipeline overview: methods/pipeline-overview.md
+      - Guide design: methods/guide-design.md
+      - Specificity: methods/specificity.md
+      - Scoring: methods/scoring.md
+      - Structural analysis: methods/structural.md
+      - Multiplex panel: methods/multiplex.md
+  - Data:
+      - Published library: data/library.md
+      - Reproducibility: data/reproducibility.md
+  - Roadmap: project/roadmap.md
+  - Contributing: contributing.md
+  - Citing: citing.md
+  - Disclaimers: disclaimers.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/JVLegend/smartsepsis
+      name: SmartSepsis-Oph on GitHub
+    - icon: fontawesome/solid/globe
+      link: https://smartsepsis.vercel.app
+      name: Project website
+    - icon: fontawesome/solid/database
+      link: https://huggingface.co/datasets/JVLegend/smartsepsis-oph
+      name: Hugging Face dataset
+    - icon: fontawesome/solid/envelope
+      link: mailto:iaparamedicos@gmail.com
+      name: Contact
+  generator: false

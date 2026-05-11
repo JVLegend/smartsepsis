@@ -1,19 +1,85 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "bac-end-harvard"
-version = "0.1.0"
-description = "Add your description here"
+name = "smartsepsis-oph"
+version = "0.1.0-phase0"
+description = "AI-first computational design program for CRISPR-based point-of-care diagnostics targeting ophthalmic infections (endophthalmitis, microbial keratitis, ocular surface infections)."
 readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
 authors = [
-    { name = "João Victor", email = "jvictordias@gmail.com" }
+    { name = "João Victor Pacheco Dias", email = "joaovictor@example.org" },
+    { name = "Gustavo Sakuno", email = "gustavo.sakuno@example.org" },
 ]
-requires-python = ">=3.13"
-dependencies = [
-    "anthropic>=0.97.0",
-    "biopython>=1.87",
-    "pandas>=3.0.2",
-    "requests>=2.33.1",
+keywords = [
+    "CRISPR-Cas12a",
+    "point-of-care diagnostics",
+    "antimicrobial resistance",
+    "ophthalmology",
+    "endophthalmitis",
+    "AI-first design",
+    "guide-RNA design",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Healthcare Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
 ]
 
-[build-system]
-requires = ["uv_build>=0.11.7,<0.12.0"]
-build-backend = "uv_build"
+[project.urls]
+Homepage = "https://github.com/JVLegend/smartsepsis"
+Repository = "https://github.com/JVLegend/smartsepsis"
+Issues = "https://github.com/JVLegend/smartsepsis/issues"
+Documentation = "https://JVLegend.github.io/smartsepsis/"
+
+# [project.scripts]
+# Entry points are intentionally not yet wired up. Most root-level *.py modules
+# (e.g., design_guides.py, design_primers.py, run_batch.py) expose argparse-driven
+# main() functions, but we have not yet audited them as part of a stable public CLI.
+# Planned post-refactor (see MIGRATION.md), e.g.:
+# smartsepsis-design-guides   = "smartsepsis_oph.pipeline.design_guides:main"
+# smartsepsis-design-primers  = "smartsepsis_oph.pipeline.design_primers:main"
+# smartsepsis-run-batch       = "smartsepsis_oph.pipeline.run_batch:main"
+
+[tool.setuptools]
+# Phase 0: this repository is currently script-style (modules live at the repo root).
+# Migration to a `src/smartsepsis_oph/` package layout is planned — see MIGRATION.md.
+# Once migrated, the block below will discover the package automatically.
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["smartsepsis_oph*"]
+exclude = ["tests*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["build", "dist", ".venv", "venv", "reports", "sequences", "guides", "primers"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra -q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]

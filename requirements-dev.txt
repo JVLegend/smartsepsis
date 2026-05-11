@@ -1,0 +1,19 @@
+# SmartSepsis-Oph — development dependencies.
+# Install with: pip install -r requirements.txt -r requirements-dev.txt
+
+-r requirements.txt
+
+# Testing
+pytest>=7.4
+pytest-cov>=4.1
+
+# Linting / formatting
+ruff>=0.4
+black>=24.3
+
+# Documentation
+mkdocs-material>=9.5
+mkdocstrings[python]>=0.24
+
+# Notebooks
+jupyter>=1.0
